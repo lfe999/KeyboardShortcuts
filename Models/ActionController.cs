@@ -29,6 +29,10 @@ namespace LFE.KeyboardShortcuts.Models
         public const string ACTION_FREEZEANIMATION_DISABLE = "FreezeAnimation > Off";
         public const string ACTION_FOV_INCREASE = "FieldOfView > Increase";
         public const string ACTION_FOV_DECREASE = "FieldOfView > Decrease";
+        public const string ACTION_TIMESCALE_INCREASE = "TimeScale > Increase";
+        public const string ACTION_TIMESCALE_DECREASE = "TimeScale > Decrease";
+        public const string ACTION_ANIMATIONSPEED_INCREASE = "AnimationSpeed > Increase";
+        public const string ACTION_ANIMATIONSPEED_DECREASE = "AnimationSpeed > Decrease";
         public const string ACTION_ERRORLOG_TOGGLE = "ErrorLog > Toggle";
         public const string ACTION_MESSAGELOG_TOGGLE = "MessageLog > Toggle";
         public const string ACTION_ATOMS_SELECTNEXTVISIBLE = "Atoms > Select Next Visible";
@@ -44,6 +48,10 @@ namespace LFE.KeyboardShortcuts.Models
                 ACTION_ERRORLOG_TOGGLE,
                 ACTION_FOV_INCREASE,
                 ACTION_FOV_DECREASE,
+                ACTION_TIMESCALE_INCREASE,
+                ACTION_TIMESCALE_DECREASE,
+                ACTION_ANIMATIONSPEED_INCREASE,
+                ACTION_ANIMATIONSPEED_DECREASE,                
                 ACTION_FREEZEANIMATION_TOGGLE,
                 ACTION_FREEZEANIMATION_ENABLE,
                 ACTION_FREEZEANIMATION_DISABLE,
@@ -61,6 +69,8 @@ namespace LFE.KeyboardShortcuts.Models
             { ACTION_ERRORLOG_TOGGLE, "Control-BackQuote" },
             { ACTION_FOV_DECREASE, "Shift-Minus" },
             { ACTION_FOV_INCREASE, "Shift-Equals" },
+            { ACTION_TIMESCALE_DECREASE, "Control-DownArrow" },
+            { ACTION_TIMESCALE_INCREASE, "Control-UpArrow" },
             { ACTION_FREEZEANIMATION_TOGGLE, "Space" },
             { ACTION_MESSAGELOG_TOGGLE, "BackQuote" }
         };
@@ -168,6 +178,18 @@ namespace LFE.KeyboardShortcuts.Models
                 case ACTION_FOV_INCREASE:
                     act = () => ChangeMonitorFOV(10.0f);
                     break;
+                case ACTION_TIMESCALE_DECREASE:
+                    act = () => ChangeTimeScale(-10.0f);
+                    break;
+                case ACTION_TIMESCALE_INCREASE:
+                    act = () => ChangeTimeScale(10.0f);
+                    break;
+                case ACTION_ANIMATIONSPEED_DECREASE:
+                    act = () => ChangeAnimationSpeed(-10.0f);
+                    break;
+                case ACTION_ANIMATIONSPEED_INCREASE:
+                    act = () => ChangeAnimationSpeed(10.0f);
+                    break;                    
                 case ACTION_MESSAGELOG_TOGGLE:
                     act = () => ToggleMessageLogs();
                     break;
