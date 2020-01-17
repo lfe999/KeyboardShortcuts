@@ -32,6 +32,7 @@ Version 0.1 2019-01-15
 
 ***********************************************************************************/
 using UnityEngine;
+using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 using LFE.KeyboardShortcuts.Models;
@@ -80,6 +81,13 @@ namespace LFE.KeyboardShortcuts
                 {
                     model.RecordFinish();
                 }
+                return;
+            }
+
+            // If we are typing somewhere else, don't listen for keybindings
+            var focusedObject = EventSystem.current.currentSelectedGameObject;
+            if(focusedObject != null && focusedObject.GetComponent<UnityEngine.UI.InputField>() != null)
+            {
                 return;
             }
 
