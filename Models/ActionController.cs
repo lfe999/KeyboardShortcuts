@@ -39,6 +39,7 @@ namespace LFE.KeyboardShortcuts.Models
         public const string ACTION_ATOMS_SELECTPREVVISIBLE = "Atoms > Select Prev Visible";
         public const string ACTION_ATOMS_SELECTNEXT = "Atoms > Select Next";
         public const string ACTION_ATOMS_SELECTPREV = "Atoms > Select Prev";
+        public const string ACTION_PREFERENCE_SOFTPHYSICS_TOGGLE = "Soft Body Physics > Toggle";
 
         public List<string> BuiltinActionNames = new List<string> {
                 ACTION_ATOMS_SELECTNEXTVISIBLE,
@@ -56,6 +57,7 @@ namespace LFE.KeyboardShortcuts.Models
                 ACTION_FREEZEANIMATION_ENABLE,
                 ACTION_FREEZEANIMATION_DISABLE,
                 ACTION_MESSAGELOG_TOGGLE,
+                ACTION_PREFERENCE_SOFTPHYSICS_TOGGLE,
                 ACTION_WORLDSCALE_INCREASE,
                 ACTION_WORLDSCALE_DECREASE,
         };
@@ -218,6 +220,9 @@ namespace LFE.KeyboardShortcuts.Models
                 case ACTION_ATOMS_SELECTPREV:
                     act = () => SelectPrevAtom(includeHidden: true);
                     break;
+                case ACTION_PREFERENCE_SOFTPHYSICS_TOGGLE:
+                    act = () => ToggleSoftBodyPhysics();
+                    break;
             }
 
             // now match actions that have variables hidden away in the action name
@@ -312,6 +317,11 @@ namespace LFE.KeyboardShortcuts.Models
                 if (prevAtomIndex < 0) { prevAtomIndex = lastIndex; }
             }
             SelectAtom(atomList[prevAtomIndex]);
+        }
+
+        private void ToggleSoftBodyPhysics()
+        {
+            UserPreferences.singleton.softPhysics = !UserPreferences.singleton.softPhysics;
         }
 
         private void ToggleErrorLogs()
