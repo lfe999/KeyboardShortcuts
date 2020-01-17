@@ -241,9 +241,24 @@ namespace LFE.KeyboardShortcuts.Models
             SelectAtomTab(atom, tabName);
         }
 
+        private void ShowSelectedUI()
+        {
+            var mainTabBar = SuperController.singleton.mainMenuUI.parent;
+            var showSelectedUIButton = mainTabBar
+                .Find((name) => name.EndsWith("/ButtonSelectedOptions"))
+                .FirstOrDefault()
+                ?.GetComponent<UnityEngine.UI.Button>();
+
+            showSelectedUIButton?.onClick?.Invoke();
+
+        }
+
         private void SelectAtomTab(Atom atom, string tabName)
         {
-            SelectAtom(null);
+            // make sure the selected atom has it's UI showing - if
+            // it doesn't then selecting the tab won't work
+            ShowSelectedUI();
+
             SelectAtom(atom);
             var ui = atom.GetTabSelector();
             if(ui != null)
