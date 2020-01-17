@@ -16,6 +16,8 @@ namespace LFE.KeyboardShortcuts.Models
         {
             _plugin = plugin;
 
+            var settings = _plugin.LoadBindingSettings();
+
             // build all of the action names
             _actionController = new ActionController();
             _bindings = new Dictionary<string, KeyBinding>();
@@ -26,14 +28,43 @@ namespace LFE.KeyboardShortcuts.Models
                 // export this action to the plugin so it shows up in GetActions elsewhere
                 _plugin.RegisterAction(new JSONStorableAction(actionName, () => action()));
 
-                var defaultKeyChord = _actionController.GetDefaultKeyChordByActionName(actionName);
-                if (defaultKeyChord != null)
+                // fill in bindings from the saved settings
+                if(settings != null)
                 {
-                    _bindings[actionName] = KeyBinding.Build(_plugin, actionName, defaultKeyChord);
+                    if(settings[actionName] != null)
+                    {
+                        try
+                        {
+                            var chord = settings[actionName]["chord"].Value;
+                            var enabled = settings[actionName]["enabled"].AsBool;
+
+                            var binding = KeyBinding.Build(_plugin, actionName, new KeyChord(chord));
+                            binding.Enabled = enabled;
+                            _bindings[actionName] = binding;
+                        }
+                        catch
+                        {
+                            SuperController.LogError($"Failed loading action {actionName} from save file");
+                            _bindings[actionName] = null;
+                        }
+                    }
+                    else
+                    {
+                        _bindings[actionName] = null;
+                    }
                 }
+                // ... or use defaults if there isn't anything there yet
                 else
                 {
-                    _bindings[actionName] = null;
+                    var defaultKeyChord = _actionController.GetDefaultKeyChordByActionName(actionName);
+                    if (defaultKeyChord != null)
+                    {
+                        _bindings[actionName] = KeyBinding.Build(_plugin, actionName, defaultKeyChord);
+                    }
+                    else
+                    {
+                        _bindings[actionName] = null;
+                    }
                 }
             }
         }
@@ -133,6 +164,7 @@ namespace LFE.KeyboardShortcuts.Models
                     {
                         b.Enabled = newStorable.val;
                         SetKeyBinding(actionName, b);
+                        _plugin.SaveBindingSettings();
                     }
                 });
 
@@ -161,6 +193,18 @@ namespace LFE.KeyboardShortcuts.Models
                     _keyRecorder = new KeyRecorder(actionName, (recordedChord) =>
                     {
                         var recordedChordText = recordedChord.ToString();
+
+                        // if user recorded "esc" then exit out assuming clearning the 
+                        // binding was what was wanted
+                        if (recordedChordText == "Escape")
+                        {
+                            ClearKeyBinding(actionName);
+                            shortcutButtonUi.buttonText.text = "";
+                            checkboxStorable.SetVal(false);
+                            _plugin.SaveBindingSettings();
+                            return;
+                        }
+
                         var keyBinding = GetKeyBinding(actionName);
                         if (keyBinding != null)
                         {
@@ -178,19 +222,11 @@ namespace LFE.KeyboardShortcuts.Models
 
                             ClearKeyBinding(actionName);
 
-                            // if user recorded "esc" then exit out assuming clearning the 
-                            // binding was what was wanted
-                            if (recordedChordText == "Escape")
-                            {
-                                shortcutButtonUi.buttonText.text = "";
-                                checkboxStorable.SetVal(false);
-                                return;
-                            }
-
                         }
 
                         SetKeyBinding(actionName, KeyBinding.Build(_plugin, actionName, recordedChord));
                         shortcutButtonUi.buttonText.text = recordedChordText;
+                        _plugin.SaveBindingSettings();
                     });
 
                     checkboxStorable.SetVal(true);

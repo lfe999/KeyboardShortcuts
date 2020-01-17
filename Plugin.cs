@@ -7,6 +7,19 @@ Thanks to ChrisTopherTa for the original idea
 
 CHANGELOG
 
+Version 0.4 2019-01-17
+    New: Save settings
+    New: Ability to filter shortcuts by category
+    New: Toggle softbody physics action
+    New: All UI panels for Person now listed as showable (thanks itsgus)
+    New: Timescale and Animation speed actions (thanks itsgus)
+    Fix: Hitting ESC in an empty binding field properly exits recording
+    Fix: Actions show now for atom that plugin is attached to
+    Fix: Shortcut that goes to tab now works if curently on main menu
+
+    Add more UI Tab actions available
+    Reorganize code so I don't have so much scrolling to do
+
 Version 0.3 2019-01-16
     Add more UI Tab actions available
     Reorganize code so I don't have so much scrolling to do
@@ -45,6 +58,7 @@ namespace LFE.KeyboardShortcuts
         public void Start()
         {
             model.InitUI();
+            SaveBindingSettings();
         }
 
         private KeyBinding _lastBindingPressed;
@@ -121,6 +135,46 @@ namespace LFE.KeyboardShortcuts
                     break;
                 }
             }
+        }
+
+        public SimpleJSON.JSONClass LoadBindingSettings()
+        {
+            try
+            {
+                return SuperController.singleton.LoadJSON($"{GetPluginPath()}/settings.json").AsObject;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public void SaveBindingSettings()
+        {
+            // merge
+            var json = new SimpleJSON.JSONClass();
+            foreach(var binding in model.KeyBindings)
+            {
+                var value = new SimpleJSON.JSONClass();
+                value["enabled"] = binding.Enabled.ToString();
+                value["chord"] = binding.KeyChord.ToString();
+                json[binding.Name] = value;
+            }
+            SuperController.singleton.SaveJSON(json, $"{GetPluginPath()}/settings.json");
+        }
+
+        /// <summary>
+        /// Absolute path to the root of this plugin
+        /// </summary>
+        /// <returns></returns>
+        public string GetPluginPath()
+        {
+            SuperController.singleton.currentSaveDir = SuperController.singleton.currentLoadDir;
+            string pluginId = this.storeId.Split('_')[0];
+            MVRPluginManager manager = containingAtom.GetStorableByID("PluginManager") as MVRPluginManager;
+            string pathToScriptFile = manager.GetJSON(true, true)["plugins"][pluginId].Value;
+            string pathToScriptFolder = pathToScriptFile.Substring(0, pathToScriptFile.LastIndexOfAny(new char[] { '/', '\\' }));
+            return pathToScriptFolder;
         }
     }
 }
