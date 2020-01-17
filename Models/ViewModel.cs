@@ -17,9 +17,9 @@ namespace LFE.KeyboardShortcuts.Models
             _plugin = plugin;
 
             // build all of the action names
-            _actionController = new ActionController(_plugin.containingAtom);
+            _actionController = new ActionController();
             _bindings = new Dictionary<string, KeyBinding>();
-            foreach (var actionName in _actionController.List())
+            foreach (var actionName in _actionController.GetActionNames())
             {
                 var action = _actionController.GetActionByName(actionName);
 
@@ -35,6 +35,16 @@ namespace LFE.KeyboardShortcuts.Models
                 {
                     _bindings[actionName] = null;
                 }
+            }
+        }
+
+        private string _actionCategory = "General";
+        public string ActionCategory {
+            get { return _actionCategory; }
+            set {
+                _actionCategory = value;
+                ClearUI();
+                InitUI();
             }
         }
 
@@ -74,14 +84,47 @@ namespace LFE.KeyboardShortcuts.Models
             }
         }
 
+        private List<Action> _uiCleanup = new List<Action>();
+
+        public void ClearUI()
+        {
+            // if there are _uiCleanup actions that need to be done before
+            // rendering again, then
+            foreach(var uiCleanup in _uiCleanup)
+            {
+                uiCleanup();
+            }
+            _uiCleanup = new List<Action>();
+        }
+
         public void InitUI()
         {
-            // setup the UI for all available action
+            // add the action filter
+            var actionFilterStorable = new JSONStorableStringChooser("category", _actionController.GetActionCategories().OrderBy((x) => x).ToList(), ActionCategory, "Actions For");
+            actionFilterStorable.setCallbackFunction = (category) =>
+            {
+                ActionCategory = category;
+            };
+            var actionFilterUi = _plugin.CreateScrollablePopup(actionFilterStorable);
+            _uiCleanup.Add(() => _plugin.RemovePopup(actionFilterUi));
+
+            // add an empty area to the right for spacing
+            var spacingUi = _plugin.CreateSpacer(rightSide: true);
+            spacingUi.height = actionFilterUi.height;
+            _uiCleanup.Add(() => _plugin.RemoveSpacer(spacingUi));
+
+            // setup the UI for all available actions
             foreach (var item in _bindings.OrderBy((kvp) => kvp.Key))
             {
                 var actionName = item.Key;
+                var actionGroup = _actionController.GetActionCategory(actionName);
                 var binding = item.Value;
                 var enabled = binding?.Enabled ?? false;
+
+                if(!actionGroup.Equals(ActionCategory))
+                {
+                    continue;
+                }
 
                 // checkbox on the left
                 var checkboxStorable = new JSONStorableBool(actionName, enabled, (JSONStorableBool newStorable) => {
@@ -98,11 +141,13 @@ namespace LFE.KeyboardShortcuts.Models
                 checkboxUi.labelText.resizeTextForBestFit = true;
                 checkboxUi.backgroundColor = Color.clear;
 
+                _uiCleanup.Add(() => _plugin.RemoveToggle(checkboxUi));
+
                 // assigned (optional) textbox on the right
                 var shortcutText = binding == null ? "" : binding.KeyChord.ToString();
-                var shortcutStorable = _plugin.CreateButton(shortcutText, rightSide: true);
-                shortcutStorable.height = checkboxUi.height;
-                shortcutStorable.button.onClick.AddListener(() =>
+                var shortcutButtonUi = _plugin.CreateButton(shortcutText, rightSide: true);
+                shortcutButtonUi.height = checkboxUi.height;
+                shortcutButtonUi.button.onClick.AddListener(() =>
                 {
                     if (IsRecording)
                     {
@@ -110,9 +155,9 @@ namespace LFE.KeyboardShortcuts.Models
                         return;
                     }
 
-                    var origButtonText = shortcutStorable.buttonText.text;
+                    var origButtonText = shortcutButtonUi.buttonText.text;
 
-                    shortcutStorable.buttonText.text = "recording...";
+                    shortcutButtonUi.buttonText.text = "recording...";
                     _keyRecorder = new KeyRecorder(actionName, (recordedChord) =>
                     {
                         var recordedChordText = recordedChord.ToString();
@@ -126,7 +171,7 @@ namespace LFE.KeyboardShortcuts.Models
 
                             if (keyChordInUse)
                             {
-                                shortcutStorable.buttonText.text = origButtonText;
+                                shortcutButtonUi.buttonText.text = origButtonText;
                                 SuperController.LogError("This key is already assigned to another action");
                                 return;
                             }
@@ -137,18 +182,21 @@ namespace LFE.KeyboardShortcuts.Models
                             // binding was what was wanted
                             if (recordedChordText == "Escape")
                             {
-                                shortcutStorable.buttonText.text = "";
+                                shortcutButtonUi.buttonText.text = "";
                                 checkboxStorable.SetVal(false);
                                 return;
                             }
+
                         }
 
                         SetKeyBinding(actionName, KeyBinding.Build(_plugin, actionName, recordedChord));
-                        shortcutStorable.buttonText.text = recordedChordText;
+                        shortcutButtonUi.buttonText.text = recordedChordText;
                     });
 
                     checkboxStorable.SetVal(true);
                 });
+
+                _uiCleanup.Add(() => _plugin.RemoveButton(shortcutButtonUi));
             }
         }
     }

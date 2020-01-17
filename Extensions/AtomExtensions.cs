@@ -25,6 +25,21 @@ namespace LFE.KeyboardShortcuts.Extensions
         {
             switch(atom.type)
             {
+                case "AnimationPattern":
+                    yield return "Animation Trigger";
+                    yield return "Plugins";
+
+                    yield return "Collision Trigger";
+                    yield return "Physics Object";
+                    yield return "Physics Control";
+
+                    yield return "Animation Pattern";
+                    yield return "Animation";
+                    yield return "Move";
+
+                    yield return "Preset";
+                    yield return "Control";
+                    break;
                 case "Person":
                     //first column
                     yield return "Clothing";
@@ -69,6 +84,34 @@ namespace LFE.KeyboardShortcuts.Extensions
 
                     yield return "Appearance Presets";
                     yield return "General Presets";
+                    yield return "Control";
+                    break;
+                case "InvisibleLight":
+                    yield return "Light";
+                    yield return "Plugins";
+
+                    yield return "Collision Trigger";
+                    yield return "Physics Object";
+                    yield return "Physics Control";
+
+                    yield return "Animation";
+                    yield return "Move";
+
+                    yield return "Preset";
+                    yield return "Control";
+                    break;
+                case "WindowCamera":
+                    yield return "Camera";
+                    yield return "Plugins";
+
+                    yield return "Collision Trigger";
+                    yield return "Physics Object";
+                    yield return "Physics Control";
+
+                    yield return "Animation";
+                    yield return "Move";
+
+                    yield return "Preset";
                     yield return "Control";
                     break;
                 default:

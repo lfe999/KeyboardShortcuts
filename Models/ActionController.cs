@@ -89,37 +89,48 @@ namespace LFE.KeyboardShortcuts.Models
         private bool _messageLogShowing = false;
         private bool _errorLogShowing = false;
 
-        private Atom _containingAtom;
+        private Dictionary<string, string> _actionCategory = new Dictionary<string, string>();
 
-        public ActionController(Atom containingAtom)
+        public string GetActionCategory(string action)
         {
-            _containingAtom = containingAtom;
+            return _actionCategory.ContainsKey(action) ? _actionCategory[action] : "General";
         }
 
-        public List<string> List()
+        public List<string> GetActionCategories()
+        {
+            return _actionCategory.Values.Distinct().ToList();
+        }
+
+        public List<string> GetActionNames()
         {
             var names = BuiltinActionNames;
+            BuiltinActionNames.ForEach((actionName) =>
+            {
+                _actionCategory[actionName] = "General";
+            });
+
             // find all atoms and build actions for each of those
             foreach(var atom in SuperController.singleton.GetAtoms())
             {
-                foreach(var name in atom.GetActionNames().Distinct())
-                {
-                    if(name.Equals(String.Empty)) { continue; }
-                    if(name.StartsWith("SaveToStore")) { continue; }
-                    if(name.StartsWith("RestoreAllFromStore")) { continue; }
-                    if(name.StartsWith("RestoreAllFromDefaults")) { continue; }
-                    if(name.StartsWith("RestorePhysicsFromStore")) { continue; }
-                    if(name.StartsWith("RestorePhysicalFromDefaults")) { continue; }
-                    if(name.StartsWith("RestoreAppearanceFromStore")) { continue; }
-                    if(name.StartsWith("RestoreAppearanceFromDefaults")) { continue; }
-                    var a = $"Atom > {atom.uid} > Action > {name}";
-                    //SuperController.LogMessage(a, false);
-                    //names.Add(a);
-                }
+                //foreach(var name in atom.GetActionNames().Distinct())
+                //{
+                //    if(name.Equals(String.Empty)) { continue; }
+                //    if(name.StartsWith("SaveToStore")) { continue; }
+                //    if(name.StartsWith("RestoreAllFromStore")) { continue; }
+                //    if(name.StartsWith("RestoreAllFromDefaults")) { continue; }
+                //    if(name.StartsWith("RestorePhysicsFromStore")) { continue; }
+                //    if(name.StartsWith("RestorePhysicalFromDefaults")) { continue; }
+                //    if(name.StartsWith("RestoreAppearanceFromStore")) { continue; }
+                //    if(name.StartsWith("RestoreAppearanceFromDefaults")) { continue; }
+                //    var a = $"Atom > {atom.uid} > Action > {name}";
+                //    _actionCategory[a] = atom.uid;
+                //    names.Add(a);
+                //}
 
                 foreach(var uiName in atom.GetUITabNames())
                 {
                     var a = $"Atom > {atom.uid} > ShowUI > {uiName}";
+                    _actionCategory[a] = atom.uid;
                     names.Add(a);
                 }
             }
