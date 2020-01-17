@@ -102,7 +102,6 @@ namespace LFE.KeyboardShortcuts.Models
             // find all atoms and build actions for each of those
             foreach(var atom in SuperController.singleton.GetAtoms())
             {
-                if(atom.uid.Equals(_containingAtom.uid)) { continue; }
                 foreach(var name in atom.GetActionNames().Distinct())
                 {
                     if(name.Equals(String.Empty)) { continue; }
