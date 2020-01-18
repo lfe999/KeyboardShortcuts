@@ -1,11 +1,16 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.3 by LFE#9677
+KeyboardShortcuts v0.5 by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 
 Thanks to ChrisTopherTa for the original idea
 
 CHANGELOG
+
+Version 0.5 2019-01-18
+    Fix: Stop listening to shortcuts if user is typing somewhere
+    Fix: Saving/Loading settings now works properly if added as Session plugin
+    Fix: Lots of other "added as session plugin" related breaking is fixed
 
 Version 0.4 2019-01-17
     New: Save settings
@@ -151,8 +156,18 @@ namespace LFE.KeyboardShortcuts
             {
                 return SuperController.singleton.LoadJSON($"{GetPluginPath()}/settings.json").AsObject;
             }
-            catch
+            catch(Exception e)
             {
+                // note: can't load "System.IO" without error so we will ignore a file
+                // not found error by it's text (sadface)
+                if(e.Message.Contains("Could not find file"))
+                {
+                    // log nothing
+                }
+                else
+                {
+                    SuperController.LogError(e.ToString(), false);
+                }
                 return null;
             }
         }
@@ -168,7 +183,14 @@ namespace LFE.KeyboardShortcuts
                 value["chord"] = binding.KeyChord.ToString();
                 json[binding.Name] = value;
             }
-            SuperController.singleton.SaveJSON(json, $"{GetPluginPath()}/settings.json");
+            try
+            {
+                SuperController.singleton.SaveJSON(json, $"{GetPluginPath()}/settings.json");
+            }
+            catch(Exception e)
+            {
+                SuperController.LogError(e.ToString(), false);
+            }
         }
 
         /// <summary>
@@ -179,7 +201,7 @@ namespace LFE.KeyboardShortcuts
         {
             SuperController.singleton.currentSaveDir = SuperController.singleton.currentLoadDir;
             string pluginId = this.storeId.Split('_')[0];
-            MVRPluginManager manager = containingAtom.GetStorableByID("PluginManager") as MVRPluginManager;
+            MVRPluginManager manager = containingAtom.GetComponentInChildren<MVRPluginManager>();
             string pathToScriptFile = manager.GetJSON(true, true)["plugins"][pluginId].Value;
             string pathToScriptFolder = pathToScriptFile.Substring(0, pathToScriptFile.LastIndexOfAny(new char[] { '/', '\\' }));
             return pathToScriptFolder;
