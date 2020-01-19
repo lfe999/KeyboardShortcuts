@@ -114,21 +114,6 @@ namespace LFE.KeyboardShortcuts.Models
             // find all atoms and build actions for each of those
             foreach(var atom in SuperController.singleton.GetAtoms())
             {
-                //foreach(var name in atom.GetActionNames().Distinct())
-                //{
-                //    if(name.Equals(String.Empty)) { continue; }
-                //    if(name.StartsWith("SaveToStore")) { continue; }
-                //    if(name.StartsWith("RestoreAllFromStore")) { continue; }
-                //    if(name.StartsWith("RestoreAllFromDefaults")) { continue; }
-                //    if(name.StartsWith("RestorePhysicsFromStore")) { continue; }
-                //    if(name.StartsWith("RestorePhysicalFromDefaults")) { continue; }
-                //    if(name.StartsWith("RestoreAppearanceFromStore")) { continue; }
-                //    if(name.StartsWith("RestoreAppearanceFromDefaults")) { continue; }
-                //    var a = $"Atom > {atom.uid} > Action > {name}";
-                //    _actionCategory[a] = atom.uid;
-                //    names.Add(a);
-                //}
-
                 foreach(var uiName in atom.GetUITabNames())
                 {
                     var a = $"Atom > {atom.uid} > ShowUI > {uiName}";

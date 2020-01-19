@@ -63,7 +63,6 @@ namespace LFE.KeyboardShortcuts
 
         public void Start()
         {
-            model.InitUI();
             SaveBindingSettings();
         }
 
@@ -74,6 +73,8 @@ namespace LFE.KeyboardShortcuts
 
         protected void Update()
         {
+            model.CheckPluginsHaveChanged();
+
             if (model.IsRecording)
             {
                 model.RecordUpdate(); 
@@ -148,6 +149,11 @@ namespace LFE.KeyboardShortcuts
                     break;
                 }
             }
+        }
+
+        void OnDestroy()
+        {
+            model?.Destroy();
         }
 
         public SimpleJSON.JSONClass LoadBindingSettings()

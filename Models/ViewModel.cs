@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LFE.KeyboardShortcuts.Extensions;
 
 namespace LFE.KeyboardShortcuts.Models
 {
@@ -12,15 +13,119 @@ namespace LFE.KeyboardShortcuts.Models
         private Dictionary<string, KeyBinding> _bindings;
         private KeyRecorder _keyRecorder;
 
+        private SuperController.OnAtomUIDsChanged _onAtomUIDsChanged;
+
         public ViewModel(Plugin plugin)
         {
             _plugin = plugin;
+            _onAtomUIDsChanged = (uidList) =>
+            {
+                Initialize();
+            };
 
-            var settings = _plugin.LoadBindingSettings();
+            SuperController.singleton.onAtomUIDsChangedHandlers += _onAtomUIDsChanged;
+            Initialize();
+        }
 
-            // build all of the action names
+        public void Destroy()
+        {
+            if(_onAtomUIDsChanged != null)
+            {
+                SuperController.singleton.onAtomUIDsChangedHandlers -= _onAtomUIDsChanged;
+            }
+        }
+
+        private string _actionCategory = "General";
+        public string ActionCategory {
+            get { return _actionCategory; }
+            set {
+                _actionCategory = value;
+                ClearUI();
+                InitUI();
+            }
+        }
+
+        public IEnumerable<string> ActionNames => _bindings.Keys;
+        public IEnumerable<KeyBinding> KeyBindings => _bindings.Values.Where((b) => b != null);
+
+        public void ClearKeyBinding(string name)
+        {
+            if(_bindings.ContainsKey(name))
+            {
+                _bindings[name] = null;
+            }
+        }
+
+        public KeyBinding GetKeyBinding(string name)
+        {
+            return _bindings.ContainsKey(name) ? _bindings[name] : null;
+        }
+
+        public void SetKeyBinding(string name, KeyBinding binding)
+        {
+            if (!_bindings.ContainsKey(name)) { throw new ArgumentException("Invalid action name", nameof(name)); }
+            _bindings[name] = binding;
+        }
+
+        private Dictionary<string, string> _lastAtomPluginInfo;
+        public void CheckPluginsHaveChanged()
+        {
+            var atomPluginInfo = new Dictionary<string, string>();
+            foreach (var atom in SuperController.singleton.GetAtoms())
+            {
+                MVRPluginManager manager = atom.GetComponentInChildren<MVRPluginManager>();
+                if (manager != null)
+                {
+                    var atomUid = atom.uid;
+                    var pluginInfo = manager.GetJSON(true, true).ToString();
+                    atomPluginInfo[atomUid] = pluginInfo;
+                }
+            }
+
+            if(_lastAtomPluginInfo != null)
+            {
+                // calculate which atom names have plugin changes
+                var changedAtomUids = atomPluginInfo.Except(_lastAtomPluginInfo)
+                    .Concat(_lastAtomPluginInfo.Except(atomPluginInfo))
+                    .Select((kvp) => kvp.Key)
+                    .Distinct();
+                if(changedAtomUids.Count() > 0)
+                {
+                    Initialize();
+                }
+            }
+
+            _lastAtomPluginInfo = atomPluginInfo;
+        }
+
+        public void Initialize()
+        {
+            //SuperController.LogMessage("Initializing", false);
             _actionController = new ActionController();
+            ClearUI();
+            InitBindings();
+            InitUI();
+        }
+
+        public bool IsRecording => _keyRecorder != null;
+        public void RecordUpdate()
+        {
+            _keyRecorder?.Record();
+        }
+        public void RecordFinish()
+        {
+            if (_keyRecorder != null && _keyRecorder.InProgress)
+            {
+                _keyRecorder.OnFinish();
+                _keyRecorder = null;
+            }
+        }
+
+        private void InitBindings()
+        {
+            // build all of the action names
             _bindings = new Dictionary<string, KeyBinding>();
+            var settings = _plugin.LoadBindingSettings();
             foreach (var actionName in _actionController.GetActionNames())
             {
                 var action = _actionController.GetActionByName(actionName);
@@ -69,55 +174,9 @@ namespace LFE.KeyboardShortcuts.Models
             }
         }
 
-        private string _actionCategory = "General";
-        public string ActionCategory {
-            get { return _actionCategory; }
-            set {
-                _actionCategory = value;
-                ClearUI();
-                InitUI();
-            }
-        }
-
-        public IEnumerable<string> ActionNames => _bindings.Keys;
-        public IEnumerable<KeyBinding> KeyBindings => _bindings.Values.Where((b) => b != null);
-
-        public void ClearKeyBinding(string name)
-        {
-            if(_bindings.ContainsKey(name))
-            {
-                _bindings[name] = null;
-            }
-        }
-
-        public KeyBinding GetKeyBinding(string name)
-        {
-            return _bindings.ContainsKey(name) ? _bindings[name] : null;
-        }
-
-        public void SetKeyBinding(string name, KeyBinding binding)
-        {
-            if (!_bindings.ContainsKey(name)) { throw new ArgumentException("Invalid action name", nameof(name)); }
-            _bindings[name] = binding;
-        }
-
-        public bool IsRecording => _keyRecorder != null;
-        public void RecordUpdate()
-        {
-            _keyRecorder?.Record();
-        }
-        public void RecordFinish()
-        {
-            if (_keyRecorder != null && _keyRecorder.InProgress)
-            {
-                _keyRecorder.OnFinish();
-                _keyRecorder = null;
-            }
-        }
-
         private List<Action> _uiCleanup = new List<Action>();
 
-        public void ClearUI()
+        private void ClearUI()
         {
             // if there are _uiCleanup actions that need to be done before
             // rendering again, then
@@ -128,7 +187,7 @@ namespace LFE.KeyboardShortcuts.Models
             _uiCleanup = new List<Action>();
         }
 
-        public void InitUI()
+        private void InitUI()
         {
             // add the action filter
             var actionFilterStorable = new JSONStorableStringChooser("category", _actionController.GetActionCategories().OrderBy((x) => x).ToList(), ActionCategory, "Actions For");
