@@ -68,8 +68,19 @@ namespace LFE.KeyboardShortcuts.Models
         }
 
         private Dictionary<string, string> _lastAtomPluginInfo;
+        private float _lastAtomPluginInfoTimer = 0.0f;
         public void CheckPluginsHaveChanged()
         {
+            _lastAtomPluginInfoTimer += Time.deltaTime;
+            // only poll for plugin changes once every 3 seconds for performance
+            if(_lastAtomPluginInfoTimer < 3.0f) {
+                return;
+            }
+            else
+            {
+                _lastAtomPluginInfoTimer = 0.0f;
+            }
+
             var atomPluginInfo = new Dictionary<string, string>();
             foreach (var atom in SuperController.singleton.GetAtoms())
             {
@@ -101,7 +112,7 @@ namespace LFE.KeyboardShortcuts.Models
         public void Initialize()
         {
             //SuperController.LogMessage("Initializing", false);
-            _actionController = new ActionController();
+            _actionController = new ActionController(_plugin);
             ClearUI();
             InitBindings();
             InitUI();

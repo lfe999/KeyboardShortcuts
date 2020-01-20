@@ -179,6 +179,12 @@ namespace LFE.KeyboardShortcuts.Models
 
         private Dictionary<string, string> _actionCategory = new Dictionary<string, string>();
 
+        private Plugin _plugin;
+        public ActionController(Plugin plugin)
+        {
+            _plugin = plugin;
+        }
+
         public string GetActionCategory(string action)
         {
             return _actionCategory.ContainsKey(action) ? _actionCategory[action] : ACTION_CATEGORY_GENERAL;
@@ -223,6 +229,11 @@ namespace LFE.KeyboardShortcuts.Models
             {
                 foreach(var plugin in atom.GetPluginStorables())
                 {
+                    // skip this plugin
+                    if(atom.uid.Equals(_plugin.containingAtom.uid) && plugin.name.Equals(_plugin.name))
+                    {
+                        continue;
+                    }
                     // booleans
                     foreach (var param in plugin.GetBoolParamNames())
                     {
