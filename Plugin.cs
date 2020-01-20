@@ -1,11 +1,18 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.5 by LFE#9677
+KeyboardShortcuts v0.6 by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 
 Thanks to ChrisTopherTa for the original idea
 
 CHANGELOG
+
+Version 0.6 2019-01-20
+    New: Atom rotation and positional change actions
+    New: Atom hide and delete actions
+    New: Plugin registered boolean actions
+    New: Plugin registered action actions
+    Fix: Watch scene for changes and update actions that are listed
 
 Version 0.5 2019-01-18
     Fix: Stop listening to shortcuts if user is typing somewhere
