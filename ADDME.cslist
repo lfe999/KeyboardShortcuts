@@ -1,4 +1,5 @@
 ﻿Extensions/AtomExtensions.cs
+Extensions/JSONStorableExtensions.cs
 Extensions/TransformExtensions.cs
 Models/ActionController.cs
 Models/KeyBinding.cs

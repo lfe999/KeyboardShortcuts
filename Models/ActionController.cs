@@ -218,6 +218,39 @@ namespace LFE.KeyboardShortcuts.Models
                 }
             }
 
+            // PLUGIN actions
+            foreach(var atom in SuperController.singleton.GetAtoms())
+            {
+                foreach(var plugin in atom.GetPluginStorables())
+                {
+                    // booleans
+                    foreach (var param in plugin.GetBoolParamNames())
+                    {
+                        if (param.Equals("enabled")) { continue; }
+
+                        var a = $"Set True > {atom.uid} > {plugin.name} > {param}";
+                        _actionCategory[a] = "[Plugin Actions]";
+                        names.Add(a);
+
+                        a = $"Set False > {atom.uid} > {plugin.name} > {param}";
+                        _actionCategory[a] = "[Plugin Actions]";
+                        names.Add(a);
+
+                        a = $"Toggle > {atom.uid} > {plugin.name} > {param}";
+                        _actionCategory[a] = "[Plugin Actions]";
+                        names.Add(a);
+                    }
+
+                    // actions
+                    foreach (var param in plugin.GetCustomActionNames())
+                    {
+                        var a = $"Call > {atom.uid} > {plugin.name} > {param}";
+                        _actionCategory[a] = "[Plugin Actions]";
+                        names.Add(a);
+                    }
+                }
+            }
+
             return names.ToList();
         }
 
@@ -282,7 +315,7 @@ namespace LFE.KeyboardShortcuts.Models
                     break;
                 case ACTION_ANIMATIONSPEED_INCREASE:
                     act = () => ChangeAnimationSpeed(10.0f);
-                    break;                    
+                    break;
                 case ACTION_MESSAGELOG_TOGGLE:
                     act = () => ToggleMessageLogs();
                     break;
@@ -422,22 +455,64 @@ namespace LFE.KeyboardShortcuts.Models
 
             // now match actions that have variables hidden away in the action name
             var match = Regex.Match(actionName, @"^Atom > (.*?) > ShowUI > (.*?)$");
-            if(match.Success)
+            if (match.Success)
             {
-                act = () =>
-                {
-                    SelectAtomTab(match.Groups[1].Value, match.Groups[2].Value);
-                };
+                act = () => { SelectAtomTab(match.Groups[1].Value, match.Groups[2].Value); };
+            }
+
+            var match2 = Regex.Match(actionName, @"^Set True > (.*?) > (.*?) > (.*?)$");
+            if (match2.Success)
+            {
+                act = () => { GetPlugin(match2.Groups[1].Value, match2.Groups[2].Value)?.SetBoolParamValue(match2.Groups[3].Value, true); };
+            }
+
+            var match3 = Regex.Match(actionName, @"^Set False > (.*?) > (.*?) > (.*?)$");
+            if (match3.Success)
+            {
+                act = () => { GetPlugin(match3.Groups[1].Value, match3.Groups[2].Value)?.SetBoolParamValue(match3.Groups[3].Value, false); };
+            }
+
+            var match4 = Regex.Match(actionName, @"^Toggle > (.*?) > (.*?) > (.*?)$");
+            if (match4.Success)
+            {
+                act = () => { TogglePluginBool(match4.Groups[1].Value, match4.Groups[2].Value, match4.Groups[3].Value); };
+            }
+
+            var match5 = Regex.Match(actionName, @"^Call > (.*?) > (.*?) > (.*?)$");
+            if (match5.Success)
+            {
+                act = () => { GetPlugin(match5.Groups[1].Value, match5.Groups[2].Value)?.CallAction(match5.Groups[3].Value); };
             }
 
             if (act == null)
             {
-                act = () => {
+                act = () =>
+                {
                     SuperController.LogError($"Don't know what to do for {actionName} yet");
                     return;
                 };
             }
             return act;
+        }
+
+        private JSONStorable GetPlugin(string atomUid, string pluginId)
+        {
+            var atom = SuperController.singleton.GetAtomByUid(atomUid);
+            if (atom != null) { return atom.GetPluginStorable(pluginId); }
+            return null;
+        }
+
+        private JSONStorableBool GetPluginBool(string atomUid, string pluginId, string paramName)
+        {
+            var plugin = GetPlugin(atomUid, pluginId);
+            if (plugin != null) { return plugin.GetBoolJSONParam(paramName); }
+            return null;
+        }
+
+        private void TogglePluginBool(string atomUid, string pluginId, string paramName)
+        {
+            var param = GetPluginBool(atomUid, pluginId, paramName);
+            if(param != null) { param.val = !param.val; }
         }
 
         private void SelectAtom(Atom a)
@@ -454,8 +529,7 @@ namespace LFE.KeyboardShortcuts.Models
         private void ShowSelectedUI()
         {
             var mainTabBar = SuperController.singleton.mainMenuUI.parent;
-            var showSelectedUIButton = mainTabBar
-                .Find((name) => name.EndsWith("/ButtonSelectedOptions"))
+            var showSelectedUIButton = mainTabBar.Find((name) => name.EndsWith("/ButtonSelectedOptions"))
                 .FirstOrDefault()
                 ?.GetComponent<UnityEngine.UI.Button>();
 

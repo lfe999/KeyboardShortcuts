@@ -5,6 +5,33 @@ namespace LFE.KeyboardShortcuts.Extensions
 {
     public static class AtomExtensions {
 
+        public static JSONStorable GetPluginStorable(this Atom atom, string pluginId)
+        {
+            return atom.GetPluginStorables().Where((p) => p.name.Contains(pluginId)).FirstOrDefault();
+        }
+
+        public static IEnumerable<JSONStorable> GetPluginStorables(this Atom atom)
+        {
+            MVRPluginManager manager = atom.GetComponentInChildren<MVRPluginManager>();
+            if (manager != null)
+            {
+                var plugins = manager.GetJSON(true, true)["plugins"].AsObject;
+                foreach(var pluginId in plugins.Keys)
+                {
+                    var receiver = atom
+                        .GetStorableIDs()
+                        .Where((sid) => sid.StartsWith(pluginId))
+                        .Select((sid) => atom.GetStorableByID(sid))
+                        .FirstOrDefault();
+                    if(receiver != null)
+                    {
+                        yield return receiver;
+                    }
+                }
+            }
+
+        }
+
         public static UITabSelector GetTabSelector(this Atom atom)
         {
             if(!atom.mainController.selected)
