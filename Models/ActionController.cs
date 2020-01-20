@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using UnityEngine;
+using UnityEngine.Animations;
 
 using LFE.KeyboardShortcuts.Extensions;
 
@@ -21,6 +22,10 @@ namespace LFE.KeyboardShortcuts.Models
             public float min;
             public float max;
         };
+
+        public const string ACTION_CATEGORY_GENERAL = "[General]";
+        public const string ACTION_CATEGORY_SELECTEDATOM = "[Selected Atom]";
+
 
         public const string ACTION_WORLDSCALE_INCREASE = "WorldScale > Increase";
         public const string ACTION_WORLDSCALE_DECREASE = "WorldScale > Decrease";
@@ -41,25 +46,106 @@ namespace LFE.KeyboardShortcuts.Models
         public const string ACTION_ATOMS_SELECTPREV = "Atoms > Select Prev";
         public const string ACTION_PREFERENCE_SOFTPHYSICS_TOGGLE = "Soft Body Physics > Toggle";
 
-        public List<string> BuiltinActionNames = new List<string> {
-                ACTION_ATOMS_SELECTNEXTVISIBLE,
-                ACTION_ATOMS_SELECTPREVVISIBLE,
-                ACTION_ATOMS_SELECTNEXT,
-                ACTION_ATOMS_SELECTPREV,
-                ACTION_ERRORLOG_TOGGLE,
-                ACTION_FOV_INCREASE,
-                ACTION_FOV_DECREASE,
-                ACTION_TIMESCALE_INCREASE,
-                ACTION_TIMESCALE_DECREASE,
-                ACTION_ANIMATIONSPEED_INCREASE,
-                ACTION_ANIMATIONSPEED_DECREASE,                
-                ACTION_FREEZEANIMATION_TOGGLE,
-                ACTION_FREEZEANIMATION_ENABLE,
-                ACTION_FREEZEANIMATION_DISABLE,
-                ACTION_MESSAGELOG_TOGGLE,
-                ACTION_PREFERENCE_SOFTPHYSICS_TOGGLE,
-                ACTION_WORLDSCALE_INCREASE,
-                ACTION_WORLDSCALE_DECREASE,
+        public List<string> GeneralActionNames = new List<string> {
+            ACTION_ATOMS_SELECTNEXTVISIBLE,
+            ACTION_ATOMS_SELECTPREVVISIBLE,
+            ACTION_ATOMS_SELECTNEXT,
+            ACTION_ATOMS_SELECTPREV,
+            ACTION_ERRORLOG_TOGGLE,
+            ACTION_FOV_INCREASE,
+            ACTION_FOV_DECREASE,
+            ACTION_TIMESCALE_INCREASE,
+            ACTION_TIMESCALE_DECREASE,
+            ACTION_ANIMATIONSPEED_INCREASE,
+            ACTION_ANIMATIONSPEED_DECREASE,
+            ACTION_FREEZEANIMATION_TOGGLE,
+            ACTION_FREEZEANIMATION_ENABLE,
+            ACTION_FREEZEANIMATION_DISABLE,
+            ACTION_MESSAGELOG_TOGGLE,
+            ACTION_PREFERENCE_SOFTPHYSICS_TOGGLE,
+            ACTION_WORLDSCALE_INCREASE,
+            ACTION_WORLDSCALE_DECREASE,
+        };
+
+        public const string ACTION_SELECTED_HIDE_TOGGLE = "Selected > Hide > Toggle";
+        public const string ACTION_SELECTED_DELETE = "Selected > Delete";
+        public const string ACTION_SELECTED_X_POSITION_INCREASE_SMALL = "Selected > X > Position Increase Small";
+        public const string ACTION_SELECTED_X_POSITION_DECREASE_SMALL = "Selected > X > Position Decrease Small";
+        public const string ACTION_SELECTED_X_ROTATION_INCREASE_SMALL = "Selected > X > Rotation Increase Small";
+        public const string ACTION_SELECTED_X_ROTATION_DECREASE_SMALL = "Selected > X > Rotation Decrease Small";
+        public const string ACTION_SELECTED_Y_POSITION_INCREASE_SMALL = "Selected > Y > Position Increase Small";
+        public const string ACTION_SELECTED_Y_POSITION_DECREASE_SMALL = "Selected > Y > Position Decrease Small";
+        public const string ACTION_SELECTED_Y_ROTATION_INCREASE_SMALL = "Selected > Y > Rotation Increase Small";
+        public const string ACTION_SELECTED_Y_ROTATION_DECREASE_SMALL = "Selected > Y > Rotation Decrease Small";
+        public const string ACTION_SELECTED_Z_POSITION_INCREASE_SMALL = "Selected > Z > Position Increase Small";
+        public const string ACTION_SELECTED_Z_POSITION_DECREASE_SMALL = "Selected > Z > Position Decrease Small";
+        public const string ACTION_SELECTED_Z_ROTATION_INCREASE_SMALL = "Selected > Z > Rotation Increase Small";
+        public const string ACTION_SELECTED_Z_ROTATION_DECREASE_SMALL = "Selected > Z > Rotation Decrease Small";
+        public const string ACTION_SELECTED_X_POSITION_INCREASE_MEDIUM = "Selected > X > Position Increase Medium";
+        public const string ACTION_SELECTED_X_POSITION_DECREASE_MEDIUM = "Selected > X > Position Decrease Medium";
+        public const string ACTION_SELECTED_X_ROTATION_INCREASE_MEDIUM = "Selected > X > Rotation Increase Medium";
+        public const string ACTION_SELECTED_X_ROTATION_DECREASE_MEDIUM = "Selected > X > Rotation Decrease Medium";
+        public const string ACTION_SELECTED_Y_POSITION_INCREASE_MEDIUM = "Selected > Y > Position Increase Medium";
+        public const string ACTION_SELECTED_Y_POSITION_DECREASE_MEDIUM = "Selected > Y > Position Decrease Medium";
+        public const string ACTION_SELECTED_Y_ROTATION_INCREASE_MEDIUM = "Selected > Y > Rotation Increase Medium";
+        public const string ACTION_SELECTED_Y_ROTATION_DECREASE_MEDIUM = "Selected > Y > Rotation Decrease Medium";
+        public const string ACTION_SELECTED_Z_POSITION_INCREASE_MEDIUM = "Selected > Z > Position Increase Medium";
+        public const string ACTION_SELECTED_Z_POSITION_DECREASE_MEDIUM = "Selected > Z > Position Decrease Medium";
+        public const string ACTION_SELECTED_Z_ROTATION_INCREASE_MEDIUM = "Selected > Z > Rotation Increase Medium";
+        public const string ACTION_SELECTED_Z_ROTATION_DECREASE_MEDIUM = "Selected > Z > Rotation Decrease Medium";
+        public const string ACTION_SELECTED_X_POSITION_INCREASE_LARGE = "Selected > X > Position Increase Large";
+        public const string ACTION_SELECTED_X_POSITION_DECREASE_LARGE = "Selected > X > Position Decrease Large";
+        public const string ACTION_SELECTED_X_ROTATION_INCREASE_LARGE = "Selected > X > Rotation Increase Large";
+        public const string ACTION_SELECTED_X_ROTATION_DECREASE_LARGE = "Selected > X > Rotation Decrease Large";
+        public const string ACTION_SELECTED_Y_POSITION_INCREASE_LARGE = "Selected > Y > Position Increase Large";
+        public const string ACTION_SELECTED_Y_POSITION_DECREASE_LARGE = "Selected > Y > Position Decrease Large";
+        public const string ACTION_SELECTED_Y_ROTATION_INCREASE_LARGE = "Selected > Y > Rotation Increase Large";
+        public const string ACTION_SELECTED_Y_ROTATION_DECREASE_LARGE = "Selected > Y > Rotation Decrease Large";
+        public const string ACTION_SELECTED_Z_POSITION_INCREASE_LARGE = "Selected > Z > Position Increase Large";
+        public const string ACTION_SELECTED_Z_POSITION_DECREASE_LARGE = "Selected > Z > Position Decrease Large";
+        public const string ACTION_SELECTED_Z_ROTATION_INCREASE_LARGE = "Selected > Z > Rotation Increase Large";
+        public const string ACTION_SELECTED_Z_ROTATION_DECREASE_LARGE = "Selected > Z > Rotation Decrease Large";
+
+        public List<string> SelectedAtomActionNames = new List<string>
+        {
+            ACTION_SELECTED_HIDE_TOGGLE,
+            ACTION_SELECTED_DELETE,
+            ACTION_SELECTED_X_POSITION_INCREASE_SMALL,
+            ACTION_SELECTED_X_POSITION_DECREASE_SMALL,
+            ACTION_SELECTED_X_ROTATION_INCREASE_SMALL,
+            ACTION_SELECTED_X_ROTATION_DECREASE_SMALL,
+            ACTION_SELECTED_X_POSITION_INCREASE_MEDIUM,
+            ACTION_SELECTED_X_POSITION_DECREASE_MEDIUM,
+            ACTION_SELECTED_X_ROTATION_INCREASE_MEDIUM,
+            ACTION_SELECTED_X_ROTATION_DECREASE_MEDIUM,
+            ACTION_SELECTED_X_POSITION_INCREASE_LARGE,
+            ACTION_SELECTED_X_POSITION_DECREASE_LARGE,
+            ACTION_SELECTED_X_ROTATION_INCREASE_LARGE,
+            ACTION_SELECTED_X_ROTATION_DECREASE_LARGE,
+            ACTION_SELECTED_Y_POSITION_INCREASE_SMALL,
+            ACTION_SELECTED_Y_POSITION_DECREASE_SMALL,
+            ACTION_SELECTED_Y_ROTATION_INCREASE_SMALL,
+            ACTION_SELECTED_Y_ROTATION_DECREASE_SMALL,
+            ACTION_SELECTED_Y_POSITION_INCREASE_MEDIUM,
+            ACTION_SELECTED_Y_POSITION_DECREASE_MEDIUM,
+            ACTION_SELECTED_Y_ROTATION_INCREASE_MEDIUM,
+            ACTION_SELECTED_Y_ROTATION_DECREASE_MEDIUM,
+            ACTION_SELECTED_Y_POSITION_INCREASE_LARGE,
+            ACTION_SELECTED_Y_POSITION_DECREASE_LARGE,
+            ACTION_SELECTED_Y_ROTATION_INCREASE_LARGE,
+            ACTION_SELECTED_Y_ROTATION_DECREASE_LARGE,
+            ACTION_SELECTED_Z_POSITION_INCREASE_SMALL,
+            ACTION_SELECTED_Z_POSITION_DECREASE_SMALL,
+            ACTION_SELECTED_Z_ROTATION_INCREASE_SMALL,
+            ACTION_SELECTED_Z_ROTATION_DECREASE_SMALL,
+            ACTION_SELECTED_Z_POSITION_INCREASE_MEDIUM,
+            ACTION_SELECTED_Z_POSITION_DECREASE_MEDIUM,
+            ACTION_SELECTED_Z_ROTATION_INCREASE_MEDIUM,
+            ACTION_SELECTED_Z_ROTATION_DECREASE_MEDIUM,
+            ACTION_SELECTED_Z_POSITION_INCREASE_LARGE,
+            ACTION_SELECTED_Z_POSITION_DECREASE_LARGE,
+            ACTION_SELECTED_Z_ROTATION_INCREASE_LARGE,
+            ACTION_SELECTED_Z_ROTATION_DECREASE_LARGE
         };
 
         private readonly Dictionary<string, string> _defaultForAction = new Dictionary<string, string>
@@ -95,7 +181,7 @@ namespace LFE.KeyboardShortcuts.Models
 
         public string GetActionCategory(string action)
         {
-            return _actionCategory.ContainsKey(action) ? _actionCategory[action] : "General";
+            return _actionCategory.ContainsKey(action) ? _actionCategory[action] : ACTION_CATEGORY_GENERAL;
         }
 
         public List<string> GetActionCategories()
@@ -105,13 +191,23 @@ namespace LFE.KeyboardShortcuts.Models
 
         public List<string> GetActionNames()
         {
-            var names = BuiltinActionNames;
-            BuiltinActionNames.ForEach((actionName) =>
+            var names = new List<string>();
+
+            // GENERAL actions
+            GeneralActionNames.ForEach((actionName) =>
             {
-                _actionCategory[actionName] = "General";
+                names.Add(actionName);
+                _actionCategory[actionName] = ACTION_CATEGORY_GENERAL;
             });
 
-            // find all atoms and build actions for each of those
+            // SELECTED ATOM actions
+            SelectedAtomActionNames.ForEach((actionName) =>
+            {
+                names.Add(actionName);
+                _actionCategory[actionName] = ACTION_CATEGORY_SELECTEDATOM;
+            });
+
+            // SPECIFIC ATOM actions
             foreach(var atom in SuperController.singleton.GetAtoms())
             {
                 foreach(var uiName in atom.GetUITabNames())
@@ -122,7 +218,7 @@ namespace LFE.KeyboardShortcuts.Models
                 }
             }
 
-            return names.OrderBy((name) => name).ToList();
+            return names.ToList();
         }
 
         public List<Atom> GetSelectableAtoms(bool includeHidden = false)
@@ -208,6 +304,120 @@ namespace LFE.KeyboardShortcuts.Models
                 case ACTION_PREFERENCE_SOFTPHYSICS_TOGGLE:
                     act = () => ToggleSoftBodyPhysics();
                     break;
+                case ACTION_SELECTED_HIDE_TOGGLE:
+                    act = () => ToggleAtomHidden(SuperController.singleton.GetSelectedAtom());
+                    break;
+                case ACTION_SELECTED_DELETE:
+                    act = () => DeleteAtom(SuperController.singleton.GetSelectedAtom());
+                    break;
+                case ACTION_SELECTED_X_POSITION_INCREASE_SMALL:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.X, 0.01f);
+                    break;
+                case ACTION_SELECTED_X_POSITION_DECREASE_SMALL:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.X, -0.01f);
+                    break;
+                case ACTION_SELECTED_X_ROTATION_INCREASE_SMALL:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.X, 0.5f);
+                    break;
+                case ACTION_SELECTED_X_ROTATION_DECREASE_SMALL:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.X, -0.5f);
+                    break;
+                case ACTION_SELECTED_Y_POSITION_INCREASE_SMALL:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Y, 0.01f);
+                    break;
+                case ACTION_SELECTED_Y_POSITION_DECREASE_SMALL:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Y, -0.01f);
+                    break;
+                case ACTION_SELECTED_Y_ROTATION_INCREASE_SMALL:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Y, 0.5f);
+                    break;
+                case ACTION_SELECTED_Y_ROTATION_DECREASE_SMALL:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Y, -0.5f);
+                    break;
+                case ACTION_SELECTED_Z_POSITION_INCREASE_SMALL:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Z, 0.01f);
+                    break;
+                case ACTION_SELECTED_Z_POSITION_DECREASE_SMALL:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Z, -0.01f);
+                    break;
+                case ACTION_SELECTED_Z_ROTATION_INCREASE_SMALL:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Z, 0.5f);
+                    break;
+                case ACTION_SELECTED_Z_ROTATION_DECREASE_SMALL:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Z, -0.5f);
+                    break;
+                case ACTION_SELECTED_X_POSITION_INCREASE_MEDIUM:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.X, 0.1f);
+                    break;
+                case ACTION_SELECTED_X_POSITION_DECREASE_MEDIUM:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.X, -0.1f);
+                    break;
+                case ACTION_SELECTED_X_ROTATION_INCREASE_MEDIUM:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.X, 5.0f);
+                    break;
+                case ACTION_SELECTED_X_ROTATION_DECREASE_MEDIUM:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.X, -5.0f);
+                    break;
+                case ACTION_SELECTED_Y_POSITION_INCREASE_MEDIUM:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Y, 0.1f);
+                    break;
+                case ACTION_SELECTED_Y_POSITION_DECREASE_MEDIUM:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Y, -0.1f);
+                    break;
+                case ACTION_SELECTED_Y_ROTATION_INCREASE_MEDIUM:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Y, 5.0f);
+                    break;
+                case ACTION_SELECTED_Y_ROTATION_DECREASE_MEDIUM:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Y, -5.0f);
+                    break;
+                case ACTION_SELECTED_Z_POSITION_INCREASE_MEDIUM:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Z, 0.1f);
+                    break;
+                case ACTION_SELECTED_Z_POSITION_DECREASE_MEDIUM:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Z, -0.1f);
+                    break;
+                case ACTION_SELECTED_Z_ROTATION_INCREASE_MEDIUM:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Z, 5.0f);
+                    break;
+                case ACTION_SELECTED_Z_ROTATION_DECREASE_MEDIUM:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Z, -5.0f);
+                    break;
+                case ACTION_SELECTED_X_POSITION_INCREASE_LARGE:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.X, 1.0f);
+                    break;
+                case ACTION_SELECTED_X_POSITION_DECREASE_LARGE:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.X, -1.0f);
+                    break;
+                case ACTION_SELECTED_X_ROTATION_INCREASE_LARGE:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.X, 45.0f);
+                    break;
+                case ACTION_SELECTED_X_ROTATION_DECREASE_LARGE:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.X, -45.0f);
+                    break;
+                case ACTION_SELECTED_Y_POSITION_INCREASE_LARGE:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Y, 1.0f);
+                    break;
+                case ACTION_SELECTED_Y_POSITION_DECREASE_LARGE:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Y, -1.0f);
+                    break;
+                case ACTION_SELECTED_Y_ROTATION_INCREASE_LARGE:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Y, 45.0f);
+                    break;
+                case ACTION_SELECTED_Y_ROTATION_DECREASE_LARGE:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Y, -45.0f);
+                    break;
+                case ACTION_SELECTED_Z_POSITION_INCREASE_LARGE:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Z, 1.0f);
+                    break;
+                case ACTION_SELECTED_Z_POSITION_DECREASE_LARGE:
+                    act = () => ChangeAtomPosition(SuperController.singleton.GetSelectedAtom(), Axis.Z, -1.0f);
+                    break;
+                case ACTION_SELECTED_Z_ROTATION_INCREASE_LARGE:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Z, 45.0f);
+                    break;
+                case ACTION_SELECTED_Z_ROTATION_DECREASE_LARGE:
+                    act = () => ChangeAtomRotation(SuperController.singleton.GetSelectedAtom(), Axis.Z, -45.0f);
+                    break;
             }
 
             // now match actions that have variables hidden away in the action name
@@ -234,7 +444,6 @@ namespace LFE.KeyboardShortcuts.Models
         {
             SuperController.singleton.SelectController(a?.mainController);
         }
-
 
         private void SelectAtomTab(string atomUid, string tabName)
         {
@@ -302,6 +511,56 @@ namespace LFE.KeyboardShortcuts.Models
                 if (prevAtomIndex < 0) { prevAtomIndex = lastIndex; }
             }
             SelectAtom(atomList[prevAtomIndex]);
+        }
+
+        private void ToggleAtomHidden(Atom a)
+        {
+            if(a != null) { a.hidden = !a.hidden; }
+        }
+
+        private void DeleteAtom(Atom a)
+        {
+            if(a != null) { SuperController.singleton.RemoveAtom(a); }
+        }
+
+        private void ChangeAtomPosition(Atom a, Axis axis, float delta)
+        {
+            if (a != null)
+            {
+                var position = a.transform.position;
+                switch (axis)
+                {
+                    case Axis.X:
+                        position.x += delta;
+                        break;
+                    case Axis.Y:
+                        position.y += delta;
+                        break;
+                    case Axis.Z:
+                        position.z += delta;
+                        break;
+                }
+                a.transform.position = position;
+            }
+        }
+
+        private void ChangeAtomRotation(Atom a, Axis axis, float delta)
+        {
+            if(a != null)
+            {
+                switch(axis)
+                {
+                    case Axis.X:
+                        a.transform.Rotate(delta, 0, 0);
+                        break;
+                    case Axis.Y:
+                        a.transform.Rotate(0, delta, 0);
+                        break;
+                    case Axis.Z:
+                        a.transform.Rotate(0, 0, delta);
+                        break;
+                }
+            }
         }
 
         private void ToggleSoftBodyPhysics()

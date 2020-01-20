@@ -35,7 +35,7 @@ namespace LFE.KeyboardShortcuts.Models
             }
         }
 
-        private string _actionCategory = "General";
+        private string _actionCategory = ActionController.ACTION_CATEGORY_GENERAL;
         public string ActionCategory {
             get { return _actionCategory; }
             set {
@@ -204,7 +204,7 @@ namespace LFE.KeyboardShortcuts.Models
             _uiCleanup.Add(() => _plugin.RemoveSpacer(spacingUi));
 
             // setup the UI for all available actions
-            foreach (var item in _bindings.OrderBy((kvp) => kvp.Key))
+            foreach (var item in _bindings)
             {
                 var actionName = item.Key;
                 var actionGroup = _actionController.GetActionCategory(actionName);
