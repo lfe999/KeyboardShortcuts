@@ -1,7 +1,10 @@
 ﻿Extensions/AtomExtensions.cs
+Extensions/EnumerableExtensions.cs
 Extensions/JSONStorableExtensions.cs
+Extensions/SuperControllerExtensions.cs
 Extensions/TransformExtensions.cs
-Models/ActionController.cs
+Models/CommandFactory.cs
+Models/Commands.cs
 Models/KeyBinding.cs
 Models/KeyChord.cs
 Models/KeyRecorder.cs

@@ -88,10 +88,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\JSONStorableExtensions.cs" />
+    <Compile Include="Extensions\SuperControllerExtensions.cs" />
     <Compile Include="Extensions\TransformExtensions.cs" />
     <Compile Include="Extensions\AtomExtensions.cs" />
-    <Compile Include="Models\ActionController.cs" />
+    <Compile Include="Models\CommandFactory.cs" />
+    <Compile Include="Models\Commands.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Models\KeyBinding.cs" />
     <Compile Include="Models\ViewModel.cs" />

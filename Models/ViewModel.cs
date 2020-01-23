@@ -9,7 +9,7 @@ namespace LFE.KeyboardShortcuts.Models
     public class ViewModel
     {
         private Plugin _plugin;
-        private ActionController _actionController;
+        private CommandFactory _actionController;
         private Dictionary<string, KeyBinding> _bindings;
         private KeyRecorder _keyRecorder;
 
@@ -35,7 +35,7 @@ namespace LFE.KeyboardShortcuts.Models
             }
         }
 
-        private string _actionCategory = ActionController.ACTION_CATEGORY_GENERAL;
+        private string _actionCategory = CommandConst.CAT_GENERAL;
         public string ActionCategory {
             get { return _actionCategory; }
             set {
@@ -47,6 +47,7 @@ namespace LFE.KeyboardShortcuts.Models
 
         public IEnumerable<string> ActionNames => _bindings.Keys;
         public IEnumerable<KeyBinding> KeyBindings => _bindings.Values.Where((b) => b != null);
+        public IEnumerable<string> UnusedKeyBindings => _bindings.Where((kvp) => kvp.Value == null).Select((kvp) => kvp.Key);
 
         public void ClearKeyBinding(string name)
         {
@@ -112,7 +113,7 @@ namespace LFE.KeyboardShortcuts.Models
         public void Initialize()
         {
             //SuperController.LogMessage("Initializing", false);
-            _actionController = new ActionController(_plugin);
+            _actionController = new CommandFactory(_plugin);
             ClearUI();
             InitBindings();
             InitUI();
@@ -132,54 +133,59 @@ namespace LFE.KeyboardShortcuts.Models
             }
         }
 
+        private Dictionary<string, Command> _commandsByName = new Dictionary<string, Command>();
         private void InitBindings()
         {
-            // build all of the action names
             _bindings = new Dictionary<string, KeyBinding>();
             var settings = _plugin.LoadBindingSettings();
-            foreach (var actionName in _actionController.GetActionNames())
-            {
-                var action = _actionController.GetActionByName(actionName);
 
+            // build all of the commands/actions
+            _commandsByName = new Dictionary<string, Command>();
+            var commands = _actionController.BuildCommands();
+            foreach(var command in commands)
+            {
+                var commandName = command.Name;
+
+                _commandsByName[commandName] = command;
                 // export this action to the plugin so it shows up in GetActions elsewhere
-                _plugin.RegisterAction(new JSONStorableAction(actionName, () => action()));
+                _plugin.RegisterAction(new JSONStorableAction(commandName, () => command.Execute()));
 
                 // fill in bindings from the saved settings
                 if(settings != null)
                 {
-                    if(settings[actionName] != null)
+                    if(settings[commandName] != null)
                     {
                         try
                         {
-                            var chord = settings[actionName]["chord"].Value;
-                            var enabled = settings[actionName]["enabled"].AsBool;
+                            var chord = settings[commandName]["chord"].Value;
+                            var enabled = settings[commandName]["enabled"].AsBool;
 
-                            var binding = KeyBinding.Build(_plugin, actionName, new KeyChord(chord));
+                            var binding = KeyBinding.Build(_plugin, commandName, new KeyChord(chord));
                             binding.Enabled = enabled;
-                            _bindings[actionName] = binding;
+                            _bindings[commandName] = binding;
                         }
                         catch
                         {
-                            SuperController.LogError($"Failed loading action {actionName} from save file");
-                            _bindings[actionName] = null;
+                            SuperController.LogError($"Failed loading action {commandName} from save file");
+                            _bindings[commandName] = null;
                         }
                     }
                     else
                     {
-                        _bindings[actionName] = null;
+                        _bindings[commandName] = null;
                     }
                 }
                 // ... or use defaults if there isn't anything there yet
                 else
                 {
-                    var defaultKeyChord = _actionController.GetDefaultKeyChordByActionName(actionName);
+                    var defaultKeyChord = _actionController.GetDefaultKeyChordByActionName(commandName);
                     if (defaultKeyChord != null)
                     {
-                        _bindings[actionName] = KeyBinding.Build(_plugin, actionName, defaultKeyChord);
+                        _bindings[commandName] = KeyBinding.Build(_plugin, commandName, defaultKeyChord);
                     }
                     else
                     {
-                        _bindings[actionName] = null;
+                        _bindings[commandName] = null;
                     }
                 }
             }
@@ -201,7 +207,8 @@ namespace LFE.KeyboardShortcuts.Models
         private void InitUI()
         {
             // add the action filter
-            var actionFilterStorable = new JSONStorableStringChooser("category", _actionController.GetActionCategories().OrderBy((x) => x).ToList(), ActionCategory, "Actions For");
+            var groupNames = _commandsByName.Values.Select((c) => c.Group).Distinct();
+            var actionFilterStorable = new JSONStorableStringChooser("category", groupNames.OrderBy((x) => x).ToList(), ActionCategory, "Actions For");
             actionFilterStorable.setCallbackFunction = (category) =>
             {
                 ActionCategory = category;
@@ -218,11 +225,16 @@ namespace LFE.KeyboardShortcuts.Models
             foreach (var item in _bindings)
             {
                 var actionName = item.Key;
-                var actionGroup = _actionController.GetActionCategory(actionName);
+                Command command;
+                if(!_commandsByName.TryGetValue(actionName, out command))
+                {
+                    continue; 
+                }
+
                 var binding = item.Value;
                 var enabled = binding?.Enabled ?? false;
 
-                if(!actionGroup.Equals(ActionCategory))
+                if(!command.Group.Equals(ActionCategory))
                 {
                     continue;
                 }
@@ -239,6 +251,7 @@ namespace LFE.KeyboardShortcuts.Models
                 });
 
                 var checkboxUi = _plugin.CreateToggle(checkboxStorable);
+                checkboxUi.labelText.text = command.DisplayName;
                 checkboxUi.labelText.resizeTextMaxSize = checkboxUi.labelText.fontSize;
                 checkboxUi.labelText.resizeTextForBestFit = true;
                 checkboxUi.backgroundColor = Color.clear;

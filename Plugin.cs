@@ -1,11 +1,18 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.6 by LFE#9677
+KeyboardShortcuts v0.7 by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 
 Thanks to ChrisTopherTa for the original idea
 
 CHANGELOG
+
+Version 0.7 2019-01-23
+    Fix: Keybinding in config that are not in scene don't get deleted from config file
+    New: Binding names are shorter in the UI
+    Change: Plugin actions are only shown for the first plugin of it's type.  For example
+      if you have two Vam Timeline plugins, only the first one will be listed
+    Refactor: all command internals refactored (might make some bugs =()
 
 Version 0.6 2019-01-20
     New: Atom rotation and positional change actions
@@ -188,13 +195,20 @@ namespace LFE.KeyboardShortcuts
         public void SaveBindingSettings()
         {
             // merge
-            var json = new SimpleJSON.JSONClass();
+            var json = LoadBindingSettings() ?? new SimpleJSON.JSONClass();
+
+            // set any bindings that might have been updated during this session
             foreach(var binding in model.KeyBindings)
             {
                 var value = new SimpleJSON.JSONClass();
                 value["enabled"] = binding.Enabled.ToString();
                 value["chord"] = binding.KeyChord.ToString();
                 json[binding.Name] = value;
+            }
+            // delete any bindings that this session knows about that were cleared this session
+            foreach(var bindingName in model.UnusedKeyBindings)
+            {
+                json.Remove(bindingName);
             }
             try
             {

@@ -19,5 +19,10 @@ namespace LFE.KeyboardShortcuts.Extensions
         {
             return storable.GetActionNames().Where((a) => !_commonActionNames.Contains(a)).ToList();
         }
+
+        public static string GetShortName(this JSONStorable storable)
+        {
+            return storable.GetType().ToString();
+        }
     }
 }
