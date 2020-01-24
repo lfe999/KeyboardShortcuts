@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using LFE.KeyboardShortcuts.Extensions;
 
 namespace LFE.KeyboardShortcuts.Models
 {
@@ -147,8 +146,8 @@ namespace LFE.KeyboardShortcuts.Models
                 var commandName = command.Name;
 
                 _commandsByName[commandName] = command;
-                // export this action to the plugin so it shows up in GetActions elsewhere
-                _plugin.RegisterAction(new JSONStorableAction(commandName, () => command.Execute()));
+                // Consider exporting this action to the plugin so it shows up in GetActions elsewhere
+                //_plugin.RegisterAction(new JSONStorableAction(commandName, () => command.Execute()));
 
                 // fill in bindings from the saved settings
                 if(settings != null)
@@ -160,7 +159,7 @@ namespace LFE.KeyboardShortcuts.Models
                             var chord = settings[commandName]["chord"].Value;
                             var enabled = settings[commandName]["enabled"].AsBool;
 
-                            var binding = KeyBinding.Build(_plugin, commandName, new KeyChord(chord));
+                            var binding = KeyBinding.Build(_plugin, commandName, new KeyChord(chord), command);
                             binding.Enabled = enabled;
                             _bindings[commandName] = binding;
                         }
@@ -181,7 +180,7 @@ namespace LFE.KeyboardShortcuts.Models
                     var defaultKeyChord = _actionController.GetDefaultKeyChordByActionName(commandName);
                     if (defaultKeyChord != null)
                     {
-                        _bindings[commandName] = KeyBinding.Build(_plugin, commandName, defaultKeyChord);
+                        _bindings[commandName] = KeyBinding.Build(_plugin, commandName, defaultKeyChord, command);
                     }
                     else
                     {
@@ -273,7 +272,7 @@ namespace LFE.KeyboardShortcuts.Models
                     var origButtonText = shortcutButtonUi.buttonText.text;
 
                     shortcutButtonUi.buttonText.text = "recording...";
-                    _keyRecorder = new KeyRecorder(actionName, (recordedChord) =>
+                    _keyRecorder = new KeyRecorder((recordedChord) =>
                     {
                         var recordedChordText = recordedChord.ToString();
 
@@ -288,26 +287,19 @@ namespace LFE.KeyboardShortcuts.Models
                             return;
                         }
 
-                        var keyBinding = GetKeyBinding(actionName);
-                        if (keyBinding != null)
+                        var keyChordInUse = KeyBindings
+                            .Where((x) => !x.Name.Equals(actionName)) // don't look at "us"
+                            .Count((x) => x.KeyChord.Equals(recordedChord)) + 1; // but see if the chord is used anywhere else
+                        var usageMax = recordedChord.HasAxis ? 2 : 1;
+
+                        if (keyChordInUse > usageMax)
                         {
-                            var keyChord = keyBinding.KeyChord;
-                            var keyChordInUse = KeyBindings
-                                .Where((x) => !x.Name.Equals(actionName)) // don't look at "us"
-                                .Any((x) => x.KeyChord.Equals(keyChord)); // but see if the chord is used anywhere else
-
-                            if (keyChordInUse)
-                            {
-                                shortcutButtonUi.buttonText.text = origButtonText;
-                                SuperController.LogError("This key is already assigned to another action");
-                                return;
-                            }
-
-                            ClearKeyBinding(actionName);
-
+                            shortcutButtonUi.buttonText.text = origButtonText;
+                            SuperController.LogError("This key is already assigned to another action");
+                            return;
                         }
 
-                        SetKeyBinding(actionName, KeyBinding.Build(_plugin, actionName, recordedChord));
+                        SetKeyBinding(actionName, KeyBinding.Build(_plugin, actionName, recordedChord, command));
                         shortcutButtonUi.buttonText.text = recordedChordText;
                         _plugin.SaveBindingSettings();
                     });

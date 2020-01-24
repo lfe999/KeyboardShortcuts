@@ -55,6 +55,8 @@ using UnityEngine.EventSystems;
 using System;
 using System.Linq;
 using LFE.KeyboardShortcuts.Models;
+using LFE.KeyboardShortcuts.Extensions;
+using System.Collections.Generic;
 
 namespace LFE.KeyboardShortcuts
 {
@@ -80,7 +82,8 @@ namespace LFE.KeyboardShortcuts
             SaveBindingSettings();
         }
 
-        private KeyBinding _lastBindingPressed;
+        private List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>> _activeBindings = new List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>>();
+
         private float _chordRepeatTimestamp;
         const float REPEAT_HOLD_DELAY = 0.5f; // How long do you have to hold a key before it begins repeating
         const float REPEAT_RATE_DELAY = 0.100f; // What is the delay between key repeats
@@ -91,16 +94,32 @@ namespace LFE.KeyboardShortcuts
 
             if (model.IsRecording)
             {
-                model.RecordUpdate(); 
+                model.RecordUpdate();
             }
 
             // If no keys are pressed then just exit out
-            if (!Input.anyKey)
+            if (!InputWrapper.AnyKeyOrAxis())
             {
                 if(model.IsRecording)
                 {
                     model.RecordFinish();
                 }
+
+                foreach(var noLongerPressed in _activeBindings)
+                {
+                    // axis commands really benefit from a final "reset to 0" command run -- so do that
+                    if(noLongerPressed.Key.KeyChord.HasAxis && noLongerPressed.Value != null)
+                    {
+                        noLongerPressed.Value.Invoke(new CommandExecuteEventArgs
+                        {
+                            KeyBinding = noLongerPressed.Key,
+                            Data = 0,
+                            IsRepeat = true
+                        });
+                    }
+                }
+                _activeBindings = new List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>>();
+
                 return;
             }
 
@@ -120,9 +139,26 @@ namespace LFE.KeyboardShortcuts
             // nothing being pressed
             if (matches.Count == 0)
             {
-                _lastBindingPressed = null;
+                _activeBindings = new List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>>();
                 return;
             }
+
+            // see if anything used to be pressed but is not anymore
+            foreach(var noLongerPressed in _activeBindings.Where((kvp) => !matches.Contains(kvp.Key)))
+            {
+                // axis commands really benefit from a final "reset to 0" command run -- so do that
+                if(noLongerPressed.Key.KeyChord.HasAxis && noLongerPressed.Value != null)
+                {
+                    noLongerPressed.Value.Invoke(new CommandExecuteEventArgs
+                    {
+                        KeyBinding = noLongerPressed.Key,
+                        Data = 0,
+                        IsRepeat = true
+                    });
+                }
+            }
+            // remove only the inactive bindings
+            _activeBindings.RemoveAll((kvp) => !matches.Contains(kvp.Key));
 
             foreach (var binding in matches)
             {
@@ -132,35 +168,57 @@ namespace LFE.KeyboardShortcuts
                 if (chord.IsBeingRepeated())
                 {
                     // Check repeat if still holding down last key
-                    if (_lastBindingPressed == binding)
+                    if (_activeBindings.Any((kvp) => kvp.Key.Equals(binding)))
                     {
                         // Still holding down the key... is it time for a repeat?
                         if (Time.unscaledTime >= _chordRepeatTimestamp)
                         {
                             _chordRepeatTimestamp = Time.unscaledTime + REPEAT_RATE_DELAY;
+                            bool actionResult = true;
                             if (binding.Enabled)
                             {
-                                action();
+                                actionResult = action(new CommandExecuteEventArgs {
+                                    KeyBinding = binding,
+                                    Data = binding.KeyChord.GetPressedValue(),
+                                    IsRepeat = true
+                                });
+                            }
+                            if(actionResult)
+                            {
+                                // replace the active info just in case
+                                _activeBindings.Where((kvp) => kvp.Key.Equals(binding)).ToList().ForEach((kvp) => new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, action));
                             }
                         }
                     }
                     else
                     {
-                        // Not still holding down the key? Clear last key
-                        _lastBindingPressed = binding;
+                        _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, null));
                         _chordRepeatTimestamp = Time.unscaledTime + REPEAT_HOLD_DELAY;
                     }
                 }
                 else
                 {
                     // Handle the keypress and set the repeat delay timer
+                    bool actionResult = false;
                     if (binding.Enabled)
                     {
-                        action();
+                        actionResult = action(new CommandExecuteEventArgs {
+                            KeyBinding = binding,
+                            Data = binding.KeyChord.GetPressedValue(),
+                            IsRepeat = false
+                        });
                     }
-                    _lastBindingPressed = binding;
+
                     _chordRepeatTimestamp = Time.unscaledTime + REPEAT_HOLD_DELAY;
-                    break;
+
+                    if(actionResult)
+                    {
+                        _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, action));
+                    }
+                    else
+                    {
+                        _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, null));
+                    }
                 }
             }
         }

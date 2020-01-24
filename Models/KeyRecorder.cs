@@ -1,53 +1,71 @@
-﻿using System;
+﻿using LFE.KeyboardShortcuts.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 
 namespace LFE.KeyboardShortcuts.Models
 {
     public class KeyRecorder
     {
-        public string ActionName { get; }
-        public HashSet<KeyCode> Recorded { get; private set; } = new HashSet<KeyCode>();
         public bool InProgress { get; private set; } = false;
 
         private Action<KeyChord> _onFinish;
+        private HashSet<KeyCode> _recordedKeys = new HashSet<KeyCode>();
+        private string _recordedAxis;
 
-        public KeyRecorder(string actionName, Action<KeyChord> onFinish = null)
+        public KeyRecorder(Action<KeyChord> onFinish = null)
         {
-            ActionName = actionName;
             _onFinish = onFinish;
         }
 
-        public HashSet<KeyCode> Record()
+        public void Record()
         {
-            var noticed = Enum.GetValues(typeof(KeyCode))
-                .Cast<KeyCode>()
-                .Where(Input.GetKey)
+            var noticedAxisThreshold = 0.5f; // don't consider an axis noticed for record for "blips"
+
+            var noticedKeys = InputWrapper.KeyCodes
+                .Where(InputWrapper.GetKey)
                 .Where((k) => !KeyChord.IGNORED_KEYS.Contains(k))
+                .Where((k) => !Regex.IsMatch(k.ToString(), "^Joystick\\d")) // joy buttons register twice -- ignore most specific one
                 .ToList();
-            if (InProgress && noticed.Count == 0)
+            var noticedAxis = InputWrapper.AxisNames
+                .Where((n) => Mathf.Abs(InputWrapper.GetAxis(n)) >= noticedAxisThreshold)
+                .FirstOrDefault();
+
+            if (InProgress && noticedKeys.Count == 0 && noticedAxis == null)
             {
                 // looks like we just finished recording... don't
                 // set the internal state anymore
-                return Recorded;
+                return;
             }
 
-            if (noticed.Count > 0)
+            if (noticedKeys.Count > 0)
             {
                 InProgress = true;
-                foreach (var k in noticed)
+                foreach (var k in noticedKeys)
                 {
-                    Recorded.Add(k);
+                    _recordedKeys.Add(k);
                 }
             }
 
-            return Recorded;
+            if(noticedAxis != null)
+            {
+                InProgress = true;
+                _recordedAxis = noticedAxis;
+            }
+
+            return;
         }
 
         public KeyChord ToKeyChord()
         {
-            var chord = string.Join("-", Recorded.Select((k) => k.ToString()).ToArray());
+            var chordParts = _recordedKeys.Select((k) => k.ToString()).ToList();
+            if(_recordedAxis != null)
+            {
+                chordParts.Add(_recordedAxis);
+            }
+            var chord = string.Join("-", chordParts.ToArray());
             return new KeyChord(chord);
         }
 

@@ -1,5 +1,6 @@
 ﻿Extensions/AtomExtensions.cs
 Extensions/EnumerableExtensions.cs
+Extensions/InputWrapper.cs
 Extensions/JSONStorableExtensions.cs
 Extensions/SuperControllerExtensions.cs
 Extensions/TransformExtensions.cs
@@ -9,4 +10,5 @@ Models/KeyBinding.cs
 Models/KeyChord.cs
 Models/KeyRecorder.cs
 Models/ViewModel.cs
+MathUtilities.cs
 Plugin.cs

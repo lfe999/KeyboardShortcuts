@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LFE.KeyboardShortcuts.Extensions;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -23,12 +24,15 @@ namespace LFE.KeyboardShortcuts.Models
         };
 
         private string _originalChord;
-        private IEnumerable<HashSet<KeyCode>> _definitions { get; }
+        private IEnumerable<HashSet<KeyCode>> _keyPressDefinitions { get; }
+        private string _axisDefinition;
 
         /// <summary>
         /// Number of keys in this key chord
         /// </summary>
-        public int Length => _definitions.FirstOrDefault().Count;
+        public int Length => _keyPressDefinitions.FirstOrDefault().Count + (_axisDefinition != null ? 1 : 0);
+
+        public bool HasAxis => _axisDefinition != null; 
 
         public KeyChord(string chord)
         {
@@ -36,14 +40,15 @@ namespace LFE.KeyboardShortcuts.Models
                 throw new ArgumentNullException(nameof(chord));
             }
             var chordParts = chord.Split(DELIMITER).ToList();
-            _originalChord = chord;
-            _definitions = ConcreteChordsFromVirtual(chordParts);
-
-            foreach (var d in _definitions)
+            var axisNamesInChord = chordParts.Where((n) => InputWrapper.AxisNames.Contains(n));
+            if (axisNamesInChord.Count() > 1)
             {
-                var s = d.Select(x => x.ToString()).ToArray();
+                throw new ArgumentException("only one axis allowed", nameof(chord));
             }
 
+            _axisDefinition = axisNamesInChord.FirstOrDefault(); // it's ok if this is null
+            _originalChord = chord;
+            _keyPressDefinitions = ConcreteChordsFromVirtual(chordParts);
         }
 
         /// <summary>
@@ -56,7 +61,12 @@ namespace LFE.KeyboardShortcuts.Models
             {
                 return false;
             }
-            return _definitions.Any((definition) => definition.All((c) => !Input.GetKeyDown(c)));
+            if(HasAxis)
+            {
+                // always run axis commands as fast as possible
+                return false;
+            }
+            return _keyPressDefinitions.Any((definition) => definition.All((c) => !InputWrapper.GetKeyDown(c)));
         }
 
         /// <summary>
@@ -65,7 +75,29 @@ namespace LFE.KeyboardShortcuts.Models
         /// <returns></returns>
         public bool IsBeingPressed()
         {
-            return _definitions.Any((definition) => definition.All(Input.GetKey));
+            var isButtonsPressed = _keyPressDefinitions.Any((definition) => definition.All(InputWrapper.GetKey));
+            var isAxisPressed = (_axisDefinition == null) ? true : InputWrapper.GetAxis(_axisDefinition) != 0;
+            return isButtonsPressed && isAxisPressed;
+        }
+
+        /// <summary>
+        /// If pressing a key you will get a 1f. If this includes an axis, then you will
+        /// get -1f to 1f (but sometimes higher ranges depending on the axis)
+        /// </summary>
+        /// <returns></returns>
+        public float GetPressedValue()
+        {
+            if (!IsBeingPressed())
+            {
+                return 0;
+            }
+
+            if (_axisDefinition != null)
+            {
+                return InputWrapper.GetAxis(_axisDefinition);
+            }
+
+            return 1;
         }
 
         public override string ToString()
@@ -119,7 +151,11 @@ namespace LFE.KeyboardShortcuts.Models
             }
             else
             {
-                var chordKeys = chordParts.Select((x) => (KeyCode)Enum.Parse(typeof(KeyCode), x));
+                // if there is an axis name in here, thats ok.. just parse out things that
+                // we know are button presses... later on we will pull our axis names
+                var chordKeys = chordParts
+                    .Where((x) => !InputWrapper.AxisNames.Contains(x))
+                    .Select((x) => (KeyCode)Enum.Parse(typeof(KeyCode), x));
                 var hash = new HashSet<KeyCode>(chordKeys);
                 if (hash.Intersect(IGNORED_KEYS).ToList().Count > 0)
                 {

@@ -15,7 +15,7 @@ namespace LFE.KeyboardShortcuts.Models
         public string DisplayName
         {
             get {
-                if(_displayName == null)
+                if (_displayName == null)
                 {
                     _displayName = Name;
                     if (_displayName.IndexOf("Selected > ") == 0)
@@ -27,9 +27,16 @@ namespace LFE.KeyboardShortcuts.Models
             }
             set { _displayName = value; }
         }
-        public string Group { get; set; } = "[General]";
+        public string Group { get; set; } = CommandConst.CAT_GENERAL;
 
-        public abstract void Execute();
+        public abstract bool Execute(CommandExecuteEventArgs args);
+    }
+
+    public class CommandExecuteEventArgs : EventArgs
+    {
+        public KeyBinding KeyBinding { get; set; }
+        public float Data { get; set; } = 0f;
+        public bool IsRepeat { get; set; } = false;
     }
 
     public class AnimationSpeedChange : Command
@@ -45,26 +52,35 @@ namespace LFE.KeyboardShortcuts.Models
             _amount = amount;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
-            SuperController sc = SuperController.singleton;
-            var multiplier = _multiplier;
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, _amount)) { return false; }
+            }
 
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            SuperController sc = SuperController.singleton;
+            var multiplier = _multiplier * Mathf.Abs(args.Data);
+
+            if (InputWrapper.GetKey(KeyCode.LeftShift) || InputWrapper.GetKey(KeyCode.RightShift))
             {
                 multiplier *= 5.0f;
             }
 
             var scale = sc.motionAnimationMaster.playbackSpeed + (_amount * multiplier);
             sc.motionAnimationMaster.playbackSpeed = Mathf.Clamp(scale, _min, _max);
+            return true;
         }
     }
 
     public class SoftBodyPhysicsToggle : Command
     {
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             UserPreferences.singleton.softPhysics = !UserPreferences.singleton.softPhysics;
+            return true;
         }
     }
 
@@ -81,13 +97,19 @@ namespace LFE.KeyboardShortcuts.Models
             _amount = amount;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, _amount)) { return false; }
+            }
+
             SuperController sc = SuperController.singleton;
+            var multiplier = _multiplier * Mathf.Abs(args.Data);
 
-            var multiplier = _multiplier;
-
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (InputWrapper.GetKey(KeyCode.LeftShift) || InputWrapper.GetKey(KeyCode.RightShift))
             {
                 multiplier *= 5.0f;
             }
@@ -99,6 +121,7 @@ namespace LFE.KeyboardShortcuts.Models
             Vector3 dir = Vector3.down;
             dir *= multiplier * 0.0011f;
             sc.navigationRig.position += dir;
+            return true;
         }
     }
 
@@ -110,17 +133,19 @@ namespace LFE.KeyboardShortcuts.Models
             _value = value;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             SuperController.singleton.SetFreezeAnimation(_value);
+            return true;
         }
     }
 
     public class FreezeAnimationToggle : Command
     {
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             SuperController.singleton.SetFreezeAnimation(!SuperController.singleton.freezeAnimation);
+            return true;
         }
     }
 
@@ -135,9 +160,17 @@ namespace LFE.KeyboardShortcuts.Models
             _value = value;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, _value)) { return false; }
+            }
+
             SuperController.singleton.monitorCameraFOV = Mathf.Clamp(SuperController.singleton.monitorCameraFOV + _value, _min, _max);
+            return true;
         }
     }
 
@@ -153,38 +186,48 @@ namespace LFE.KeyboardShortcuts.Models
             _value = value;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, _value)) { return false; }
+            }
+
             var multiplier = _multiplier;
-            if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+            if (InputWrapper.GetKey(KeyCode.LeftShift) || InputWrapper.GetKey(KeyCode.RightShift))
             {
                 multiplier *= 5.0f;
             }
             var scale = TimeControl.singleton.currentScale + (_value * multiplier);
             TimeControl.singleton.currentScale = Mathf.Clamp(scale, _min, _max);
+            return true;
         }
 
     }
 
     public class MessageLogToggle : Command
     {
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             var panel = SuperController.singleton.msgLogPanel.Find("Panel");
             var panelIsShowing = panel?.gameObject.activeInHierarchy ?? false;
             if (panelIsShowing) { SuperController.singleton.CloseMessageLogPanel(); }
             else { SuperController.singleton.OpenMessageLogPanel(); }
+            return true;
         }
     }
 
     public class ErrorLogToggle : Command
     {
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             var panel = SuperController.singleton.errorLogPanel.Find("Panel");
             var panelIsShowing = panel?.gameObject.activeInHierarchy ?? false;
             if (panelIsShowing) { SuperController.singleton.CloseErrorLogPanel(); }
             else { SuperController.singleton.OpenErrorLogPanel(); }
+            return true;
         }
     }
 
@@ -195,19 +238,20 @@ namespace LFE.KeyboardShortcuts.Models
             _predicate = predicate;
         }
 
-        public virtual Atom TargetAtom()
+        public virtual Atom TargetAtom(CommandExecuteEventArgs args)
         {
             return SelectableAtoms().Where(_predicate).First() ?? SuperController.singleton.GetSelectedAtom();
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
-            SuperController.singleton.SelectController(TargetAtom()?.mainController);
+            SuperController.singleton.SelectController(TargetAtom(args)?.mainController);
+            return true;
         }
 
         protected IEnumerable<Atom> SelectableAtoms()
         {
-            return SuperController.singleton.GetAtoms().Where((a) => a.mainController != null).OrderBy((a) => a.uid);
+            return SuperController.singleton.GetSelectableAtoms().OrderBy((a) => a.uid);
         }
     }
 
@@ -216,8 +260,15 @@ namespace LFE.KeyboardShortcuts.Models
         public AtomSelectNext() : base((x) => true) { }
         public AtomSelectNext(Func<Atom, bool> predicate) : base(predicate) { }
 
-        public override Atom TargetAtom()
+        public override Atom TargetAtom(CommandExecuteEventArgs args)
         {
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, 1)) { return null; }
+            }
+
             var current = SuperController.singleton.GetSelectedAtom();
             return SelectableAtoms()
                 .LoopOnceStartingWhen((a) => a.uid.Equals(current?.uid))
@@ -230,8 +281,15 @@ namespace LFE.KeyboardShortcuts.Models
         public AtomSelectPrev() : base((x) => true) { }
         public AtomSelectPrev(Func<Atom, bool> predicate) : base(predicate) { }
 
-        public override Atom TargetAtom()
+        public override Atom TargetAtom(CommandExecuteEventArgs args)
         {
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, -1)) { return null; }
+            }
+
             var current = SuperController.singleton.GetSelectedAtom();
             return SelectableAtoms()
                 .Reverse()
@@ -240,82 +298,153 @@ namespace LFE.KeyboardShortcuts.Models
         }
     }
 
-    public class SelectedAtomDelete : Command
-    {
-        public override void Execute()
+    public abstract class AtomCommandBase : Command {
+        protected Atom Atom; // null means get selected
+        protected AtomCommandBase(Atom atom = null)
         {
-            var selected = SuperController.singleton.GetSelectedAtom();
+            Atom = atom;
+        }
+
+        public Atom GetAtomTarget()
+        {
+            if(Atom == null) { return SuperController.singleton.GetSelectedAtom(); }
+            return Atom;
+        }
+    }
+
+    public class AtomDelete : AtomCommandBase
+    {
+        public AtomDelete(Atom atom = null) : base(atom) { }
+        public override bool Execute(CommandExecuteEventArgs args)
+        {
+            var selected = GetAtomTarget();
             if (selected != null) { SuperController.singleton.RemoveAtom(selected); }
+            return true;
         }
     }
 
-    public class SelectedAtomHiddenToggle : Command
+
+    public class AtomHiddenToggle : AtomCommandBase
     {
-        public override void Execute()
+        public AtomHiddenToggle(Atom atom = null) : base(atom) { }
+
+        public override bool Execute(CommandExecuteEventArgs args)
         {
-            var selected = SuperController.singleton.GetSelectedAtom();
-            if (selected != null) { selected.hidden = !selected.hidden; }
+            var target = GetAtomTarget();
+            if (target != null) { target.hidden = !target.hidden; }
+            return true;
         }
     }
 
-    public class SelectedAtomRotationChange : Command
-    {
-        private Axis _axis;
-        private float _value;
-        public SelectedAtomRotationChange(Axis axis, float value)
-        {
-            _axis = axis;
-            _value = value;
-        }
-
-        public override void Execute()
-        {
-            var selected = SuperController.singleton.GetSelectedAtom();
-            if (selected != null)
-            {
-                if(_axis == Axis.X) { selected.transform.Rotate(_value, 0, 0); }
-                else if(_axis == Axis.Y) { selected.transform.Rotate(0, _value, 0); }
-                else if(_axis == Axis.Z) { selected.transform.Rotate(0, 0, _value); }
-            }
-        }
-    }
-
-    public class SelectedAtomPositionChange : Command
+    public class AtomRotationChange : AtomCommandBase
     {
         private Axis _axis;
-        private float _value;
-        public SelectedAtomPositionChange(Axis axis, float value)
+        private float _rotationsPerSecond;
+        public AtomRotationChange(Axis axis, float rotationsPerSecond, Atom atom = null) : base(atom)
         {
             _axis = axis;
-            _value = value;
+            _rotationsPerSecond = rotationsPerSecond;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
-            var selected = SuperController.singleton.GetSelectedAtom();
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, _rotationsPerSecond)) { return false; }
+            }
+
+            var selected = GetAtomTarget();
             if (selected != null)
             {
-                var position = selected.transform.position;
-                if(_axis == Axis.X) { position.x += _value; }
-                else if(_axis == Axis.Y) { position.y += _value; }
-                else if(_axis == Axis.Z) { position.z += _value; }
-                selected.transform.position = position;
+                var rotate = 360 * Time.deltaTime * _rotationsPerSecond * Mathf.Abs(args.Data);
+                var target = selected.freeControllers[0].transform;
+
+                if(_axis == Axis.X) { target.Rotate(rotate, 0, 0); }
+                else if(_axis == Axis.Y) { target.Rotate(0, rotate, 0); }
+                else if(_axis == Axis.Z) { target.Rotate(0, 0, rotate); }
             }
+            return true;
         }
     }
 
-    public class SelectedAtomSelectTab : Command
+    public class AtomPositionSetLerp : AtomCommandBase
+    {
+        private Axis _axis;
+        private float _min;
+        private float _max;
+        public AtomPositionSetLerp(Axis axis, float absolutePositionMin, float absolutePositionMax, Atom atom = null) : base(atom)
+        {
+            _axis = axis;
+            _min = absolutePositionMin;
+            _max = absolutePositionMax;
+        }
+
+        public override bool Execute(CommandExecuteEventArgs args)
+        {
+            var selected = GetAtomTarget();
+            if (selected != null)
+            {
+                float proportion = Mathf.Lerp(0, 1, Mathf.Abs(args.Data));
+                var transform = selected.freeControllers[0].transform;
+                var newPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+                var newValue = Mathf.Lerp(_min, _max, proportion);
+                if (_axis == Axis.X) { newPosition.x = newValue; }
+                else if (_axis == Axis.Y) { newPosition.y = newValue; }
+                else if (_axis == Axis.Z) { newPosition.z = newValue; }
+
+                transform.position = newPosition;
+            }
+            return true;
+        }
+    }
+
+    public class AtomPositionChange : AtomCommandBase
+    {
+        private Axis _axis;
+        private float _unitsPerSecond;
+        public AtomPositionChange(Axis axis, float unitPerSecond, Atom atom = null) : base(atom)
+        {
+            _axis = axis;
+            _unitsPerSecond = unitPerSecond;
+        }
+
+        public override bool Execute(CommandExecuteEventArgs args)
+        {
+            if (args.KeyBinding.KeyChord.HasAxis)
+            {
+                // make sure the keybinding and value change are going the
+                // same "direction" (for the case where the axis is involved)
+                if (!MathUtilities.SameSign(args.Data, _unitsPerSecond)) { return false; }
+            }
+
+            var selected = GetAtomTarget();
+            if (selected != null)
+            {
+                var direction = Vector3.right;
+                if(_axis == Axis.X) { direction = Vector3.right; }
+                else if (_axis == Axis.Y) { direction = Vector3.up; }
+                else if (_axis == Axis.Z) { direction = Vector3.forward; }
+
+                selected.freeControllers[0].transform.Translate(direction * Time.deltaTime * _unitsPerSecond * Mathf.Abs(args.Data));
+            }
+            return true;
+        }
+    }
+
+    public class AtomSelectTab : AtomCommandBase
     {
         private string _tabName;
-        public SelectedAtomSelectTab(string tabName)
+        public AtomSelectTab(string tabName, Atom atom = null) : base(atom)
         {
             _tabName = tabName;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
-            var selected = SuperController.singleton.GetSelectedAtom();
-            if(selected == null) { return; }
+            var selected = GetAtomTarget();
+            if(selected == null) { return false; }
 
             // make sure the atom UI is visible (it can be hidden by the main menu)
             var mainTabBar = SuperController.singleton.mainMenuUI.parent;
@@ -327,6 +456,7 @@ namespace LFE.KeyboardShortcuts.Models
             // set the active tab
             SuperController.singleton.SelectController(selected?.mainController);
             selected?.GetTabSelector()?.SetActiveTab(_tabName);
+            return true;
         }
     }
 
@@ -342,9 +472,10 @@ namespace LFE.KeyboardShortcuts.Models
             _value = value;
         }
 
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             _plugin?.SetBoolParamValue(_key, _value);
+            return true;
         }
     }
 
@@ -357,9 +488,10 @@ namespace LFE.KeyboardShortcuts.Models
             _plugin = plugin;
             _key = key;
         }
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             if(_plugin != null) { _plugin.SetBoolParamValue(_key, !_plugin.GetBoolParamValue(_key)); }
+            return true;
         }
     }
 
@@ -372,9 +504,10 @@ namespace LFE.KeyboardShortcuts.Models
             _plugin = plugin;
             _key = key;
         }
-        public override void Execute()
+        public override bool Execute(CommandExecuteEventArgs args)
         {
             _plugin?.CallAction(_key);
+            return true;
         }
     }
 
