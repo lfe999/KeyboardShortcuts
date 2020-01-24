@@ -124,6 +124,11 @@ namespace LFE.KeyboardShortcuts
                 return;
             }
 
+            if (model.IsRecording)
+            {
+                return;
+            }
+
             // If we are typing somewhere else, don't listen for keybindings
             var focusedObject = EventSystem.current.currentSelectedGameObject;
             if(focusedObject != null && focusedObject.GetComponent<UnityEngine.UI.InputField>() != null)
