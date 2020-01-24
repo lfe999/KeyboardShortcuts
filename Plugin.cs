@@ -7,12 +7,13 @@ Thanks to ChrisTopherTa for the original idea
 
 CHANGELOG
 
-Version 0.7 2019-01-23
+Version 0.7 2019-01-24
+    New: Gamepad Axis support
+    New: Position actions for absolute position control (from 0 - 1)
+    New: Position and rotation actions now respect timescale
+    New: Action names are shorter in the UI
     Fix: Keybinding in config that are not in scene don't get deleted from config file
-    New: Binding names are shorter in the UI
-    Change: Plugin actions are only shown for the first plugin of it's type.  For example
-      if you have two Vam Timeline plugins, only the first one will be listed
-    Refactor: all command internals refactored (might make some bugs =()
+    Refactor: all command internals refactored - so might have made more bugs
 
 Version 0.6 2019-01-20
     New: Atom rotation and positional change actions
