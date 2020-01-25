@@ -444,7 +444,20 @@ namespace LFE.KeyboardShortcuts.Models
         public override bool Execute(CommandExecuteEventArgs args)
         {
             var selected = GetAtomTarget();
-            if(selected == null) { return false; }
+            if (selected == null) {
+                return false;
+            }
+
+            var ui = selected.GetTabSelector();
+            if (ui == null)
+            {
+                return false;
+            }
+
+            if (!ui.HasTabName(_tabName))
+            {
+                return false;
+            }
 
             // make sure the atom UI is visible (it can be hidden by the main menu)
             var mainTabBar = SuperController.singleton.mainMenuUI.parent;
@@ -454,8 +467,12 @@ namespace LFE.KeyboardShortcuts.Models
             showSelectedUIButton?.onClick?.Invoke();
 
             // set the active tab
-            SuperController.singleton.SelectController(selected?.mainController);
-            selected?.GetTabSelector()?.SetActiveTab(_tabName);
+            if (selected.mainController != null)
+            {
+                SuperController.singleton.SelectController(selected.mainController);
+            }
+
+            ui.SetActiveTab(_tabName);
             return true;
         }
     }

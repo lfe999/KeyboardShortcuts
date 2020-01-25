@@ -94,6 +94,7 @@
     <Compile Include="Extensions\SuperControllerExtensions.cs" />
     <Compile Include="Extensions\TransformExtensions.cs" />
     <Compile Include="Extensions\AtomExtensions.cs" />
+    <Compile Include="Extensions\UITabSelectorExtensions.cs" />
     <Compile Include="MathUtilities.cs" />
     <Compile Include="Models\CommandFactory.cs" />
     <Compile Include="Models\Commands.cs" />
