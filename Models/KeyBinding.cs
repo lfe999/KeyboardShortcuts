@@ -1,4 +1,5 @@
 ﻿using System;
+using LFE.KeyboardShortcuts.Commands;
 
 namespace LFE.KeyboardShortcuts.Models
 {

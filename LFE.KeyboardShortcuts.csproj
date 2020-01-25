@@ -88,6 +88,29 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\AnimationSpeedChange.cs" />
+    <Compile Include="Commands\AtomCommandBase.cs" />
+    <Compile Include="Commands\AtomDelete.cs" />
+    <Compile Include="Commands\AtomHiddenToggle.cs" />
+    <Compile Include="Commands\AtomPositionChange.cs" />
+    <Compile Include="Commands\AtomPositionSetLerp.cs" />
+    <Compile Include="Commands\AtomRotationChange.cs" />
+    <Compile Include="Commands\AtomSelect.cs" />
+    <Compile Include="Commands\AtomSelectNext.cs" />
+    <Compile Include="Commands\AtomSelectPrev.cs" />
+    <Compile Include="Commands\AtomSelectTab.cs" />
+    <Compile Include="Commands\CommandExecuteEventArgs.cs" />
+    <Compile Include="Commands\ErrorLogToggle.cs" />
+    <Compile Include="Commands\FreezeAnimationSet.cs" />
+    <Compile Include="Commands\FreezeAnimationToggle.cs" />
+    <Compile Include="Commands\MessageLogToggle.cs" />
+    <Compile Include="Commands\MonitorFieldOfViewChange.cs" />
+    <Compile Include="Commands\PluginActionCall.cs" />
+    <Compile Include="Commands\PluginBoolSet.cs" />
+    <Compile Include="Commands\PluginBoolToggle.cs" />
+    <Compile Include="Commands\SoftBodyPhysicsToggle.cs" />
+    <Compile Include="Commands\TimeScaleChange.cs" />
+    <Compile Include="Commands\WorldScaleChange.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Extensions\InputWrapper.cs" />
     <Compile Include="Extensions\JSONStorableExtensions.cs" />
@@ -96,8 +119,9 @@
     <Compile Include="Extensions\AtomExtensions.cs" />
     <Compile Include="Extensions\UITabSelectorExtensions.cs" />
     <Compile Include="MathUtilities.cs" />
+    <Compile Include="Commands\Command.cs" />
     <Compile Include="Models\CommandFactory.cs" />
-    <Compile Include="Models\Commands.cs" />
+    <Compile Include="Commands\CommandConst.cs" />
     <Compile Include="Plugin.cs" />
     <Compile Include="Models\KeyBinding.cs" />
     <Compile Include="Models\ViewModel.cs" />

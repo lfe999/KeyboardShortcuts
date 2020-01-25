@@ -58,6 +58,7 @@ using System.Linq;
 using LFE.KeyboardShortcuts.Models;
 using LFE.KeyboardShortcuts.Extensions;
 using System.Collections.Generic;
+using LFE.KeyboardShortcuts.Commands;
 
 namespace LFE.KeyboardShortcuts
 {
