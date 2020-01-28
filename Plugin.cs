@@ -1,5 +1,5 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.7 by LFE#9677
+KeyboardShortcuts v0.9 by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 
@@ -10,6 +10,10 @@ VaM built in shortcuts (like "T" or "E") will always fire even if you set
   your own in this plugin. Try and avoid overlapping with VaM shortcuts.
 
 CHANGELOG
+
+Version 0.9 2019-01-27
+    New: Support bindings in MacGruber postmagic plugin
+    New: Support increasing/decreasing float params exposed in plugins
 
 Version 0.8 2019-01-27
     Fix: Overlapping / conflicting bindings that are shorter will be skipped if a longer

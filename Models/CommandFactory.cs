@@ -203,6 +203,17 @@ namespace LFE.KeyboardShortcuts.Models
                 {
                     yield return new PluginActionCall(plugin, param) { Name = $"{shortName} > {param} > Call", DisplayName = $"{param} > Call", Group = group };
                 }
+
+                // floats
+                foreach (var param in plugin.GetFloatParamNames())
+                {
+                    yield return new PluginFloatChange(plugin, param, 0.01f) { Name = $"{shortName} > {param} > +0.01", DisplayName = $"{param} > +0.01", Group = group };
+                    yield return new PluginFloatChange(plugin, param, -0.01f) { Name = $"{shortName} > {param} > -0.01", DisplayName = $"{param} > -0.01", Group = group };
+                    yield return new PluginFloatChange(plugin, param, 0.1f) { Name = $"{shortName} > {param} > +0.10", DisplayName = $"{param} > +0.10", Group = group };
+                    yield return new PluginFloatChange(plugin, param, -0.1f) { Name = $"{shortName} > {param} > -0.10", DisplayName = $"{param} > -0.10", Group = group };
+                    yield return new PluginFloatChange(plugin, param, 1.0f) { Name = $"{shortName} > {param} > +1.00", DisplayName = $"{param} > +1.00", Group = group };
+                    yield return new PluginFloatChange(plugin, param, -1.0f) { Name = $"{shortName} > {param} > -1.00", DisplayName = $"{param} > -1.00", Group = group };
+                }
             }
         }
 

@@ -106,6 +106,7 @@
     <Compile Include="Commands\MessageLogToggle.cs" />
     <Compile Include="Commands\MonitorFieldOfViewChange.cs" />
     <Compile Include="Commands\PluginActionCall.cs" />
+    <Compile Include="Commands\PluginFloatChange.cs" />
     <Compile Include="Commands\PluginBoolSet.cs" />
     <Compile Include="Commands\PluginBoolToggle.cs" />
     <Compile Include="Commands\SoftBodyPhysicsToggle.cs" />

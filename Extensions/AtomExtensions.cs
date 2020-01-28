@@ -18,18 +18,16 @@ namespace LFE.KeyboardShortcuts.Extensions
                 var plugins = manager.GetJSON(true, true)["plugins"].AsObject;
                 foreach(var pluginId in plugins.Keys)
                 {
-                    var receiver = atom
+                    var receivers = atom
                         .GetStorableIDs()
                         .Where((sid) => sid.StartsWith(pluginId))
-                        .Select((sid) => atom.GetStorableByID(sid))
-                        .FirstOrDefault();
-                    if(receiver != null)
+                        .Select((sid) => atom.GetStorableByID(sid));
+                    foreach(var r in receivers)
                     {
-                        yield return receiver;
+                        yield return r;
                     }
                 }
             }
-
         }
 
         public static UITabSelector GetTabSelector(this Atom atom)
