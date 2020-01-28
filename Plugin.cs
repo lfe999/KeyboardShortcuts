@@ -5,7 +5,16 @@ Allows defining custom keyboard bindings to trigger actions
 
 Thanks to ChrisTopherTa for the original idea
 
+KNOWN BUGS
+VaM built in shortcuts (like "T" or "E") will always fire even if you set
+  your own in this plugin. Try and avoid overlapping with VaM shortcuts.
+
 CHANGELOG
+
+Version 0.8 2019-01-27
+    Fix: Overlapping / conflicting bindings that are shorter will be skipped if a longer
+         one ran.  For example, if SHIFT-CTRL-A and SHIFT-A are defined, then if SHIFT-CTRL-A
+         triggered, then SHIFT-A will not also run.
 
 Version 0.7 2019-01-24
     New: Gamepad Axis support
@@ -137,7 +146,7 @@ namespace LFE.KeyboardShortcuts
                 return;
             }
 
-            // get all bindings that match the keys being pressed ordered by the morst specific ones first
+            // get all bindings that match the keys being pressed ordered by the most specific ones first
             var matches = model.KeyBindings
                 .Where((b) => b.KeyChord.IsBeingPressed())
                 .OrderByDescending((b) => b.KeyChord.Length)
@@ -171,6 +180,14 @@ namespace LFE.KeyboardShortcuts
             {
                 var chord = binding.KeyChord;
                 var action = binding.Action;
+
+                // did another binding get triggered that is a superset of us?
+                // (or are we a subset of an action that was just triggered)
+                if(_activeBindings.Any((kvp) => chord.IsProperSubsetOf(kvp.Key.KeyChord)))
+                {
+                    // .. then consider us already tiggered
+                    continue;
+                }
 
                 if (chord.IsBeingRepeated())
                 {
@@ -217,15 +234,7 @@ namespace LFE.KeyboardShortcuts
                     }
 
                     _chordRepeatTimestamp = Time.unscaledTime + REPEAT_HOLD_DELAY;
-
-                    if(actionResult)
-                    {
-                        _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, action));
-                    }
-                    else
-                    {
-                        _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, null));
-                    }
+                    _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, actionResult ? action : null));
                 }
             }
         }

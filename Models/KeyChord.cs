@@ -27,6 +27,8 @@ namespace LFE.KeyboardShortcuts.Models
         private IEnumerable<HashSet<KeyCode>> _keyPressDefinitions { get; }
         private string _axisDefinition;
 
+        private IEnumerable<HashSet<string>> _namedDefinitions { get; }
+
         /// <summary>
         /// Number of keys in this key chord
         /// </summary>
@@ -49,6 +51,27 @@ namespace LFE.KeyboardShortcuts.Models
             _axisDefinition = axisNamesInChord.FirstOrDefault(); // it's ok if this is null
             _originalChord = chord;
             _keyPressDefinitions = ConcreteChordsFromVirtual(chordParts);
+
+            // create an internal copy of the keycode listings but by string/name (and include the axis)
+            var namedDefinitions = new List<HashSet<string>>();
+            var axisEnumerable = _axisDefinition == null ? Enumerable.Empty<string>() : new string[] { _axisDefinition };
+            if (_keyPressDefinitions.Count() > 0)
+            {
+                foreach (var definition in _keyPressDefinitions)
+                {
+                    namedDefinitions.Add(new HashSet<string>(definition.Select((code) => code.ToString()).Concat(axisEnumerable)));
+                }
+            }
+            else
+            {
+                namedDefinitions.Add(new HashSet<string>(axisEnumerable));
+            }
+            _namedDefinitions = namedDefinitions;
+        }
+
+        public IEnumerable<HashSet<string>> GetChordSets()
+        {
+            return _namedDefinitions;
         }
 
         /// <summary>
@@ -98,6 +121,11 @@ namespace LFE.KeyboardShortcuts.Models
             }
 
             return 1;
+        }
+
+        public bool IsProperSubsetOf(KeyChord chord)
+        {
+            return GetChordSets().Any((mine) => chord.GetChordSets().Any((theirs) => mine.IsProperSubsetOf(theirs)));
         }
 
         public override string ToString()
