@@ -15,6 +15,9 @@ Version 0.8 2019-01-27
     Fix: Overlapping / conflicting bindings that are shorter will be skipped if a longer
          one ran.  For example, if SHIFT-CTRL-A and SHIFT-A are defined, then if SHIFT-CTRL-A
          triggered, then SHIFT-A will not also run.
+    Fix: Don't trigger bindings if recording a new one
+    Fix: Tab ui don't break if tab name isn't there for an atom type
+    Refactor: One code file per command class
 
 Version 0.7 2019-01-24
     New: Gamepad Axis support
