@@ -90,6 +90,7 @@
   <ItemGroup>
     <Compile Include="Commands\AnimationSpeedChange.cs" />
     <Compile Include="Commands\AtomCommandBase.cs" />
+    <Compile Include="Commands\AtomAdd.cs" />
     <Compile Include="Commands\AtomDelete.cs" />
     <Compile Include="Commands\AtomHiddenToggle.cs" />
     <Compile Include="Commands\AtomPositionChange.cs" />
@@ -138,6 +139,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ADDME.cslist" />
+    <None Include="CHANGELOG" />
+    <None Include="LICENSE" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
