@@ -26,5 +26,26 @@ namespace LFE.KeyboardShortcuts.Extensions
             return sc.GetAtoms().Where((a) => a.mainController != null);
         }
 
+        public static IEnumerable<string> GetAtomTypesByCategory(this SuperController sc, string category)
+        {
+            if(!sc.GetAtomCategories().Any((c) => c.Equals(category)))
+            {
+                yield break;
+            }
+
+            var originalCategory = sc.atomCategoryPopup.currentValue;
+            try
+            {
+                sc.atomCategoryPopup.currentValue = category;
+                foreach (var type in sc.atomPrefabPopup.popupValues) 
+                {
+                    yield return type;
+                }
+            }
+            finally
+            {
+                sc.atomCategoryPopup.currentValue = originalCategory;
+            }
+        }
     }
 }

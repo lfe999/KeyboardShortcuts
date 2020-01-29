@@ -45,6 +45,15 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new WorldScaleChange(0.00025f) { Name = "World Scale > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new WorldScaleChange(-0.00025f) { Name = "World Scale > Decrease", Group = CommandConst.CAT_GENERAL };
 
+            // .. adding atoms by type
+            foreach(var category in SuperController.singleton.GetAtomCategories())
+            {
+                foreach(var type in SuperController.singleton.GetAtomTypesByCategory(category))
+                {
+                    yield return new AtomAdd(type) { Name = $"Add > {category} > {type}", Group = CommandConst.CAT_GENERAL };
+                }
+            }
+
 
             // SELECTED ATOM commands
             yield return new AtomDelete() { Name = "Selected > Delete", Group = CommandConst.CAT_SELECTEDATOM };

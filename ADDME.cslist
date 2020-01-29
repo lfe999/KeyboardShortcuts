@@ -1,4 +1,5 @@
 ﻿Commands/AnimationSpeedChange.cs
+Commands/AtomAdd.cs
 Commands/AtomCommandBase.cs
 Commands/AtomDelete.cs
 Commands/AtomHiddenToggle.cs
