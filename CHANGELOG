@@ -1,0 +1,54 @@
+Version 0.9 2019-01-27
+    New: Support bindings in MacGruber postmagic plugin
+    New: Support increasing/decreasing float params exposed in plugins
+
+Version 0.8 2019-01-27
+    Fix: Overlapping / conflicting bindings that are shorter will be skipped if a longer
+         one ran.  For example, if SHIFT-CTRL-A and SHIFT-A are defined, then if SHIFT-CTRL-A
+         triggered, then SHIFT-A will not also run.
+    Fix: Don't trigger bindings if recording a new one
+    Fix: Tab ui don't break if tab name isn't there for an atom type
+    Refactor: One code file per command class
+
+Version 0.7 2019-01-24
+    New: Gamepad Axis support
+    New: Position actions for absolute position control (from 0 - 1)
+    New: Position and rotation actions now respect timescale
+    New: Action names are shorter in the UI
+    Fix: Keybinding in config that are not in scene don't get deleted from config file
+    Refactor: all command internals refactored - so might have made more bugs
+
+Version 0.6 2019-01-20
+    New: Atom rotation and positional change actions
+    New: Atom hide and delete actions
+    New: Plugin registered boolean actions
+    New: Plugin registered action actions
+    Fix: Watch scene for changes and update actions that are listed
+
+Version 0.5 2019-01-18
+    Fix: Stop listening to shortcuts if user is typing somewhere
+    Fix: Saving/Loading settings now works properly if added as Session plugin
+    Fix: Lots of other "added as session plugin" related breaking is fixed
+
+Version 0.4 2019-01-17
+    New: Save settings
+    New: Ability to filter shortcuts by category
+    New: Toggle softbody physics action
+    New: All UI panels for Person now listed as showable (thanks itsgus)
+    New: Timescale and Animation speed actions (thanks itsgus)
+    Fix: Hitting ESC in an empty binding field properly exits recording
+    Fix: Actions show now for atom that plugin is attached to
+    Fix: Shortcut that goes to tab now works if curently on main menu
+
+    Add more UI Tab actions available
+    Reorganize code so I don't have so much scrolling to do
+
+Version 0.3 2019-01-16
+    Add more UI Tab actions available
+    Reorganize code so I don't have so much scrolling to do
+
+Version 0.2 2019-01-15
+    Example shortcuts to select a tab in the UI for an atom
+
+Version 0.1 2019-01-15
+    Initial release
