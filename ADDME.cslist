@@ -16,11 +16,17 @@ Commands/ErrorLogToggle.cs
 Commands/FreezeAnimationSet.cs
 Commands/FreezeAnimationToggle.cs
 Commands/MessageLogToggle.cs
+Commands/MirrorReflectionsToggle.cs
+Commands/MsaaChange.cs
 Commands/MonitorFieldOfViewChange.cs
+Commands/PixelLightCountChange.cs
 Commands/PluginActionCall.cs
 Commands/PluginBoolSet.cs
 Commands/PluginBoolToggle.cs
 Commands/PluginFloatChange.cs
+Commands/SceneLoad.cs
+Commands/SceneNew.cs
+Commands/SceneSave.cs
 Commands/SoftBodyPhysicsToggle.cs
 Commands/TimeScaleChange.cs
 Commands/WorldScaleChange.cs

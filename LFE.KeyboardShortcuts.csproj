@@ -100,6 +100,11 @@
     <Compile Include="Commands\AtomSelectPrev.cs" />
     <Compile Include="Commands\AtomSelectTab.cs" />
     <Compile Include="Commands\CommandExecuteEventArgs.cs" />
+    <Compile Include="Commands\PixelLightCountChange.cs" />
+    <Compile Include="Commands\MsaaChange.cs" />
+    <Compile Include="Commands\SceneNew.cs" />
+    <Compile Include="Commands\SceneSave.cs" />
+    <Compile Include="Commands\SceneLoad.cs" />
     <Compile Include="Commands\ErrorLogToggle.cs" />
     <Compile Include="Commands\FreezeAnimationSet.cs" />
     <Compile Include="Commands\FreezeAnimationToggle.cs" />
@@ -109,6 +114,7 @@
     <Compile Include="Commands\PluginFloatChange.cs" />
     <Compile Include="Commands\PluginBoolSet.cs" />
     <Compile Include="Commands\PluginBoolToggle.cs" />
+    <Compile Include="Commands\MirrorReflectionsToggle.cs" />
     <Compile Include="Commands\SoftBodyPhysicsToggle.cs" />
     <Compile Include="Commands\TimeScaleChange.cs" />
     <Compile Include="Commands\WorldScaleChange.cs" />

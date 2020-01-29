@@ -31,6 +31,14 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new FreezeAnimationSet(true) { Name = "Freeze Animation > On", Group = CommandConst.CAT_GENERAL };
             yield return new FreezeAnimationSet(false) { Name = "Freeze Animation > Off", Group = CommandConst.CAT_GENERAL };
             yield return new MessageLogToggle() { Name = "Message Log > Toggle", Group = CommandConst.CAT_GENERAL };
+            yield return new MirrorReflectionsToggle() { Name = "Mirror Reflections > Toggle", Group = CommandConst.CAT_GENERAL };
+            yield return new MsaaChange(1) { Name = "MSAA Level > Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new MsaaChange(-1) { Name = "MSAA Level > Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new PixelLightCountChange(1) { Name = "Pixel Light Count > Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new PixelLightCountChange(-1) { Name = "Pixel Light Count > Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new SceneNew() { Name = "Scene > New Scene", Group = CommandConst.CAT_GENERAL };
+            yield return new SceneLoad() { Name = "Scene > Open Scene", Group = CommandConst.CAT_GENERAL };
+            yield return new SceneSave() { Name = "Scene > Save Scene", Group = CommandConst.CAT_GENERAL };
             yield return new SoftBodyPhysicsToggle() { Name = "Soft Body Physics > Toggle", Group = CommandConst.CAT_GENERAL };
             yield return new TimeScaleChange(1f) { Name = "Time Scale > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new TimeScaleChange(-1f) { Name = "Time Scale > Decrease", Group = CommandConst.CAT_GENERAL };
@@ -201,7 +209,7 @@ namespace LFE.KeyboardShortcuts.Models
                 // actions
                 foreach (var param in plugin.GetCustomActionNames())
                 {
-                    yield return new PluginActionCall(plugin, param) { Name = $"{shortName} > {param} > Call", DisplayName = $"{param} > Call", Group = group };
+                    yield return new PluginActionCall(plugin, param) { Name = $"{shortName} > {param} > Call", DisplayName = $"{param}", Group = group };
                 }
 
                 // floats
