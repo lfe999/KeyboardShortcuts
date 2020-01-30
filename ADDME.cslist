@@ -31,6 +31,7 @@ Commands/PluginStringChooserChange.cs
 Commands/SceneLoad.cs
 Commands/SceneNew.cs
 Commands/SceneSave.cs
+Commands/ScreenShotModeOn.cs
 Commands/SoftBodyPhysicsToggle.cs
 Commands/TimeScaleChange.cs
 Commands/WorldScaleChange.cs

@@ -101,6 +101,7 @@
     <Compile Include="Commands\AtomSelectPrev.cs" />
     <Compile Include="Commands\AtomSelectTab.cs" />
     <Compile Include="Commands\CommandExecuteEventArgs.cs" />
+    <Compile Include="Commands\ScreenShotModeOn.cs" />
     <Compile Include="Commands\PerformanceMonitorToggle.cs" />
     <Compile Include="Commands\PixelLightCountChange.cs" />
     <Compile Include="Commands\MsaaChange.cs" />

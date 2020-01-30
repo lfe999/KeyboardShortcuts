@@ -40,6 +40,7 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new SceneNew() { Name = "Scene > New Scene", Group = CommandConst.CAT_GENERAL };
             yield return new SceneLoad() { Name = "Scene > Open Scene", Group = CommandConst.CAT_GENERAL };
             yield return new SceneSave() { Name = "Scene > Save Scene", Group = CommandConst.CAT_GENERAL };
+            yield return new ScreenShotModeOn() { Name = "Screen Shot > Mode > Enable", Group = CommandConst.CAT_GENERAL };
             yield return new SoftBodyPhysicsToggle() { Name = "Soft Body Physics > Toggle", Group = CommandConst.CAT_GENERAL };
             yield return new TimeScaleChange(1f) { Name = "Time Scale > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new TimeScaleChange(-1f) { Name = "Time Scale > Decrease", Group = CommandConst.CAT_GENERAL };
