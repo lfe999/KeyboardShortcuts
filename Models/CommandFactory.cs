@@ -215,6 +215,8 @@ namespace LFE.KeyboardShortcuts.Models
                 var shortName = plugin.GetShortName();
                 var group = $"{shortName}";
 
+                yield return new PluginShowUI(plugin) { Name = $"{shortName} > Show UI", DisplayName = "Show UI", Group = group };
+
                 // booleans
                 foreach (var param in plugin.GetBoolParamNames().Where((param) => !param.Equals("enabled")))
                 {

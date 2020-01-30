@@ -103,6 +103,7 @@
     <Compile Include="Commands\CommandExecuteEventArgs.cs" />
     <Compile Include="Commands\PixelLightCountChange.cs" />
     <Compile Include="Commands\MsaaChange.cs" />
+    <Compile Include="Commands\PluginShowUI.cs" />
     <Compile Include="Commands\PluginStringChooserChange.cs" />
     <Compile Include="Commands\SceneNew.cs" />
     <Compile Include="Commands\SceneSave.cs" />
