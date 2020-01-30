@@ -156,6 +156,16 @@ namespace LFE.KeyboardShortcuts.Models
             {
                 var group = $"{atom.uid}";
                 yield return new AtomSelect(atom) { Name = $"Atom > {atom.uid} > Select", DisplayName = "Select", Group = group };
+                // all other (not the main) free controllers
+                foreach(var controller in atom.freeControllers.OrderBy((c) => c.name))
+                {
+                    if(atom.mainController.name.Equals(controller.name))
+                    {
+                        continue;
+                    }
+
+                    yield return new AtomSelect(controller) { Name = $"Atom > {atom.uid} > Select > {controller.name}", DisplayName = $"Select > {controller.name}", Group = group };
+                }
                 yield return new AtomHiddenToggle(atom) { Name = $"Atom > {atom.uid} > Hide > Toggle", DisplayName = "Hide > Toggle", Group = group };
 
                 foreach(var tab in atom.GetUITabNames())
