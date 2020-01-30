@@ -33,6 +33,14 @@ namespace LFE.KeyboardShortcuts.Models
             {
                 SuperController.singleton.onAtomUIDsChangedHandlers -= _onAtomUIDsChanged;
             }
+            if(_actionFilterStorable != null)
+            {
+                _actionFilterStorable = null;
+            }
+            if(_actionFilterUi != null)
+            {
+                _actionFilterUi = null;
+            }
         }
 
         private string _actionCategory = CommandConst.CAT_GENERAL;
@@ -204,21 +212,30 @@ namespace LFE.KeyboardShortcuts.Models
             _uiCleanup = new List<Action>();
         }
 
+        private JSONStorableStringChooser _actionFilterStorable;
+        private UIDynamicPopup _actionFilterUi;
         private void InitUI()
         {
             // add the action filter
-            var groupNames = _commandsByName.Values.Select((c) => c.Group).Distinct();
-            var actionFilterStorable = new JSONStorableStringChooser("category", groupNames.OrderBy((x) => x).ToList(), ActionCategory, "Actions For");
-            actionFilterStorable.setCallbackFunction = (category) =>
+            var groupNames = _commandsByName.Values.Select((c) => c.Group).Distinct().OrderBy((x) => x).ToList();
+            if(_actionFilterStorable == null)
             {
-                ActionCategory = category;
-            };
-            var actionFilterUi = _plugin.CreateScrollablePopup(actionFilterStorable);
-            _uiCleanup.Add(() => _plugin.RemovePopup(actionFilterUi));
+                _actionFilterStorable = new JSONStorableStringChooser("category", groupNames, ActionCategory, "Actions For");
+                _actionFilterStorable.setCallbackFunction = (category) =>
+                {
+                    ActionCategory = category;
+                };
+                _actionFilterUi = _plugin.CreateScrollablePopup(_actionFilterStorable);
+            }
+            else
+            {
+                _actionFilterStorable.choices = groupNames;
+                _actionFilterStorable.SetVal(ActionCategory);
+            }
 
             // add an empty area to the right for spacing
             var spacingUi = _plugin.CreateSpacer(rightSide: true);
-            spacingUi.height = actionFilterUi.height;
+            spacingUi.height = _actionFilterUi.height;
             _uiCleanup.Add(() => _plugin.RemoveSpacer(spacingUi));
 
             // setup the UI for all available actions
