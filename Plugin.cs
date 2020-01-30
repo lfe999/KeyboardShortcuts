@@ -7,6 +7,21 @@ KNOWN BUGS
 VaM built in shortcuts (like "T" or "E") will always fire even if you set
   your own in this plugin. Try and avoid overlapping with VaM shortcuts.
 
+FEATURE REQUESTS / TODO:
+
+- Ability to set shortcut for actions on a specific Atom instance (not by type)
+- Ability to set shortcut for actions on a specific Plugin instance (not by the first to be found by name)
+- Ability to set shortcut to show the UI for a specific Plugin instance
+- Ability to set shortcut to show the UI for Plugin (first to be found by name)
+- Tell the user about the ESC key when recording right inside the button
+- Add a slider to the shortcut group selector
+- Ability to share shortcuts with others and let them import them
+
+OTHER COMMENTS:
+- The plugins are showing up in the same drop down as the atoms, so it's hard to know which atom it is for.
+  I would suggest showing two popups instead; one for the atom, one for the target storable. An alternative would be to
+  simply show all values for all storables in the list, but that could make a pretty long one...
+
 ***********************************************************************************/
 using UnityEngine;
 using UnityEngine.EventSystems;
