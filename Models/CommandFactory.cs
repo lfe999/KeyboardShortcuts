@@ -231,6 +231,12 @@ namespace LFE.KeyboardShortcuts.Models
                     yield return new PluginFloatChange(plugin, param, 1.0f) { Name = $"{shortName} > {param} > +1.00", DisplayName = $"{param} > +1.00", Group = group };
                     yield return new PluginFloatChange(plugin, param, -1.0f) { Name = $"{shortName} > {param} > -1.00", DisplayName = $"{param} > -1.00", Group = group };
                 }
+                // select boxes (jsonstorablestringchoosers)
+                foreach (var param in plugin.GetStringChooserParamNames())
+                {
+                    yield return new PluginStringChooserChange(plugin, param, 1) { Name = $"{shortName} > {param} > Next", DisplayName = $"{param} > Next", Group = group };
+                    yield return new PluginStringChooserChange(plugin, param, -1) { Name = $"{shortName} > {param} > Prev", DisplayName = $"{param} > Prev", Group = group };
+                }
             }
         }
 
