@@ -34,6 +34,7 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new MirrorReflectionsToggle() { Name = "Mirror Reflections > Toggle", Group = CommandConst.CAT_GENERAL };
             yield return new MsaaChange(1) { Name = "MSAA Level > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new MsaaChange(-1) { Name = "MSAA Level > Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new PerformanceMonitorToggle() { Name = "Performance Monitor > Toggle", Group = CommandConst.CAT_GENERAL };
             yield return new PixelLightCountChange(1) { Name = "Pixel Light Count > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new PixelLightCountChange(-1) { Name = "Pixel Light Count > Decrease", Group = CommandConst.CAT_GENERAL };
             yield return new SceneNew() { Name = "Scene > New Scene", Group = CommandConst.CAT_GENERAL };

@@ -13,7 +13,6 @@ FEATURE REQUESTS / TODO:
 - Ability to set shortcut to show the UI for a specific Plugin instance
 - Ability to share shortcuts with others and let them import them
 - Action for toggling screenshot mode
-- Action for toggling performance monitor
 
 OTHER COMMENTS:
 - The plugins are showing up in the same drop down as the atoms, so it's hard to know which atom it is for.

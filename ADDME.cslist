@@ -20,6 +20,7 @@ Commands/MessageLogToggle.cs
 Commands/MirrorReflectionsToggle.cs
 Commands/MsaaChange.cs
 Commands/MonitorFieldOfViewChange.cs
+Commands/PerformanceMonitorToggle.cs
 Commands/PixelLightCountChange.cs
 Commands/PluginActionCall.cs
 Commands/PluginBoolSet.cs
