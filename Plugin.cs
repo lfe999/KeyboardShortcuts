@@ -13,7 +13,6 @@ FEATURE REQUESTS / TODO:
 - Ability to set shortcut for actions on a specific Plugin instance (not by the first to be found by name)
 - Ability to set shortcut to show the UI for a specific Plugin instance
 - Ability to set shortcut to show the UI for Plugin (first to be found by name)
-- Tell the user about the ESC key when recording right inside the button
 - Ability to share shortcuts with others and let them import them
 
 OTHER COMMENTS:

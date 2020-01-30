@@ -1,4 +1,5 @@
 ﻿using LFE.KeyboardShortcuts.Commands;
+using LFE.KeyboardShortcuts.Extensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -221,16 +222,20 @@ namespace LFE.KeyboardShortcuts.Models
             if(_actionFilterStorable == null)
             {
                 _actionFilterStorable = new JSONStorableStringChooser("category", groupNames, ActionCategory, "Actions For");
-                _actionFilterStorable.setCallbackFunction = (category) =>
-                {
-                    ActionCategory = category;
-                };
                 _actionFilterUi = _plugin.CreateScrollablePopup(_actionFilterStorable);
+                _actionFilterUi.popup.onValueChangeHandlers += (newValue) =>
+                {
+                    ActionCategory = newValue;
+                    // TODO: figure out how to actually get this UI element to
+                    // show up on top of the UI elements just below it instead
+                    // of behind
+                    _actionFilterUi.popup.Toggle();
+                    _actionFilterUi.popup.Toggle();
+                };
             }
             else
             {
                 _actionFilterStorable.choices = groupNames;
-                _actionFilterStorable.SetVal(ActionCategory);
             }
 
             // add an empty area to the right for spacing
@@ -289,7 +294,7 @@ namespace LFE.KeyboardShortcuts.Models
 
                     var origButtonText = shortcutButtonUi.buttonText.text;
 
-                    shortcutButtonUi.buttonText.text = "recording...";
+                    shortcutButtonUi.buttonText.text = "recording (press ESC to clear)";
                     _keyRecorder = new KeyRecorder((recordedChord) =>
                     {
                         var recordedChordText = recordedChord.ToString();
