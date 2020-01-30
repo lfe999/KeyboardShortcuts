@@ -1,5 +1,5 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.9 by LFE#9677
+KeyboardShortcuts v0.10 by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 

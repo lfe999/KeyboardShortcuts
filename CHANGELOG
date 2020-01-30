@@ -1,3 +1,18 @@
+Version 0.10 2019-01-30
+    New: Mirror Reflection Toggle Action
+	New: Msaa Change Action
+	New: Pixel Light Count Change Action
+	New: Scene Load / Save Action
+	New: Performance Monitor Toggle Action
+	New: Add Atom Action
+	New: Delete Selected Atom Action
+	New: Plugin String Chooser Next / Previous Actions
+	New: Plugin UI Show Action
+	New: Specific Atom Show UI Tab Actions
+	New: Specific Atom Select Action
+	New: Recording text now guides usage of ESC key
+	Fix: Action group slider now works
+	
 Version 0.9 2019-01-27
     New: Support bindings in MacGruber postmagic plugin
     New: Support increasing/decreasing float params exposed in plugins
