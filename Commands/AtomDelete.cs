@@ -1,13 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 
 namespace LFE.KeyboardShortcuts.Commands
 {
     public class AtomDelete : AtomCommandBase
     {
-        public AtomDelete(Atom atom = null) : base(atom) { }
+        public AtomDelete() : this(null) { }
+        public AtomDelete(Func<Atom, bool> predicate) : base(predicate) { }
         public override bool Execute(CommandExecuteEventArgs args)
         {
-            var selected = GetAtomTarget();
+            var selected = TargetAtom(args);
             if (selected != null) {
                 SuperController.singleton.StartCoroutine(DeleteAtom(selected));
             }

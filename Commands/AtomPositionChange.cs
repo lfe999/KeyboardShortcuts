@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Animations;
 
 namespace LFE.KeyboardShortcuts.Commands
@@ -7,7 +8,9 @@ namespace LFE.KeyboardShortcuts.Commands
     {
         private Axis _axis;
         private float _unitsPerSecond;
-        public AtomPositionChange(Axis axis, float unitPerSecond, Atom atom = null) : base(atom)
+        public AtomPositionChange(Axis axis, float unitPerSecond) : this(axis, unitPerSecond, (Func<Atom, bool>)null) { }
+        public AtomPositionChange(Axis axis, float unitPerSecond, Atom atom) : this(axis, unitPerSecond, (a) => a.uid.Equals(atom.uid)) { }
+        public AtomPositionChange(Axis axis, float unitPerSecond, Func<Atom, bool> predicate) : base(predicate)
         {
             _axis = axis;
             _unitsPerSecond = unitPerSecond;
@@ -22,7 +25,7 @@ namespace LFE.KeyboardShortcuts.Commands
                 if (!MathUtilities.SameSign(args.Data, _unitsPerSecond)) { return false; }
             }
 
-            var selected = GetAtomTarget();
+            var selected = TargetAtom(args);
             if (selected != null)
             {
                 var direction = Vector3.right;

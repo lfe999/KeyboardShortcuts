@@ -1,16 +1,32 @@
-﻿namespace LFE.KeyboardShortcuts.Commands
+﻿using LFE.KeyboardShortcuts.Extensions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace LFE.KeyboardShortcuts.Commands
 {
     public abstract class AtomCommandBase : Command {
-        protected Atom Atom; // null means get selected
-        protected AtomCommandBase(Atom atom = null)
+        protected Func<Atom, bool> _predicate;
+        protected AtomCommandBase(Func<Atom, bool> predicate)
         {
-            Atom = atom;
+            _predicate = predicate;
         }
 
-        public Atom GetAtomTarget()
+        public virtual Atom TargetAtom(CommandExecuteEventArgs args)
         {
-            if(Atom == null) { return SuperController.singleton.GetSelectedAtom(); }
-            return Atom;
+            if(_predicate == null)
+            {
+                return SuperController.singleton.GetSelectedAtom();
+            }
+            else
+            {
+                return SelectableAtoms().Where(_predicate).FirstOrDefault();
+            }
+        }
+
+        protected IEnumerable<Atom> SelectableAtoms()
+        {
+            return SuperController.singleton.GetSelectableAtoms().OrderBy((a) => a.uid);
         }
     }
 }

@@ -154,8 +154,13 @@ namespace LFE.KeyboardShortcuts.Models
             foreach(var atom in SuperController.singleton.GetSelectableAtoms().OrderBy((a) => a.uid))
             {
                 var group = $"{atom.uid}";
-                yield return new AtomSelect((a) => a.uid.Equals(atom.uid)) { Name = $"Atom > {atom.uid} > Select", DisplayName = "Select", Group = group };
+                yield return new AtomSelect(atom) { Name = $"Atom > {atom.uid} > Select", DisplayName = "Select", Group = group };
                 yield return new AtomHiddenToggle(atom) { Name = $"Atom > {atom.uid} > Hide > Toggle", DisplayName = "Hide > Toggle", Group = group };
+
+                foreach(var tab in atom.GetUITabNames())
+                {
+                    yield return new AtomSelectTab(tab, atom) { Name = $"Atom > {atom.uid} > ShowUI > {tab}", DisplayName = $"ShowUI > {tab}", Group = group };
+                }
 
                 yield return new AtomPositionSetLerp(Axis.X, 0, 1, atom) { Name = $"Atom > {atom.uid} > Position > X > Interpolate 0 - 1", DisplayName = "Position > X > Interpolate 0 - 1", Group = group };
                 yield return new AtomPositionSetLerp(Axis.Y, 0, 1, atom) { Name = $"Atom > {atom.uid} > Position > Y > Interpolate 0 - 1", DisplayName = "Position > Y > Interpolate 0 - 1", Group = group };

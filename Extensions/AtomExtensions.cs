@@ -32,9 +32,9 @@ namespace LFE.KeyboardShortcuts.Extensions
 
         public static UITabSelector GetTabSelector(this Atom atom)
         {
-            if(!atom.mainController.selected)
+            if(!atom.freeControllers.Any((fc) => fc.selected))
             {
-                SuperController.LogError("Unable to get tab selector if the atom is not first selected");
+                SuperController.LogError("Unable to get tab selector if a free controller on an atom is not first selected");
                 SuperController.LogError("Consider SuperController.singleton.SelectController(atom.mainController)");
                 return null;
             }

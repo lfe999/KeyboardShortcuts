@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Animations;
 
 namespace LFE.KeyboardShortcuts.Commands
@@ -7,7 +8,9 @@ namespace LFE.KeyboardShortcuts.Commands
     {
         private Axis _axis;
         private float _rotationsPerSecond;
-        public AtomRotationChange(Axis axis, float rotationsPerSecond, Atom atom = null) : base(atom)
+        public AtomRotationChange(Axis axis, float rotationsPerSecond) : this(axis, rotationsPerSecond, (Func<Atom, bool>)null) { }
+        public AtomRotationChange(Axis axis, float rotationsPerSecond, Atom atom) : this(axis, rotationsPerSecond, (a) => a.uid.Equals(atom.uid)) { }
+        public AtomRotationChange(Axis axis, float rotationsPerSecond, Func<Atom, bool> predicate) : base(predicate)
         {
             _axis = axis;
             _rotationsPerSecond = rotationsPerSecond;
@@ -22,7 +25,7 @@ namespace LFE.KeyboardShortcuts.Commands
                 if (!MathUtilities.SameSign(args.Data, _rotationsPerSecond)) { return false; }
             }
 
-            var selected = GetAtomTarget();
+            var selected = TargetAtom(args);
             if (selected != null)
             {
                 var rotate = 360 * Time.deltaTime * _rotationsPerSecond * Mathf.Abs(args.Data);

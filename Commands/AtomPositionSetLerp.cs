@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Animations;
 
 namespace LFE.KeyboardShortcuts.Commands
@@ -8,7 +9,9 @@ namespace LFE.KeyboardShortcuts.Commands
         private Axis _axis;
         private float _min;
         private float _max;
-        public AtomPositionSetLerp(Axis axis, float absolutePositionMin, float absolutePositionMax, Atom atom = null) : base(atom)
+        public AtomPositionSetLerp(Axis axis, float absolutePositionMin, float absolutePositionMax) : this(axis, absolutePositionMin, absolutePositionMax, (Func<Atom, bool>)null) { }
+        public AtomPositionSetLerp(Axis axis, float absolutePositionMin, float absolutePositionMax, Atom atom) : this(axis, absolutePositionMin, absolutePositionMax, (a) => a.uid.Equals(atom.uid)) { }
+        public AtomPositionSetLerp(Axis axis, float absolutePositionMin, float absolutePositionMax, Func<Atom, bool> predicate) : base(predicate)
         {
             _axis = axis;
             _min = absolutePositionMin;
@@ -17,7 +20,7 @@ namespace LFE.KeyboardShortcuts.Commands
 
         public override bool Execute(CommandExecuteEventArgs args)
         {
-            var selected = GetAtomTarget();
+            var selected = TargetAtom(args);
             if (selected != null)
             {
                 float proportion = Mathf.Lerp(0, 1, Mathf.Abs(args.Data));

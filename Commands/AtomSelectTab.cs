@@ -1,4 +1,5 @@
 ﻿using LFE.KeyboardShortcuts.Extensions;
+using System;
 using System.Linq;
 
 namespace LFE.KeyboardShortcuts.Commands
@@ -6,19 +7,30 @@ namespace LFE.KeyboardShortcuts.Commands
     public class AtomSelectTab : AtomCommandBase
     {
         private string _tabName;
-        public AtomSelectTab(string tabName, Atom atom = null) : base(atom)
+        public AtomSelectTab(string tabName) : this(tabName, (Func<Atom, bool>)null) { }
+        public AtomSelectTab(string tabName, Atom atom) : this(tabName, (a) => a.uid.Equals(atom.uid)) { }
+        public AtomSelectTab(string tabName, Func<Atom, bool> predicate) : base(predicate)
         {
             _tabName = tabName;
         }
 
         public override bool Execute(CommandExecuteEventArgs args)
         {
-            var selected = GetAtomTarget();
-            if (selected == null) {
+            var target = TargetAtom(args);
+            if (target == null) {
+                SuperController.LogMessage($"nothing selected", false);
                 return false;
             }
 
-            var ui = selected.GetTabSelector();
+            // main controller has to be selected for the ui tab stuff to work
+            var currentSelection = SuperController.singleton.GetSelectedAtom();
+            if(!target.uid.Equals(currentSelection?.uid))
+            {
+                // different atom is selected
+                SuperController.singleton.SelectController(TargetAtom(args)?.mainController);
+            }
+
+            var ui = target.GetTabSelector();
             if (ui == null)
             {
                 return false;
@@ -26,6 +38,7 @@ namespace LFE.KeyboardShortcuts.Commands
 
             if (!ui.HasTabName(_tabName))
             {
+                SuperController.LogMessage($"{target}: no tab name {_tabName}", false);
                 return false;
             }
 
@@ -37,9 +50,9 @@ namespace LFE.KeyboardShortcuts.Commands
             showSelectedUIButton?.onClick?.Invoke();
 
             // set the active tab
-            if (selected.mainController != null)
+            if (target.mainController != null)
             {
-                SuperController.singleton.SelectController(selected.mainController);
+                SuperController.singleton.SelectController(target.mainController);
             }
 
             ui.SetActiveTab(_tabName);
