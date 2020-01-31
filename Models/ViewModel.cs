@@ -1,24 +1,26 @@
 ﻿using LFE.KeyboardShortcuts.Commands;
-using LFE.KeyboardShortcuts.Extensions;
 using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using LFE.KeyboardShortcuts.Utils;
 
 namespace LFE.KeyboardShortcuts.Models
 {
     public class ViewModel
     {
-        private Plugin _plugin;
+        public Plugin Plugin { get; private set; }
         private CommandFactory _actionController;
         private Dictionary<string, KeyBinding> _bindings;
-        private KeyRecorder _keyRecorder;
+        public KeyRecorder keyRecorder;
 
         private SuperController.OnAtomUIDsChanged _onAtomUIDsChanged;
 
         public ViewModel(Plugin plugin)
         {
-            _plugin = plugin;
+            Plugin = plugin;
+
             _onAtomUIDsChanged = (uidList) =>
             {
                 Initialize();
@@ -34,25 +36,13 @@ namespace LFE.KeyboardShortcuts.Models
             {
                 SuperController.singleton.onAtomUIDsChangedHandlers -= _onAtomUIDsChanged;
             }
-            if(_actionFilterStorable != null)
-            {
-                _actionFilterStorable = null;
-            }
-            if(_actionFilterUi != null)
-            {
-                _actionFilterUi = null;
-            }
+            _actionFilterStorable = null;
+            _actionFilterUi = null;
         }
 
-        private string _actionCategory = CommandConst.CAT_GENERAL;
-        public string ActionCategory {
-            get { return _actionCategory; }
-            set {
-                _actionCategory = value;
-                ClearUI();
-                InitUI();
-            }
-        }
+        public string ActionCategory { get; private set; } = CommandConst.CAT_GENERAL;
+
+        public string ActionSubCategory { get; private set; } = CommandConst.SUBCAT_DEFAULT;
 
         public IEnumerable<string> ActionNames => _bindings.Keys;
         public IEnumerable<KeyBinding> KeyBindings => _bindings.Values.Where((b) => b != null);
@@ -73,7 +63,7 @@ namespace LFE.KeyboardShortcuts.Models
 
         public void SetKeyBinding(string name, KeyBinding binding)
         {
-            if (!_bindings.ContainsKey(name)) { throw new ArgumentException("Invalid action name", nameof(name)); }
+            if (!_bindings.ContainsKey(name)) { throw new ArgumentException($"Invalid action name {name}", nameof(name)); }
             _bindings[name] = binding;
         }
 
@@ -119,26 +109,40 @@ namespace LFE.KeyboardShortcuts.Models
             _lastAtomPluginInfo = atomPluginInfo;
         }
 
-        public void Initialize()
+        public void InitializeUI()
         {
-            //SuperController.LogMessage("Initializing", false);
-            _actionController = new CommandFactory(_plugin);
             ClearUI();
-            InitBindings();
             InitUI();
         }
 
-        public bool IsRecording => _keyRecorder != null;
+        public void Initialize()
+        {
+            using(var timing = TimingLogger.Track("Initialize()"))
+            {
+                _actionController = new CommandFactory(Plugin);
+                InitBindings();
+                InitializeUI();
+            }
+        }
+
+        public bool IsRecording => keyRecorder != null;
         public void RecordUpdate()
         {
-            _keyRecorder?.Record();
+            keyRecorder?.Record();
         }
         public void RecordFinish()
         {
-            if (_keyRecorder != null && _keyRecorder.InProgress)
+            if (keyRecorder != null && keyRecorder.InProgress)
             {
-                _keyRecorder.OnFinish();
-                _keyRecorder = null;
+                try
+                {
+                    keyRecorder.OnFinish();
+                }
+                catch(Exception e)
+                {
+                    SuperController.LogError(e.ToString());
+                }
+                keyRecorder = null;
             }
         }
 
@@ -146,7 +150,7 @@ namespace LFE.KeyboardShortcuts.Models
         private void InitBindings()
         {
             _bindings = new Dictionary<string, KeyBinding>();
-            var settings = _plugin.LoadBindingSettings();
+            var settings = Plugin.LoadBindingSettings();
 
             // build all of the commands/actions
             _commandsByName = new Dictionary<string, Command>();
@@ -169,7 +173,7 @@ namespace LFE.KeyboardShortcuts.Models
                             var chord = settings[commandName]["chord"].Value;
                             var enabled = settings[commandName]["enabled"].AsBool;
 
-                            var binding = KeyBinding.Build(_plugin, commandName, new KeyChord(chord), command);
+                            var binding = KeyBinding.Build(Plugin, commandName, new KeyChord(chord), command);
                             binding.Enabled = enabled;
                             _bindings[commandName] = binding;
                         }
@@ -190,7 +194,7 @@ namespace LFE.KeyboardShortcuts.Models
                     var defaultKeyChord = _actionController.GetDefaultKeyChordByActionName(commandName);
                     if (defaultKeyChord != null)
                     {
-                        _bindings[commandName] = KeyBinding.Build(_plugin, commandName, defaultKeyChord, command);
+                        _bindings[commandName] = KeyBinding.Build(Plugin, commandName, defaultKeyChord, command);
                     }
                     else
                     {
@@ -200,137 +204,287 @@ namespace LFE.KeyboardShortcuts.Models
             }
         }
 
-        private List<Action> _uiCleanup = new List<Action>();
-
         private void ClearUI()
         {
-            // if there are _uiCleanup actions that need to be done before
-            // rendering again, then
-            foreach(var uiCleanup in _uiCleanup)
+            foreach(var item in _uiBindings)
             {
-                uiCleanup();
+                item.Destroy();
             }
-            _uiCleanup = new List<Action>();
+            _uiBindings = new List<UIBindingRow>();
+        }
+
+        private IEnumerable<string> GetGroupNames()
+        {
+            return _commandsByName.Values
+                .Select((c) => c.Group)
+                .Distinct();
+        }
+
+        private IEnumerable<string> GetSubGroupNames(string category)
+        {
+            return _commandsByName.Values
+                .Where((c) => c.Group.Equals(category))
+                .Select((c) => c.SubGroup)
+                .Distinct();
         }
 
         private JSONStorableStringChooser _actionFilterStorable;
         private UIDynamicPopup _actionFilterUi;
+        private JSONStorableStringChooser _actionSubCatFilterStorable;
+        private UIDynamicPopup _actionSubCatFilterUi;
+
+        private List<UIBindingRow> _uiBindings = new List<UIBindingRow>();
+
+        private void InitUIHeader()
+        {
+            using(TimingLogger.Track("InitUIHeader()")) {
+                // add the action filter
+
+                using (TimingLogger.Track("... setup category dropdown"))
+                {
+                    var groupNames = GetGroupNames().OrderBy((x) => x).ToList();
+                    if (_actionFilterStorable == null)
+                    {
+                        _actionFilterStorable = new JSONStorableStringChooser("category", groupNames, ActionCategory, "");
+                        _actionFilterUi = Plugin.CreateScrollablePopup(_actionFilterStorable);
+                        _actionFilterUi.labelWidth = 0f;
+                        _actionFilterUi.popup.onValueChangeHandlers += (newValue) =>
+                        {
+                            var currentSubCategory = ActionSubCategory;
+                            ActionCategory = newValue;
+                            var subCategories = GetSubGroupNames(newValue).ToList();
+                            if(subCategories.Count == 0)
+                            {
+                                ActionSubCategory = "";
+                            }
+                            else if(!subCategories.Any((c) => c.Equals(currentSubCategory)))
+                            {
+                                ActionSubCategory = subCategories[0];
+                            }
+                            InitializeUI();
+
+                            // TODO: figure out how to actually get this UI element to
+                            // show up on top of the UI elements just below it instead
+                            // of behind
+                            _actionFilterUi.popup.Toggle();
+                            _actionFilterUi.popup.Toggle();
+                        };
+                    }
+                    else
+                    {
+                        _actionFilterStorable.choices = groupNames;
+                    }
+                }
+
+                using (TimingLogger.Track("... setup subcategory dropdown"))
+                {
+                    // add the subcategory filter
+                    var subCategories = GetSubGroupNames(ActionCategory).OrderBy((x) => x).ToList();
+                    if (_actionSubCatFilterStorable == null)
+                    {
+                        _actionSubCatFilterStorable = new JSONStorableStringChooser("subcategory", subCategories, ActionSubCategory, "");
+                        _actionSubCatFilterUi = Plugin.CreateScrollablePopup(_actionSubCatFilterStorable, rightSide: true);
+                        _actionSubCatFilterUi.height = _actionFilterUi.height;
+                        _actionSubCatFilterUi.labelWidth = 0f;
+                        _actionSubCatFilterUi.popup.onValueChangeHandlers += (newValue) =>
+                        {
+                            ActionSubCategory = newValue;
+                            InitializeUI();
+                            // TODO: figure out how to actually get this UI element to
+                            // show up on top of the UI elements just below it instead
+                            // of behind
+                            _actionSubCatFilterUi.popup.Toggle();
+                            _actionSubCatFilterUi.popup.Toggle();
+                        };
+                    }
+                    else
+                    {
+                        _actionSubCatFilterStorable.choices = subCategories;
+                        _actionSubCatFilterUi.popup.currentValueNoCallback = ActionSubCategory;
+                    }
+                }
+            }
+        }
+
+        public List<KeyValuePair<string, KeyBinding>> GetShownBindings()
+        {
+            using (TimingLogger.Track("GetShowBindings()"))
+            {
+
+                var shown = new List<KeyValuePair<string, KeyBinding>>();
+                foreach (var item in _bindings)
+                {
+                    var actionName = item.Key;
+                    Command command = _commandsByName.ContainsKey(actionName) ? _commandsByName[actionName] : null;
+                    if (command == null)
+                    {
+                        continue;
+                    }
+
+                    if(!ActionCategory.Equals(command.Group))
+                    {
+                        continue;
+                    }
+
+                    if(!ActionSubCategory.Equals(command.SubGroup))
+                    {
+                        continue;
+                    }
+
+                    shown.Add(item);
+                }
+
+                return shown;
+            }
+        }
+
+        private void InitUIBindings()
+        {
+            var shownBindings = GetShownBindings();
+            using (TimingLogger.Track($"InitUIBindings() [count: {shownBindings.Count}]"))
+            {
+                // show ui elements based on filters
+                foreach (var item in shownBindings)
+                {
+                    var actionName = item.Key;
+                    var command = _commandsByName[actionName];
+                    _uiBindings.Add(new UIBindingRow(this, command));
+                }
+            }
+        }
+
         private void InitUI()
         {
-            // add the action filter
-            var groupNames = _commandsByName.Values.Select((c) => c.Group).Distinct().OrderBy((x) => x).ToList();
-            if(_actionFilterStorable == null)
+            using(TimingLogger.Track("InitUI()"))
             {
-                _actionFilterStorable = new JSONStorableStringChooser("category", groupNames, ActionCategory, "Actions For");
-                _actionFilterUi = _plugin.CreateScrollablePopup(_actionFilterStorable);
-                _actionFilterUi.popup.onValueChangeHandlers += (newValue) =>
-                {
-                    ActionCategory = newValue;
-                    // TODO: figure out how to actually get this UI element to
-                    // show up on top of the UI elements just below it instead
-                    // of behind
-                    _actionFilterUi.popup.Toggle();
-                    _actionFilterUi.popup.Toggle();
-                };
+                InitUIHeader();
+                InitUIBindings();
             }
-            else
+        }
+    }
+
+    internal class UIBindingRow
+    {
+
+        public string ActionName { get; private set; }
+
+        private ViewModel _model;
+        private Command _command;
+        private JSONStorableBool _checkboxStorable;
+        private UIDynamicToggle _checkboxUi;
+        private UIDynamicButton _shortcutButtonUi;
+
+        private void OnCheckboxHandler(JSONStorableBool value)
+        {
+            var b = _model.GetKeyBinding(ActionName);
+            if (b != null)
             {
-                _actionFilterStorable.choices = groupNames;
+                b.Enabled = value.val;
+                _model.SetKeyBinding(ActionName, b);
+                _model.Plugin.SaveBindingSettings();
+            }
+        }
+
+        private void OnShortcutHandler()
+        {
+            if (_model.IsRecording)
+            {
+                SuperController.LogError("Already recording", false);
+                return;
             }
 
-            // add an empty area to the right for spacing
-            var spacingUi = _plugin.CreateSpacer(rightSide: true);
-            spacingUi.height = _actionFilterUi.height;
-            _uiCleanup.Add(() => _plugin.RemoveSpacer(spacingUi));
-
-            // setup the UI for all available actions
-            foreach (var item in _bindings)
+            if(_shortcutButtonUi == null)
             {
-                var actionName = item.Key;
-                Command command;
-                if(!_commandsByName.TryGetValue(actionName, out command))
+                SuperController.LogError("button ui has dissappeared");
+                return;
+            }
+
+            var origButtonText = _shortcutButtonUi.buttonText.text;
+
+            _shortcutButtonUi.buttonText.text = "recording (press ESC to clear)";
+            _model.keyRecorder = new KeyRecorder((recordedChord) =>
+            {
+                if(_shortcutButtonUi == null)
                 {
-                    continue; 
+                    SuperController.LogError("button ui has dissappeared");
+                    return;
+                }
+                var recordedChordText = recordedChord.ToString();
+
+                // if user recorded "esc" then exit out assuming clearning the 
+                // binding was what was wanted
+                if (recordedChordText == "Escape")
+                {
+                    _model.ClearKeyBinding(ActionName);
+                    _shortcutButtonUi.buttonText.text = "";
+                    _checkboxStorable.SetVal(false);
+                    _model.Plugin.SaveBindingSettings();
+                    return;
                 }
 
-                var binding = item.Value;
-                var enabled = binding?.Enabled ?? false;
+                var keyChordInUse = _model.KeyBindings
+                    .Where((x) => !x.Name.Equals(ActionName)) // don't look at "us"
+                    .Count((x) => x.KeyChord.Equals(recordedChord)) + 1; // but see if the chord is used anywhere else
+                var usageMax = recordedChord.HasAxis ? 2 : 1;
 
-                if(!command.Group.Equals(ActionCategory))
+                if (keyChordInUse > usageMax)
                 {
-                    continue;
+                    _shortcutButtonUi.buttonText.text = origButtonText;
+                    SuperController.LogError("This key is already assigned to another action");
+                    return;
                 }
+
+                _model.SetKeyBinding(ActionName, KeyBinding.Build(_model.Plugin, ActionName, recordedChord, _command));
+                _shortcutButtonUi.buttonText.text = recordedChordText;
+                _model.Plugin.SaveBindingSettings();
+            });
+
+
+            _checkboxStorable.SetVal(true);
+        }
+
+
+        public UIBindingRow(ViewModel model, Command command)
+        {
+            using(var tracker = TimingLogger.Track("UIBindingRow.ctor()"))
+            {
+                _model = model;
+                _command = command;
+                ActionName = command.Name;
+
+                var binding = _model.GetKeyBinding(ActionName);
+
+                tracker.Log("... after binding");
 
                 // checkbox on the left
-                var checkboxStorable = new JSONStorableBool(actionName, enabled, (JSONStorableBool newStorable) => {
-                    var b = GetKeyBinding(actionName);
-                    if (b != null)
-                    {
-                        b.Enabled = newStorable.val;
-                        SetKeyBinding(actionName, b);
-                        _plugin.SaveBindingSettings();
-                    }
-                });
+                _checkboxStorable = new JSONStorableBool(ActionName, binding == null ? false : binding.Enabled, OnCheckboxHandler);
+                _checkboxUi = _model.Plugin.CreateToggle(_checkboxStorable);
+                _checkboxUi.labelText.text = command.DisplayName;
+                _checkboxUi.labelText.resizeTextMaxSize = _checkboxUi.labelText.fontSize;
+                _checkboxUi.labelText.resizeTextForBestFit = true;
+                _checkboxUi.backgroundColor = Color.clear;
 
-                var checkboxUi = _plugin.CreateToggle(checkboxStorable);
-                checkboxUi.labelText.text = command.DisplayName;
-                checkboxUi.labelText.resizeTextMaxSize = checkboxUi.labelText.fontSize;
-                checkboxUi.labelText.resizeTextForBestFit = true;
-                checkboxUi.backgroundColor = Color.clear;
+                tracker.Log("... after checkbox create");
 
-                _uiCleanup.Add(() => _plugin.RemoveToggle(checkboxUi));
-
-                // assigned (optional) textbox on the right
                 var shortcutText = binding == null ? "" : binding.KeyChord.ToString();
-                var shortcutButtonUi = _plugin.CreateButton(shortcutText, rightSide: true);
-                shortcutButtonUi.height = checkboxUi.height;
-                shortcutButtonUi.button.onClick.AddListener(() =>
-                {
-                    if (IsRecording)
-                    {
-                        SuperController.LogError("Already recording", false);
-                        return;
-                    }
+                _shortcutButtonUi = _model.Plugin.CreateButton(shortcutText, rightSide: true);
+                _shortcutButtonUi.height = _checkboxUi.height;
+                _shortcutButtonUi.button.onClick.AddListener(OnShortcutHandler);
 
-                    var origButtonText = shortcutButtonUi.buttonText.text;
+                tracker.Log("... after button create");
+            }
+        }
 
-                    shortcutButtonUi.buttonText.text = "recording (press ESC to clear)";
-                    _keyRecorder = new KeyRecorder((recordedChord) =>
-                    {
-                        var recordedChordText = recordedChord.ToString();
-
-                        // if user recorded "esc" then exit out assuming clearning the 
-                        // binding was what was wanted
-                        if (recordedChordText == "Escape")
-                        {
-                            ClearKeyBinding(actionName);
-                            shortcutButtonUi.buttonText.text = "";
-                            checkboxStorable.SetVal(false);
-                            _plugin.SaveBindingSettings();
-                            return;
-                        }
-
-                        var keyChordInUse = KeyBindings
-                            .Where((x) => !x.Name.Equals(actionName)) // don't look at "us"
-                            .Count((x) => x.KeyChord.Equals(recordedChord)) + 1; // but see if the chord is used anywhere else
-                        var usageMax = recordedChord.HasAxis ? 2 : 1;
-
-                        if (keyChordInUse > usageMax)
-                        {
-                            shortcutButtonUi.buttonText.text = origButtonText;
-                            SuperController.LogError("This key is already assigned to another action");
-                            return;
-                        }
-
-                        SetKeyBinding(actionName, KeyBinding.Build(_plugin, actionName, recordedChord, command));
-                        shortcutButtonUi.buttonText.text = recordedChordText;
-                        _plugin.SaveBindingSettings();
-                    });
-
-                    checkboxStorable.SetVal(true);
-                });
-
-                _uiCleanup.Add(() => _plugin.RemoveButton(shortcutButtonUi));
+        public void Destroy()
+        {
+            if(_checkboxUi != null)
+            {
+                _model.Plugin.RemoveToggle(_checkboxStorable);
+                _model.Plugin.RemoveToggle(_checkboxUi);
+            }
+            if(_shortcutButtonUi != null)
+            {
+                _model.Plugin.RemoveButton(_shortcutButtonUi);
             }
         }
     }

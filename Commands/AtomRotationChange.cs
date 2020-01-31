@@ -8,12 +8,14 @@ namespace LFE.KeyboardShortcuts.Commands
     {
         private Axis _axis;
         private float _rotationsPerSecond;
-        public AtomRotationChange(Axis axis, float rotationsPerSecond) : this(axis, rotationsPerSecond, (Func<Atom, bool>)null) { }
-        public AtomRotationChange(Axis axis, float rotationsPerSecond, Atom atom) : this(axis, rotationsPerSecond, (a) => a.uid.Equals(atom.uid)) { }
-        public AtomRotationChange(Axis axis, float rotationsPerSecond, Func<Atom, bool> predicate) : base(predicate)
+        private FreeControllerV3 _controller;
+        public AtomRotationChange(Axis axis, float rotationsPerSecond) : this(axis, rotationsPerSecond, (FreeControllerV3)null) { }
+        public AtomRotationChange(Axis axis, float rotationsPerSecond, Atom atom) : this(axis, rotationsPerSecond, atom.mainController) { }
+        public AtomRotationChange(Axis axis, float rotationsPerSecond, FreeControllerV3 controller) : base(null)
         {
             _axis = axis;
             _rotationsPerSecond = rotationsPerSecond;
+            _controller = controller;
         }
 
         public override bool Execute(CommandExecuteEventArgs args)
@@ -25,11 +27,11 @@ namespace LFE.KeyboardShortcuts.Commands
                 if (!MathUtilities.SameSign(args.Data, _rotationsPerSecond)) { return false; }
             }
 
-            var selected = TargetAtom(args);
-            if (selected != null)
+            _controller = _controller ?? TargetAtom(args)?.mainController;
+            if (_controller != null)
             {
                 var rotate = 360 * Time.deltaTime * _rotationsPerSecond * Mathf.Abs(args.Data);
-                var target = selected.freeControllers[0].transform;
+                var target = _controller.transform;
 
                 if(_axis == Axis.X) { target.Rotate(rotate, 0, 0); }
                 else if(_axis == Axis.Y) { target.Rotate(0, rotate, 0); }

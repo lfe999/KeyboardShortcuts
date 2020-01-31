@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace LFE.KeyboardShortcuts
+﻿namespace LFE.KeyboardShortcuts
 {
     public static class MathUtilities
     {

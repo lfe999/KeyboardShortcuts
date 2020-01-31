@@ -21,6 +21,7 @@
             set { _displayName = value; }
         }
         public string Group { get; set; } = CommandConst.CAT_GENERAL;
+        public string SubGroup { get; set; } = CommandConst.SUBCAT_DEFAULT;
 
         public abstract bool Execute(CommandExecuteEventArgs args);
     }

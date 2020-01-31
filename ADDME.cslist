@@ -47,5 +47,6 @@ Models/KeyBinding.cs
 Models/KeyChord.cs
 Models/KeyRecorder.cs
 Models/ViewModel.cs
-MathUtilities.cs
+Utils/MathUtilities.cs
+Utils/TimingLogger.cs
 Plugin.cs
