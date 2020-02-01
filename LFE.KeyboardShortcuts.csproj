@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\AnimationSpeedChange.cs" />
+    <Compile Include="Commands\PluginAdd.cs" />
     <Compile Include="Commands\AtomCommandBase.cs" />
     <Compile Include="Commands\AtomAdd.cs" />
     <Compile Include="Commands\AtomDelete.cs" />

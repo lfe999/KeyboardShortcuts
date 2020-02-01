@@ -22,6 +22,7 @@ Commands/MsaaChange.cs
 Commands/MonitorFieldOfViewChange.cs
 Commands/PerformanceMonitorToggle.cs
 Commands/PixelLightCountChange.cs
+Commands/PluginAdd.cs
 Commands/PluginActionCall.cs
 Commands/PluginBoolSet.cs
 Commands/PluginBoolToggle.cs

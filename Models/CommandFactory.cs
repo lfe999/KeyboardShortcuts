@@ -159,6 +159,7 @@ namespace LFE.KeyboardShortcuts.Models
 
                 // actions for atoms only
                 yield return new AtomHiddenToggle(atom) { Name = $"Atom > {atom.uid} > Hide > Toggle", DisplayName = "Hide > Toggle", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                yield return new PluginAdd(atom, showFilePrompt: true, openPluginUi: true) { Name = $"Atom > {atom.uid} > Add Plugin", DisplayName = "Add Plugin", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
 
                 foreach(var tab in atom.GetUITabNames())
                 {
