@@ -1,5 +1,5 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.10 by LFE#9677
+KeyboardShortcuts v0.11 by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 
@@ -9,15 +9,8 @@ VaM built in shortcuts (like "T" or "E") will always fire even if you set
 
 FEATURE REQUESTS / TODO:
 
-- Ability to set shortcut for actions on a specific Plugin instance (not by the first to be found by name)
-- Ability to set shortcut to show the UI for a specific Plugin instance
 - Ability to share shortcuts with others and let them import them
 - Action for toggling screenshot mode
-
-OTHER COMMENTS:
-- The plugins are showing up in the same drop down as the atoms, so it's hard to know which atom it is for.
-  I would suggest showing two popups instead; one for the atom, one for the target storable. An alternative would be to
-  simply show all values for all storables in the list, but that could make a pretty long one...
 
 ***********************************************************************************/
 using UnityEngine;

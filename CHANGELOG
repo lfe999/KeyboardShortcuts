@@ -1,3 +1,12 @@
+Version 0.11 2019-01-31
+    New: Actions can now target any free controller on an atom
+    Change: Plugin actions now target specific plugin instances instead
+	        of a category of plugin.  This gives more flexibility but
+			sacrifices convenience.  Thoughts towards convenience are
+			being considered.
+    New: Action to turn on screenshot mode
+    Fix: Tab selection would sometimes fail. Now it fails less
+
 Version 0.10 2019-01-30
     New: Mirror Reflection Toggle Action
 	New: Msaa Change Action
