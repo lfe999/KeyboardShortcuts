@@ -214,50 +214,89 @@ namespace LFE.KeyboardShortcuts.Models
                     yield return new AtomRotationChange(Axis.Z, -2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Decrease Large", DisplayName = $"{controller.name} > Rotation > Z Decrease Large", Group = group, SubGroup = subGroup };
                 }
 
-            }
-
-            // PLUGIN BY NAME (assuming only the first plugin by that type in the scene)
-            var pluginsByShortName = SuperController.singleton.GetAllPlugins()
-                .GroupBy((p) => p.GetShortName())
-                .Select((g) => g.First())
-                .Where((p) => !p.GetShortName().Equals(_plugin.GetShortName()));
-            foreach(var plugin in pluginsByShortName)
-            {
-                var shortName = plugin.GetShortName();
-                var group = $"{shortName}";
-
-                yield return new PluginShowUI(plugin) { Name = $"{shortName} > Show UI", DisplayName = "Show UI", Group = group };
-
-                // booleans
-                foreach (var param in plugin.GetBoolParamNames().Where((param) => !param.Equals("enabled")))
+                // actions for plugins on an atom
+                foreach(var plugin in atom.GetPluginStorables())
                 {
-                    yield return new PluginBoolSet(plugin, param, true) { Name = $"{shortName} > {param} > On", DisplayName = $"{param} > On", Group = group };
-                    yield return new PluginBoolSet(plugin, param, false) { Name = $"{shortName} > {param} > Off", DisplayName = $"{param} > Off", Group = group };
-                    yield return new PluginBoolToggle(plugin, param) { Name = $"{shortName} > {param} > Toggle", DisplayName = $"{param} > Toggle", Group = group };
-                }
-                // actions
-                foreach (var param in plugin.GetCustomActionNames())
-                {
-                    yield return new PluginActionCall(plugin, param) { Name = $"{shortName} > {param} > Call", DisplayName = $"{param}", Group = group };
-                }
+                    var namePrefix = $"{atom.uid} > {plugin.name}";
+                    var subGroup = plugin.name;
 
-                // floats
-                foreach (var param in plugin.GetFloatParamNames())
-                {
-                    yield return new PluginFloatChange(plugin, param, 0.01f) { Name = $"{shortName} > {param} > +0.01", DisplayName = $"{param} > +0.01", Group = group };
-                    yield return new PluginFloatChange(plugin, param, -0.01f) { Name = $"{shortName} > {param} > -0.01", DisplayName = $"{param} > -0.01", Group = group };
-                    yield return new PluginFloatChange(plugin, param, 0.1f) { Name = $"{shortName} > {param} > +0.10", DisplayName = $"{param} > +0.10", Group = group };
-                    yield return new PluginFloatChange(plugin, param, -0.1f) { Name = $"{shortName} > {param} > -0.10", DisplayName = $"{param} > -0.10", Group = group };
-                    yield return new PluginFloatChange(plugin, param, 1.0f) { Name = $"{shortName} > {param} > +1.00", DisplayName = $"{param} > +1.00", Group = group };
-                    yield return new PluginFloatChange(plugin, param, -1.0f) { Name = $"{shortName} > {param} > -1.00", DisplayName = $"{param} > -1.00", Group = group };
-                }
-                // select boxes (jsonstorablestringchoosers)
-                foreach (var param in plugin.GetStringChooserParamNames())
-                {
-                    yield return new PluginStringChooserChange(plugin, param, 1) { Name = $"{shortName} > {param} > Next", DisplayName = $"{param} > Next", Group = group };
-                    yield return new PluginStringChooserChange(plugin, param, -1) { Name = $"{shortName} > {param} > Prev", DisplayName = $"{param} > Prev", Group = group };
+                    yield return new PluginShowUI(plugin) { Name = $"{namePrefix} > Show UI", DisplayName = "Show UI", Group = group, SubGroup = subGroup };
+
+                    // booleans
+                    foreach (var param in plugin.GetBoolParamNames().Where((param) => !param.Equals("enabled")))
+                    {
+                        yield return new PluginBoolSet(plugin, param, true) { Name = $"{namePrefix} > {param} > On", DisplayName = $"{param} > On", Group = group, SubGroup = subGroup };
+                        yield return new PluginBoolSet(plugin, param, false) { Name = $"{namePrefix} > {param} > Off", DisplayName = $"{param} > Off", Group = group, SubGroup = subGroup };
+                        yield return new PluginBoolToggle(plugin, param) { Name = $"{namePrefix} > {param} > Toggle", DisplayName = $"{param} > Toggle", Group = group, SubGroup = subGroup };
+                    }
+                    // actions
+                    foreach (var param in plugin.GetCustomActionNames())
+                    {
+                        yield return new PluginActionCall(plugin, param) { Name = $"{namePrefix} > {param} > Call", DisplayName = $"{param}", Group = group, SubGroup = subGroup };
+                    }
+
+                    // floats
+                    foreach (var param in plugin.GetFloatParamNames())
+                    {
+                        yield return new PluginFloatChange(plugin, param, 0.01f) { Name = $"{namePrefix} > {param} > +0.01", DisplayName = $"{param} > +0.01", Group = group, SubGroup = subGroup };
+                        yield return new PluginFloatChange(plugin, param, -0.01f) { Name = $"{namePrefix} > {param} > -0.01", DisplayName = $"{param} > -0.01", Group = group, SubGroup = subGroup };
+                        yield return new PluginFloatChange(plugin, param, 0.1f) { Name = $"{namePrefix} > {param} > +0.10", DisplayName = $"{param} > +0.10", Group = group, SubGroup = subGroup };
+                        yield return new PluginFloatChange(plugin, param, -0.1f) { Name = $"{namePrefix} > {param} > -0.10", DisplayName = $"{param} > -0.10", Group = group, SubGroup = subGroup };
+                        yield return new PluginFloatChange(plugin, param, 1.0f) { Name = $"{namePrefix} > {param} > +1.00", DisplayName = $"{param} > +1.00", Group = group, SubGroup = subGroup };
+                        yield return new PluginFloatChange(plugin, param, -1.0f) { Name = $"{namePrefix} > {param} > -1.00", DisplayName = $"{param} > -1.00", Group = group, SubGroup = subGroup };
+                    }
+                    // select boxes (jsonstorablestringchoosers)
+                    foreach (var param in plugin.GetStringChooserParamNames())
+                    {
+                        yield return new PluginStringChooserChange(plugin, param, 1) { Name = $"{namePrefix} > {param} > Next", DisplayName = $"{param} > Next", Group = group, SubGroup = subGroup };
+                        yield return new PluginStringChooserChange(plugin, param, -1) { Name = $"{namePrefix} > {param} > Prev", DisplayName = $"{param} > Prev", Group = group, SubGroup = subGroup };
+                    }
+
                 }
             }
+
+            //// PLUGIN BY NAME (assuming only the first plugin by that type in the scene)
+            //var pluginsByShortName = SuperController.singleton.GetAllPlugins()
+            //    .GroupBy((p) => p.GetShortName())
+            //    .Select((g) => g.First())
+            //    .Where((p) => !p.GetShortName().Equals(_plugin.GetShortName()));
+            //foreach(var plugin in pluginsByShortName)
+            //{
+            //    var shortName = plugin.GetShortName();
+            //    var group = $"{shortName}";
+
+            //    yield return new PluginShowUI(plugin) { Name = $"{shortName} > Show UI", DisplayName = "Show UI", Group = group };
+
+            //    // booleans
+            //    foreach (var param in plugin.GetBoolParamNames().Where((param) => !param.Equals("enabled")))
+            //    {
+            //        yield return new PluginBoolSet(plugin, param, true) { Name = $"{shortName} > {param} > On", DisplayName = $"{param} > On", Group = group };
+            //        yield return new PluginBoolSet(plugin, param, false) { Name = $"{shortName} > {param} > Off", DisplayName = $"{param} > Off", Group = group };
+            //        yield return new PluginBoolToggle(plugin, param) { Name = $"{shortName} > {param} > Toggle", DisplayName = $"{param} > Toggle", Group = group };
+            //    }
+            //    // actions
+            //    foreach (var param in plugin.GetCustomActionNames())
+            //    {
+            //        yield return new PluginActionCall(plugin, param) { Name = $"{shortName} > {param} > Call", DisplayName = $"{param}", Group = group };
+            //    }
+
+            //    // floats
+            //    foreach (var param in plugin.GetFloatParamNames())
+            //    {
+            //        yield return new PluginFloatChange(plugin, param, 0.01f) { Name = $"{shortName} > {param} > +0.01", DisplayName = $"{param} > +0.01", Group = group };
+            //        yield return new PluginFloatChange(plugin, param, -0.01f) { Name = $"{shortName} > {param} > -0.01", DisplayName = $"{param} > -0.01", Group = group };
+            //        yield return new PluginFloatChange(plugin, param, 0.1f) { Name = $"{shortName} > {param} > +0.10", DisplayName = $"{param} > +0.10", Group = group };
+            //        yield return new PluginFloatChange(plugin, param, -0.1f) { Name = $"{shortName} > {param} > -0.10", DisplayName = $"{param} > -0.10", Group = group };
+            //        yield return new PluginFloatChange(plugin, param, 1.0f) { Name = $"{shortName} > {param} > +1.00", DisplayName = $"{param} > +1.00", Group = group };
+            //        yield return new PluginFloatChange(plugin, param, -1.0f) { Name = $"{shortName} > {param} > -1.00", DisplayName = $"{param} > -1.00", Group = group };
+            //    }
+            //    // select boxes (jsonstorablestringchoosers)
+            //    foreach (var param in plugin.GetStringChooserParamNames())
+            //    {
+            //        yield return new PluginStringChooserChange(plugin, param, 1) { Name = $"{shortName} > {param} > Next", DisplayName = $"{param} > Next", Group = group };
+            //        yield return new PluginStringChooserChange(plugin, param, -1) { Name = $"{shortName} > {param} > Prev", DisplayName = $"{param} > Prev", Group = group };
+            //    }
+            //}
         }
 
         private readonly Dictionary<string, string> _defaultForAction = new Dictionary<string, string>
