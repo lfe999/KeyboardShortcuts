@@ -1,3 +1,8 @@
+Version 0.12 2019-02-03
+    New: Add Plugin to Atom action
+    Fix: Reloading plugins or atoms in the scene no longer crash shortcuts
+	Fix: Load Scene action now opens in edit mode
+
 Version 0.11 2019-01-31
     New: Actions can now target any free controller on an atom
     Change: Plugin actions now target specific plugin instances instead

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LFE.KeyboardShortcuts.Extensions;
+using System;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -8,14 +9,19 @@ namespace LFE.KeyboardShortcuts.Commands
     {
         private Axis _axis;
         private float _rotationsPerSecond;
-        private FreeControllerV3 _controller;
+        private string _atomUid;
+        private string _controllerName;
         public AtomRotationChange(Axis axis, float rotationsPerSecond) : this(axis, rotationsPerSecond, (FreeControllerV3)null) { }
         public AtomRotationChange(Axis axis, float rotationsPerSecond, Atom atom) : this(axis, rotationsPerSecond, atom.mainController) { }
         public AtomRotationChange(Axis axis, float rotationsPerSecond, FreeControllerV3 controller) : base(null)
         {
             _axis = axis;
             _rotationsPerSecond = rotationsPerSecond;
-            _controller = controller;
+            if(controller != null)
+            {
+                _atomUid = controller.containingAtom.uid;
+                _controllerName = controller.name;
+            }
         }
 
         public override bool Execute(CommandExecuteEventArgs args)
@@ -27,11 +33,11 @@ namespace LFE.KeyboardShortcuts.Commands
                 if (!MathUtilities.SameSign(args.Data, _rotationsPerSecond)) { return false; }
             }
 
-            _controller = _controller ?? TargetAtom(args)?.mainController;
-            if (_controller != null)
+            var controller = SuperController.singleton.GetFreeController(_atomUid, _controllerName) ?? TargetAtom(args)?.mainController;
+            if (controller != null)
             {
                 var rotate = 360 * Time.deltaTime * _rotationsPerSecond * Mathf.Abs(args.Data);
-                var target = _controller.transform;
+                var target = controller.transform;
 
                 if(_axis == Axis.X) { target.Rotate(rotate, 0, 0); }
                 else if(_axis == Axis.Y) { target.Rotate(0, rotate, 0); }

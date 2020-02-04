@@ -7,7 +7,16 @@ namespace LFE.KeyboardShortcuts.Extensions
 
         public static JSONStorable GetPluginStorable(this Atom atom, string pluginId)
         {
-            return atom.GetPluginStorables().Where((p) => p.name.Contains(pluginId)).FirstOrDefault();
+            foreach(var s in atom.GetPluginStorables())
+            {
+                if(s.name.Equals(pluginId))
+                {
+                    //SuperController.LogMessage($"returning {atom.uid} => {s.name}");
+                    return s;
+                }
+            }
+            //return atom.GetPluginStorables().Where((p) => p.name.Equals(pluginId)).FirstOrDefault();
+            return null;
         }
 
         public static IEnumerable<JSONStorable> GetPluginStorables(this Atom atom)

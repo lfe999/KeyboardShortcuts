@@ -1,17 +1,22 @@
-﻿namespace LFE.KeyboardShortcuts.Commands
+﻿using LFE.KeyboardShortcuts.Extensions;
+
+namespace LFE.KeyboardShortcuts.Commands
 {
     public class PluginActionCall : Command
     {
-        private JSONStorable _plugin;
+        private string _atomUid;
+        private string _pluginName;
         private string _key;
         public PluginActionCall(JSONStorable plugin, string key)
         {
-            _plugin = plugin;
+            _atomUid = plugin.containingAtom.uid;
+            _pluginName = plugin.name;
             _key = key;
         }
         public override bool Execute(CommandExecuteEventArgs args)
         {
-            _plugin?.CallAction(_key);
+            var plugin = SuperController.singleton.GetPluginStorable(_atomUid, _pluginName);
+            plugin?.CallAction(_key);
             return true;
         }
     }

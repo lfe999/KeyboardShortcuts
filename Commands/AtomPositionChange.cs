@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LFE.KeyboardShortcuts.Extensions;
+using System;
 using UnityEngine;
 using UnityEngine.Animations;
 
@@ -8,14 +9,19 @@ namespace LFE.KeyboardShortcuts.Commands
     {
         private Axis _axis;
         private float _unitsPerSecond;
-        private FreeControllerV3 _controller;
+        private string _atomUid;
+        private string _controllerName;
         public AtomPositionChange(Axis axis, float unitPerSecond) : this(axis, unitPerSecond, (FreeControllerV3)null) { }
         public AtomPositionChange(Axis axis, float unitPerSecond, Atom atom) : this(axis, unitPerSecond, atom.mainController) { }
         public AtomPositionChange(Axis axis, float unitPerSecond, FreeControllerV3 controller) : base(null)
         {
             _axis = axis;
             _unitsPerSecond = unitPerSecond;
-            _controller = controller;
+            if(controller != null)
+            {
+                _atomUid = controller.containingAtom.uid;
+                _controllerName = controller.name;
+            }
         }
 
         public override bool Execute(CommandExecuteEventArgs args)
@@ -27,15 +33,15 @@ namespace LFE.KeyboardShortcuts.Commands
                 if (!MathUtilities.SameSign(args.Data, _unitsPerSecond)) { return false; }
             }
 
-            _controller = _controller ?? TargetAtom(args)?.mainController;
-            if (_controller != null)
+            var controller = SuperController.singleton.GetFreeController(_atomUid, _controllerName) ?? TargetAtom(args)?.mainController;
+            if (controller != null)
             {
                 var direction = Vector3.right;
                 if(_axis == Axis.X) { direction = Vector3.right; }
                 else if (_axis == Axis.Y) { direction = Vector3.up; }
                 else if (_axis == Axis.Z) { direction = Vector3.forward; }
 
-                _controller.transform.Translate(direction * Time.deltaTime * _unitsPerSecond * Mathf.Abs(args.Data));
+                controller.transform.Translate(direction * Time.deltaTime * _unitsPerSecond * Mathf.Abs(args.Data));
             }
             return true;
         }

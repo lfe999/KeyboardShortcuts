@@ -1,17 +1,25 @@
-﻿namespace LFE.KeyboardShortcuts.Commands
+﻿using LFE.KeyboardShortcuts.Extensions;
+
+namespace LFE.KeyboardShortcuts.Commands
 {
     public class PluginBoolToggle : Command
     {
-        private JSONStorable _plugin;
+        private string _atomUid;
+        private string _pluginName;
         private string _key;
         public PluginBoolToggle(JSONStorable plugin, string key)
         {
-            _plugin = plugin;
+            _atomUid = plugin.containingAtom.uid;
+            _pluginName = plugin.name;
             _key = key;
         }
         public override bool Execute(CommandExecuteEventArgs args)
         {
-            if(_plugin != null) { _plugin.SetBoolParamValue(_key, !_plugin.GetBoolParamValue(_key)); }
+            var plugin = SuperController.singleton.GetPluginStorable(_atomUid, _pluginName);
+            if(plugin != null)
+            {
+                plugin.SetBoolParamValue(_key, !plugin.GetBoolParamValue(_key));
+            }
             return true;
         }
     }

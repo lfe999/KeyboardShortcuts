@@ -7,20 +7,23 @@ namespace LFE.KeyboardShortcuts.Commands
 {
     public class AtomSelect : AtomCommandBase
     {
-        private FreeControllerV3 _controller;
-        public AtomSelect(FreeControllerV3 controller) : this((a) => a.uid.Equals(controller.containingAtom.uid)) {
-            _controller = controller;
+        private string _atomUid;
+        private string _controllerName;
+
+        public AtomSelect(FreeControllerV3 controller) : this((a) => a.uid.Equals(controller?.containingAtom?.uid)) {
+            if(controller != null)
+            {
+                _atomUid = controller.containingAtom.uid;
+                _controllerName = controller.name;
+            }
         }
-        public AtomSelect(Atom atom) : this((FreeControllerV3)atom.mainController) { }
+        public AtomSelect(Atom atom) : this((FreeControllerV3)atom?.mainController) { }
         public AtomSelect(Func<Atom, bool> predicate) : base(predicate) { }
 
         public override bool Execute(CommandExecuteEventArgs args)
         {
-            if(_controller == null)
-            {
-                _controller = TargetAtom(args)?.mainController;
-            }
-            SuperController.singleton.SelectController(_controller);
+            var controller = SuperController.singleton.GetFreeController(_atomUid, _controllerName) ?? TargetAtom(args)?.mainController;
+            SuperController.singleton.SelectController(controller);
             return true;
         }
     }

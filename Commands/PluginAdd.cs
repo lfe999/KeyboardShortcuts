@@ -9,30 +9,33 @@ namespace LFE.KeyboardShortcuts.Commands
 {
     public class PluginAdd : Command
     {
-        private Atom _atom;
+        private string _atomUid;
         private bool _showFilePrompt;
         private bool _openPluginUi;
         public PluginAdd(Atom atom, bool showFilePrompt = false, bool openPluginUi = false)
         {
-            _atom = atom;
+            _atomUid = atom.uid;
             _showFilePrompt = showFilePrompt || openPluginUi;
             _openPluginUi = openPluginUi;
         }
 
         public override bool Execute(CommandExecuteEventArgs args)
         {
+            var atom = SuperController.singleton.GetAtomByUid(_atomUid);
+            if(atom == null) { return false; }
+
             // select the atom plugin tab first
-            new AtomSelectTab("Plugins", _atom).Execute(args);
+            new AtomSelectTab("Plugins", atom).Execute(args);
 
             // click the "add" button
-            var ui = _atom.GetComponentInChildren<MVRPluginManagerUI>();
+            var ui = atom.GetComponentInChildren<MVRPluginManagerUI>();
             if(ui != null)
             {
                 ui?.addPluginButton?.onClick?.Invoke();
                 if(_showFilePrompt)
                 {
                     // find the newest empty plugin ui section that was added
-                    var lastAddedPluginUi = _atom.GetComponentsInChildren<MVRPluginUI>()
+                    var lastAddedPluginUi = atom.GetComponentsInChildren<MVRPluginUI>()
                         .Where((x) => x.urlText.text.Equals(string.Empty))
                         .LastOrDefault();
                     if(lastAddedPluginUi != null)
@@ -40,7 +43,7 @@ namespace LFE.KeyboardShortcuts.Commands
                         // prompt the user to select a file
                         lastAddedPluginUi.fileBrowseButton?.onClick?.Invoke();
                         // wait up to 120 seconds for user to have made a choice and open
-                        _atom.StartCoroutine(Waiter(120, lastAddedPluginUi, (found) =>
+                        atom.StartCoroutine(Waiter(120, lastAddedPluginUi, (found) =>
                         {
                             if(found != null && _openPluginUi)
                             {

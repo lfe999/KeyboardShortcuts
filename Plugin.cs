@@ -1,5 +1,5 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.11 by LFE#9677
+KeyboardShortcuts v0.12 by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 
@@ -11,6 +11,7 @@ FEATURE REQUESTS / TODO:
 
 - Ability to share shortcuts with others and let them import them
 - Action for toggling screenshot mode
+- Feature: Ability for shortcut on current selected controller (babul)
 
 ***********************************************************************************/
 using UnityEngine;

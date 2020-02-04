@@ -7,6 +7,22 @@ namespace LFE.KeyboardShortcuts.Extensions
     public static class SuperControllerExtensions
     {
         /// <summary>
+        /// Get a FreeControllerV3 by name
+        /// </summary>
+        /// <param name="sc"></param>
+        /// <param name="atomUid"></param>
+        /// <param name="controllerName"></param>
+        /// <returns></returns>
+        public static FreeControllerV3 GetFreeController(this SuperController sc, string atomUid, string controllerName)
+        {
+            if(atomUid == null || controllerName == null)
+            {
+                return null;
+            }
+            return sc.GetAtomByUid(atomUid)?.freeControllers?.Where((fc) => fc.name.Equals(controllerName)).FirstOrDefault();
+        }
+
+        /// <summary>
         /// Get all plugin storables
         /// </summary>
         /// <param name="sc"></param>
@@ -14,6 +30,19 @@ namespace LFE.KeyboardShortcuts.Extensions
         public static IEnumerable<JSONStorable> GetAllPlugins(this SuperController sc)
         {
             return sc.GetAtoms().SelectMany((a) => a.GetPluginStorables());
+        }
+
+        /// <summary>
+        /// Get a plugin instance
+        /// </summary>
+        /// <param name="sc"></param>
+        /// <param name="atomUid"></param>
+        /// <param name="pluginName"></param>
+        /// <returns></returns>
+        public static JSONStorable GetPluginStorable(this SuperController sc, string atomUid, string pluginName)
+        {
+            if(atomUid == null || pluginName == null) { return null; }
+            return sc.GetAtomByUid(atomUid)?.GetPluginStorable(pluginName);
         }
 
         /// <summary>
