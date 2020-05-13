@@ -62,7 +62,7 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Models\\ViewModel.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Plugin.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Utils\\MathUtilities.cs",
-      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Utils\\TimingLogger.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Utils\\TimingLogger.cs"
    ], 
    "dependencies" : { 
    }
