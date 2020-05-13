@@ -33,7 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Assembly-CSharp">
-      <HintPath>..\..\..\VaM_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -44,113 +44,113 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.BaselibModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.BaselibModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.BaselibModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ClothModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.ClothModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.InputModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.InputModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.InputModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.Networking">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.Networking.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.Networking.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIElementsModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.UIElementsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VRModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.VRModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.VRModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.XRModule">
-      <HintPath>..\..\..\VaM_Data\Managed\UnityEngine.XRModule.dll</HintPath>
+      <HintPath>..\..\..\..\VaM_Data\Managed\UnityEngine.XRModule.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Commands\AnimationSpeedChange.cs" />
-    <Compile Include="Commands\PluginAdd.cs" />
-    <Compile Include="Commands\AtomCommandBase.cs" />
-    <Compile Include="Commands\AtomAdd.cs" />
-    <Compile Include="Commands\AtomDelete.cs" />
-    <Compile Include="Commands\AtomHiddenToggle.cs" />
-    <Compile Include="Commands\AtomPositionChange.cs" />
-    <Compile Include="Commands\AtomPositionSetLerp.cs" />
-    <Compile Include="Commands\AtomRotationChange.cs" />
-    <Compile Include="Commands\AtomSelect.cs" />
-    <Compile Include="Commands\AtomSelectNext.cs" />
-    <Compile Include="Commands\AtomSelectPrev.cs" />
-    <Compile Include="Commands\AtomSelectTab.cs" />
-    <Compile Include="Commands\CommandExecuteEventArgs.cs" />
-    <Compile Include="Commands\ScreenShotModeOn.cs" />
-    <Compile Include="Commands\PerformanceMonitorToggle.cs" />
-    <Compile Include="Commands\PixelLightCountChange.cs" />
-    <Compile Include="Commands\MsaaChange.cs" />
-    <Compile Include="Commands\PluginShowUI.cs" />
-    <Compile Include="Commands\PluginStringChooserChange.cs" />
-    <Compile Include="Commands\SceneNew.cs" />
-    <Compile Include="Commands\SceneSave.cs" />
-    <Compile Include="Commands\SceneLoad.cs" />
-    <Compile Include="Commands\ErrorLogToggle.cs" />
-    <Compile Include="Commands\FreezeAnimationSet.cs" />
-    <Compile Include="Commands\FreezeAnimationToggle.cs" />
-    <Compile Include="Commands\MessageLogToggle.cs" />
-    <Compile Include="Commands\MonitorFieldOfViewChange.cs" />
-    <Compile Include="Commands\PluginActionCall.cs" />
-    <Compile Include="Commands\PluginFloatChange.cs" />
-    <Compile Include="Commands\PluginBoolSet.cs" />
-    <Compile Include="Commands\PluginBoolToggle.cs" />
-    <Compile Include="Commands\MirrorReflectionsToggle.cs" />
-    <Compile Include="Commands\SoftBodyPhysicsToggle.cs" />
-    <Compile Include="Commands\TimeScaleChange.cs" />
-    <Compile Include="Commands\WorldScaleChange.cs" />
-    <Compile Include="Extensions\EnumerableExtensions.cs" />
-    <Compile Include="Extensions\InputWrapper.cs" />
-    <Compile Include="Extensions\JSONStorableExtensions.cs" />
-    <Compile Include="Extensions\SuperControllerExtensions.cs" />
-    <Compile Include="Extensions\TransformExtensions.cs" />
-    <Compile Include="Extensions\AtomExtensions.cs" />
-    <Compile Include="Extensions\UITabSelectorExtensions.cs" />
-    <Compile Include="Utils\MathUtilities.cs" />
-    <Compile Include="Commands\Command.cs" />
-    <Compile Include="Models\CommandFactory.cs" />
-    <Compile Include="Commands\CommandConst.cs" />
-    <Compile Include="Plugin.cs" />
-    <Compile Include="Models\KeyBinding.cs" />
-    <Compile Include="Models\ViewModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Models\KeyChord.cs" />
-    <Compile Include="Models\KeyRecorder.cs" />
-    <Compile Include="Utils\TimingLogger.cs" />
+    <Compile Include="src\Commands\AnimationSpeedChange.cs" />
+    <Compile Include="src\Commands\PluginAdd.cs" />
+    <Compile Include="src\Commands\AtomCommandBase.cs" />
+    <Compile Include="src\Commands\AtomAdd.cs" />
+    <Compile Include="src\Commands\AtomDelete.cs" />
+    <Compile Include="src\Commands\AtomHiddenToggle.cs" />
+    <Compile Include="src\Commands\AtomPositionChange.cs" />
+    <Compile Include="src\Commands\AtomPositionSetLerp.cs" />
+    <Compile Include="src\Commands\AtomRotationChange.cs" />
+    <Compile Include="src\Commands\AtomSelect.cs" />
+    <Compile Include="src\Commands\AtomSelectNext.cs" />
+    <Compile Include="src\Commands\AtomSelectPrev.cs" />
+    <Compile Include="src\Commands\AtomSelectTab.cs" />
+    <Compile Include="src\Commands\CommandExecuteEventArgs.cs" />
+    <Compile Include="src\Commands\ScreenShotModeOn.cs" />
+    <Compile Include="src\Commands\PerformanceMonitorToggle.cs" />
+    <Compile Include="src\Commands\PixelLightCountChange.cs" />
+    <Compile Include="src\Commands\MsaaChange.cs" />
+    <Compile Include="src\Commands\PluginShowUI.cs" />
+    <Compile Include="src\Commands\PluginStringChooserChange.cs" />
+    <Compile Include="src\Commands\SceneNew.cs" />
+    <Compile Include="src\Commands\SceneSave.cs" />
+    <Compile Include="src\Commands\SceneLoad.cs" />
+    <Compile Include="src\Commands\ErrorLogToggle.cs" />
+    <Compile Include="src\Commands\FreezeAnimationSet.cs" />
+    <Compile Include="src\Commands\FreezeAnimationToggle.cs" />
+    <Compile Include="src\Commands\MessageLogToggle.cs" />
+    <Compile Include="src\Commands\MonitorFieldOfViewChange.cs" />
+    <Compile Include="src\Commands\PluginActionCall.cs" />
+    <Compile Include="src\Commands\PluginFloatChange.cs" />
+    <Compile Include="src\Commands\PluginBoolSet.cs" />
+    <Compile Include="src\Commands\PluginBoolToggle.cs" />
+    <Compile Include="src\Commands\MirrorReflectionsToggle.cs" />
+    <Compile Include="src\Commands\SoftBodyPhysicsToggle.cs" />
+    <Compile Include="src\Commands\TimeScaleChange.cs" />
+    <Compile Include="src\Commands\WorldScaleChange.cs" />
+    <Compile Include="src\Extensions\EnumerableExtensions.cs" />
+    <Compile Include="src\Extensions\InputWrapper.cs" />
+    <Compile Include="src\Extensions\JSONStorableExtensions.cs" />
+    <Compile Include="src\Extensions\SuperControllerExtensions.cs" />
+    <Compile Include="src\Extensions\TransformExtensions.cs" />
+    <Compile Include="src\Extensions\AtomExtensions.cs" />
+    <Compile Include="src\Extensions\UITabSelectorExtensions.cs" />
+    <Compile Include="src\Utils\MathUtilities.cs" />
+    <Compile Include="src\Commands\Command.cs" />
+    <Compile Include="src\Models\CommandFactory.cs" />
+    <Compile Include="src\Commands\CommandConst.cs" />
+    <Compile Include="src\Plugin.cs" />
+    <Compile Include="src\Models\KeyBinding.cs" />
+    <Compile Include="src\Models\ViewModel.cs" />
+    <Compile Include="src\Properties\AssemblyInfo.cs" />
+    <Compile Include="src\Models\KeyChord.cs" />
+    <Compile Include="src\Models\KeyRecorder.cs" />
+    <Compile Include="src\Utils\TimingLogger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ADDME.cslist" />
+    <None Include="src\ADDME.cslist" />
     <None Include="CHANGELOG" />
     <None Include="LICENSE" />
   </ItemGroup>
