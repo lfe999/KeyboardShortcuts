@@ -16,6 +16,7 @@ Commands/CommandExecuteEventArgs.cs
 Commands/ErrorLogToggle.cs
 Commands/FreezeAnimationSet.cs
 Commands/FreezeAnimationToggle.cs
+Commands/HardReset.cs
 Commands/MessageLogToggle.cs
 Commands/MirrorReflectionsToggle.cs
 Commands/MsaaChange.cs

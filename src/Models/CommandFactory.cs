@@ -38,6 +38,7 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new PixelLightCountChange(1) { Name = "Pixel Light Count > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new PixelLightCountChange(-1) { Name = "Pixel Light Count > Decrease", Group = CommandConst.CAT_GENERAL };
             yield return new RescanPackages() { Name = "Rescan Add-on Packages", Group = CommandConst.CAT_GENERAL };
+            yield return new HardReset() { Name = "Hard Reset", Group = CommandConst.CAT_GENERAL };
             yield return new SceneNew() { Name = "Scene > New Scene", Group = CommandConst.CAT_GENERAL };
             yield return new SceneLoad() { Name = "Scene > Open Scene", Group = CommandConst.CAT_GENERAL };
             yield return new SceneSave() { Name = "Scene > Save Scene", Group = CommandConst.CAT_GENERAL };
@@ -314,7 +315,8 @@ namespace LFE.KeyboardShortcuts.Models
             { "Time Scale > Decrease", "Control-DownArrow" },
             { "Freeze Animation > Toggle", "Space" },
             { "Message Log > Toggle", "BackQuote" },
-            { "Rescan Add-on Packages", "F5" }
+            { "Rescan Add-on Packages", "F5" },
+            { "Hard Reset", "Shift-F5" }
 
         };
 

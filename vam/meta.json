@@ -28,6 +28,7 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\ErrorLogToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\FreezeAnimationSet.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\FreezeAnimationToggle.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\HardReset.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\MessageLogToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\MirrorReflectionsToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\MonitorFieldOfViewChange.cs",
