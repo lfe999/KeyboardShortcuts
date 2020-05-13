@@ -37,6 +37,7 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new PerformanceMonitorToggle() { Name = "Performance Monitor > Toggle", Group = CommandConst.CAT_GENERAL };
             yield return new PixelLightCountChange(1) { Name = "Pixel Light Count > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new PixelLightCountChange(-1) { Name = "Pixel Light Count > Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new RescanPackages() { Name = "Rescan Add-on Packages", Group = CommandConst.CAT_GENERAL };
             yield return new SceneNew() { Name = "Scene > New Scene", Group = CommandConst.CAT_GENERAL };
             yield return new SceneLoad() { Name = "Scene > Open Scene", Group = CommandConst.CAT_GENERAL };
             yield return new SceneSave() { Name = "Scene > Save Scene", Group = CommandConst.CAT_GENERAL };
@@ -312,7 +313,9 @@ namespace LFE.KeyboardShortcuts.Models
             { "Time Scale > Increase", "Control-UpArrow" },
             { "Time Scale > Decrease", "Control-DownArrow" },
             { "Freeze Animation > Toggle", "Space" },
-            { "Message Log > Toggle", "BackQuote" }
+            { "Message Log > Toggle", "BackQuote" },
+            { "Rescan Add-on Packages", "F5" }
+
         };
 
         public KeyChord GetDefaultKeyChordByActionName(string name)

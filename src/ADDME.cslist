@@ -29,6 +29,7 @@ Commands/PluginBoolToggle.cs
 Commands/PluginFloatChange.cs
 Commands/PluginShowUI.cs
 Commands/PluginStringChooserChange.cs
+Commands/RescanPackages.cs
 Commands/SceneLoad.cs
 Commands/SceneNew.cs
 Commands/SceneSave.cs

@@ -41,6 +41,7 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PluginFloatChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PluginShowUI.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PluginStringChooserChange.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\RescanPackages.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\SceneLoad.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\SceneNew.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\SceneSave.cs",
