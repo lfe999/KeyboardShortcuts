@@ -23,7 +23,9 @@ namespace LFE.KeyboardShortcuts.Models
 
             _onAtomUIDsChanged = (uidList) =>
             {
-                Initialize();
+                if(!SuperController.singleton.isLoading) {
+                    Initialize();
+                }
             };
 
             SuperController.singleton.onAtomUIDsChangedHandlers += _onAtomUIDsChanged;
@@ -72,6 +74,12 @@ namespace LFE.KeyboardShortcuts.Models
         public void CheckPluginsHaveChanged()
         {
             _lastAtomPluginInfoTimer += Time.deltaTime;
+
+            if(SuperController.singleton.isLoading) {
+                // Don't loop through scene information looking for changes if it is in the process of loading.
+                return;
+            }
+
             // only poll for plugin changes once every 3 seconds for performance
             if(_lastAtomPluginInfoTimer < 3.0f) {
                 return;
@@ -411,7 +419,7 @@ namespace LFE.KeyboardShortcuts.Models
                 }
                 var recordedChordText = recordedChord.ToString();
 
-                // if user recorded "esc" then exit out assuming clearning the 
+                // if user recorded "esc" then exit out assuming clearning the
                 // binding was what was wanted
                 if (recordedChordText == "Escape")
                 {
