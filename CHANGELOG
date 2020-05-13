@@ -1,3 +1,9 @@
+Version 0.14 2020-05-13
+    New: Command for Rescan Packages
+    New: Command for Hard Reset
+    Fix: Timescale change increment is now smaller
+    Fix: Do not hang when running as a session plugin and loading another scene
+
 Version 0.13 2020-05-13
     Fix: VaM 1.19 support - Package in VAR format from here on out
 
