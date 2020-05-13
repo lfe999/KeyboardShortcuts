@@ -202,7 +202,11 @@ namespace LFE.KeyboardShortcuts
         {
             try
             {
-                return SuperController.singleton.LoadJSON($"{GetPluginPath()}/settings.json").AsObject;
+                var settings = SuperController.singleton.LoadJSON($"Saves\\lfe_keyboardshortcuts.json");
+                if(settings == null) {
+                    return null;
+                }
+                return settings.AsObject;
             }
             catch(Exception e)
             {
@@ -240,26 +244,12 @@ namespace LFE.KeyboardShortcuts
             }
             try
             {
-                SuperController.singleton.SaveJSON(json, $"{GetPluginPath()}/settings.json");
+                SuperController.singleton.SaveJSON(json, $"Saves\\lfe_keyboardshortcuts.json");
             }
             catch(Exception e)
             {
                 SuperController.LogError(e.ToString(), false);
             }
-        }
-
-        /// <summary>
-        /// Absolute path to the root of this plugin
-        /// </summary>
-        /// <returns></returns>
-        public string GetPluginPath()
-        {
-            SuperController.singleton.currentSaveDir = SuperController.singleton.currentLoadDir;
-            string pluginId = this.storeId.Split('_')[0];
-            MVRPluginManager manager = containingAtom.GetComponentInChildren<MVRPluginManager>();
-            string pathToScriptFile = manager.GetJSON(true, true)["plugins"][pluginId].Value;
-            string pathToScriptFolder = pathToScriptFile.Substring(0, pathToScriptFile.LastIndexOfAny(new char[] { '/', '\\' }));
-            return pathToScriptFolder;
         }
     }
 }
