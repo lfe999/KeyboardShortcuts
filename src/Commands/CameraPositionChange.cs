@@ -11,6 +11,9 @@ namespace LFE.KeyboardShortcuts.Commands
         private float _unitsPerSecond;
         public CameraPositionChange(Axis axis, float unitPerSecond)
         {
+            RunPhase = CommandConst.RUNPHASE_FIXED_UPDATE;
+            RepeatSpeed = 0;
+            RepeatDelay = 0;
             _axis = axis;
             _unitsPerSecond = unitPerSecond;
         }

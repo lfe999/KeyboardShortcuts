@@ -46,6 +46,7 @@ Extensions/JSONStorableExtensions.cs
 Extensions/SuperControllerExtensions.cs
 Extensions/TransformExtensions.cs
 Extensions/UITabSelectorExtensions.cs
+Models/BindingEvent.cs
 Models/CommandFactory.cs
 Models/KeyBinding.cs
 Models/KeyChord.cs

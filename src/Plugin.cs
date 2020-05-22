@@ -47,11 +47,9 @@ namespace LFE.KeyboardShortcuts
             SaveBindingSettings();
         }
 
-        private List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>> _activeBindings = new List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>>();
+        private HashSet<KeyBinding> _activeBindings = new HashSet<KeyBinding>();
 
         private float _chordRepeatTimestamp;
-        const float REPEAT_HOLD_DELAY = 0.5f; // How long do you have to hold a key before it begins repeating
-        const float REPEAT_RATE_DELAY = 0.100f; // What is the delay between key repeats
 
         protected void Update()
         {
@@ -73,17 +71,24 @@ namespace LFE.KeyboardShortcuts
                 foreach(var noLongerPressed in _activeBindings)
                 {
                     // axis commands really benefit from a final "reset to 0" command run -- so do that
-                    if(noLongerPressed.Key.KeyChord.HasAxis && noLongerPressed.Value != null)
+                    if(noLongerPressed.KeyChord.HasAxis)
                     {
-                        noLongerPressed.Value.Invoke(new CommandExecuteEventArgs
-                        {
-                            KeyBinding = noLongerPressed.Key,
-                            Data = 0,
-                            IsRepeat = true
-                        });
+                        model.EnqueueAction(
+                            new BindingEvent {
+                                EventName = BindingEvent.ON_BINDING_REPEAT,
+                                Command = noLongerPressed.Command,
+                                Binding = noLongerPressed,
+                                Args = new CommandExecuteEventArgs
+                                {
+                                    KeyBinding = noLongerPressed,
+                                    Data = 0,
+                                    IsRepeat = true
+                                }
+                            }
+                        );
                     }
                 }
-                _activeBindings = new List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>>();
+                _activeBindings.Clear();
 
                 return;
             }
@@ -109,26 +114,33 @@ namespace LFE.KeyboardShortcuts
             // nothing being pressed
             if (matches.Count == 0)
             {
-                _activeBindings = new List<KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>>();
+                _activeBindings.Clear();
                 return;
             }
 
             // see if anything used to be pressed but is not anymore
-            foreach(var noLongerPressed in _activeBindings.Where((kvp) => !matches.Contains(kvp.Key)))
+            foreach(var noLongerPressed in _activeBindings.Where((b) => !matches.Contains(b)))
             {
                 // axis commands really benefit from a final "reset to 0" command run -- so do that
-                if(noLongerPressed.Key.KeyChord.HasAxis && noLongerPressed.Value != null)
+                if(noLongerPressed.KeyChord.HasAxis)
                 {
-                    noLongerPressed.Value.Invoke(new CommandExecuteEventArgs
-                    {
-                        KeyBinding = noLongerPressed.Key,
-                        Data = 0,
-                        IsRepeat = true
-                    });
+                    model.EnqueueAction(
+                        new BindingEvent {
+                            EventName = BindingEvent.ON_BINDING_UP,
+                            Command = noLongerPressed.Command,
+                            Binding = noLongerPressed,
+                            Args = new CommandExecuteEventArgs
+                            {
+                                KeyBinding = noLongerPressed,
+                                Data = 0,
+                                IsRepeat = true
+                            }
+                        }
+                    );
                 }
             }
             // remove only the inactive bindings
-            _activeBindings.RemoveAll((kvp) => !matches.Contains(kvp.Key));
+            _activeBindings.RemoveWhere((b) => !matches.Contains(b));
 
             foreach (var binding in matches)
             {
@@ -137,7 +149,7 @@ namespace LFE.KeyboardShortcuts
 
                 // did another binding get triggered that is a superset of us?
                 // (or are we a subset of an action that was just triggered)
-                if(_activeBindings.Any((kvp) => chord.IsProperSubsetOf(kvp.Key.KeyChord)))
+                if(_activeBindings.Any((b) => chord.IsProperSubsetOf(b.KeyChord)))
                 {
                     // .. then consider us already tiggered
                     continue;
@@ -146,50 +158,65 @@ namespace LFE.KeyboardShortcuts
                 if (chord.IsBeingRepeated())
                 {
                     // Check repeat if still holding down last key
-                    if (_activeBindings.Any((kvp) => kvp.Key.Equals(binding)))
+                    if (_activeBindings.Any((b) => b.Equals(binding)))
                     {
                         // Still holding down the key... is it time for a repeat?
                         if (Time.unscaledTime >= _chordRepeatTimestamp)
                         {
-                            _chordRepeatTimestamp = Time.unscaledTime + REPEAT_RATE_DELAY;
-                            bool actionResult = true;
-                            if (binding.Enabled)
-                            {
-                                actionResult = action(new CommandExecuteEventArgs {
-                                    KeyBinding = binding,
-                                    Data = binding.KeyChord.GetPressedValue(),
-                                    IsRepeat = true
-                                });
-                            }
-                            if(actionResult)
-                            {
-                                // replace the active info just in case
-                                _activeBindings.Where((kvp) => kvp.Key.Equals(binding)).ToList().ForEach((kvp) => new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, action));
-                            }
+                            _chordRepeatTimestamp = Time.unscaledTime + binding.Command.RepeatSpeed;
+                            model.EnqueueAction(
+                                new BindingEvent {
+                                    EventName = BindingEvent.ON_BINDING_REPEAT,
+                                    Command = binding.Command,
+                                    Binding = binding,
+                                    Args = new CommandExecuteEventArgs
+                                    {
+                                        KeyBinding = binding,
+                                        Data = binding.KeyChord.GetPressedValue(),
+                                        IsRepeat = true
+                                    }
+                                }
+                            );
                         }
                     }
                     else
                     {
-                        _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, null));
-                        _chordRepeatTimestamp = Time.unscaledTime + REPEAT_HOLD_DELAY;
+                        _activeBindings.Add(binding);
+                        _chordRepeatTimestamp = Time.unscaledTime + binding.Command.RepeatDelay;
                     }
                 }
                 else
                 {
                     // Handle the keypress and set the repeat delay timer
-                    bool actionResult = false;
-                    if (binding.Enabled)
-                    {
-                        actionResult = action(new CommandExecuteEventArgs {
-                            KeyBinding = binding,
-                            Data = binding.KeyChord.GetPressedValue(),
-                            IsRepeat = false
-                        });
-                    }
+                    model.EnqueueAction(
+                        new BindingEvent {
+                            EventName = BindingEvent.ON_BINDING_DOWN,
+                            Command = binding.Command,
+                            Binding = binding,
+                            Args = new CommandExecuteEventArgs
+                            {
+                                KeyBinding = binding,
+                                Data = binding.KeyChord.GetPressedValue(),
+                                IsRepeat = false
+                            }
+                        }
+                    );
 
-                    _chordRepeatTimestamp = Time.unscaledTime + REPEAT_HOLD_DELAY;
-                    _activeBindings.Add(new KeyValuePair<KeyBinding, Func<CommandExecuteEventArgs, bool>>(binding, actionResult ? action : null));
+                    _chordRepeatTimestamp = Time.unscaledTime + binding.Command.RepeatDelay;
+                    _activeBindings.Add(binding);
                 }
+            }
+
+            // run any queue commands for this phase
+            foreach(var e in model.DequeueActionForUpdate()) {
+                var result = e.Execute();
+            }
+        }
+
+        public void FixedUpdate() {
+            // run any queue commands for this phase
+            foreach(var e in model.DequeueActionForFixedUpdate()) {
+                var result = e.Execute();
             }
         }
 

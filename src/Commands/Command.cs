@@ -22,6 +22,9 @@
         }
         public string Group { get; set; } = CommandConst.CAT_GENERAL;
         public string SubGroup { get; set; } = CommandConst.SUBCAT_DEFAULT;
+        public string RunPhase { get; set; } = CommandConst.RUNPHASE_UPDATE;
+        public float RepeatDelay { get; set; } = 0.5f;
+        public float RepeatSpeed { get; set; } = 0.1f;
 
         public abstract bool Execute(CommandExecuteEventArgs args);
     }

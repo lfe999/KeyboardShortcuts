@@ -117,6 +117,32 @@ namespace LFE.KeyboardShortcuts.Models
             _lastAtomPluginInfo = atomPluginInfo;
         }
 
+        private Queue<BindingEvent> _actionQueueUpdatePhase = new Queue<BindingEvent>();
+        private Queue<BindingEvent> _actionQueueFixedUpdatePhase = new Queue<BindingEvent>();
+        public void EnqueueAction(BindingEvent e) {
+            switch(e.Command.RunPhase) {
+                case CommandConst.RUNPHASE_FIXED_UPDATE:
+                    _actionQueueFixedUpdatePhase.Enqueue(e);
+                    break;
+                case CommandConst.RUNPHASE_UPDATE:
+                default:
+                    _actionQueueUpdatePhase.Enqueue(e);
+                    break;
+            }
+        }
+
+        public IEnumerable<BindingEvent> DequeueActionForUpdate() {
+            for(var i = 0; i < _actionQueueUpdatePhase.Count; i++) {
+                yield return _actionQueueUpdatePhase.Dequeue();
+            }
+        }
+
+        public IEnumerable<BindingEvent> DequeueActionForFixedUpdate() {
+            for(var i = 0; i < _actionQueueFixedUpdatePhase.Count; i++) {
+                yield return _actionQueueFixedUpdatePhase.Dequeue();
+            }
+        }
+
         public void InitializeUI()
         {
             ClearUI();
