@@ -4,6 +4,7 @@ using LFE.KeyboardShortcuts.Commands;
 using UnityEngine.Animations;
 
 using LFE.KeyboardShortcuts.Extensions;
+using LFE.KeyboardShortcuts.Main;
 
 namespace LFE.KeyboardShortcuts.Models
 {
@@ -18,8 +19,18 @@ namespace LFE.KeyboardShortcuts.Models
         public IEnumerable<Command> BuildCommands()
         {
             // GENERAL commands
-            yield return new CameraPositionChange(Axis.X, 0.45f) { Name = "Move > Right", Group = CommandConst.CAT_GENERAL };
-            yield return new CameraPositionChange(Axis.X, -0.45f) { Name = "Move > Left", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraPositionChange(Axis.X, 0.75f) { Name = "Camera > Move > Right", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraPositionChange(Axis.X, -0.75f) { Name = "Camera > Move > Left", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraPositionChange(Axis.Z, 0.75f) { Name = "Camera > Move > Forward", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraPositionChange(Axis.Z, -0.75f) { Name = "Camera > Move > Backward", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraPositionChange(Axis.Y, 0.50f) { Name = "Camera > Move > Up", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraPositionChange(Axis.Y, -0.50f) { Name = "Camera > Move > Down", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationChange(Axis.X, 0.25f) { Name = "Camera > Look > Up", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationChange(Axis.X, -0.25f) { Name = "Camera > Look > Down", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationChange(Axis.Y, 0.25f) { Name = "Camera > Look > Left", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationChange(Axis.Y, -0.25f) { Name = "Camera > Look > Right", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationChange(Axis.Z, 0.25f) { Name = "Camera > Look > Tilt Left", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationChange(Axis.Z, -0.25f) { Name = "Camera > Look > Tilt Right", Group = CommandConst.CAT_GENERAL };
             yield return new AnimationSpeedChange(0.05f) { Name = "Animation Speed > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new AnimationSpeedChange(-0.05f) { Name = "Animation Speed > Decrease", Group = CommandConst.CAT_GENERAL };
             yield return new AtomSelectNext() { Name = "Atom > Select Next", Group = CommandConst.CAT_GENERAL };

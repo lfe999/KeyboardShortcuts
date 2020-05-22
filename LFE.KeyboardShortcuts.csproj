@@ -108,6 +108,7 @@
     <Compile Include="src\Commands\AtomSelectPrev.cs" />
     <Compile Include="src\Commands\AtomSelectTab.cs" />
     <Compile Include="src\Commands\CameraPositionChange.cs" />
+    <Compile Include="src\Commands\CameraRotationChange.cs" />
     <Compile Include="src\Commands\CommandExecuteEventArgs.cs" />
     <Compile Include="src\Commands\ScreenShotModeOn.cs" />
     <Compile Include="src\Commands\PerformanceMonitorToggle.cs" />
@@ -142,9 +143,10 @@
     <Compile Include="src\Extensions\UITabSelectorExtensions.cs" />
     <Compile Include="src\Utils\MathUtilities.cs" />
     <Compile Include="src\Commands\Command.cs" />
+    <Compile Include="src\Models\BindingEvent.cs" />
     <Compile Include="src\Models\CommandFactory.cs" />
     <Compile Include="src\Commands\CommandConst.cs" />
-    <Compile Include="src\Plugin.cs" />
+    <Compile Include="src\Main\Plugin.cs" />
     <Compile Include="src\Models\KeyBinding.cs" />
     <Compile Include="src\Models\ViewModel.cs" />
     <Compile Include="src\Properties\AssemblyInfo.cs" />
@@ -153,7 +155,7 @@
     <Compile Include="src\Utils\TimingLogger.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\ADDME.cslist" />
+    <None Include="src\KeyboardShortcuts.cslist" />
     <None Include="CHANGELOG" />
     <None Include="LICENSE" />
   </ItemGroup>

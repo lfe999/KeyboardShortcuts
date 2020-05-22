@@ -11,6 +11,7 @@ Commands/AtomSelectNext.cs
 Commands/AtomSelectPrev.cs
 Commands/AtomSelectTab.cs
 Commands/CameraPositionChange.cs
+Commands/CameraRotationChange.cs
 Commands/Command.cs
 Commands/CommandConst.cs
 Commands/CommandExecuteEventArgs.cs
@@ -54,4 +55,4 @@ Models/KeyRecorder.cs
 Models/ViewModel.cs
 Utils/MathUtilities.cs
 Utils/TimingLogger.cs
-Plugin.cs
+Main/Plugin.cs

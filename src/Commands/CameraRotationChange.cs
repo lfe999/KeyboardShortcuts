@@ -5,20 +5,17 @@ using UnityEngine.Animations;
 
 namespace LFE.KeyboardShortcuts.Commands
 {
-    public class CameraPositionChange : Command
+    public class CameraRotationChange : Command
     {
-        private Vector3 _direction;
+        private Axis _axis;
         private float _unitsPerSecond;
         private Camera _windowCamera;
-        public CameraPositionChange(Axis axis, float unitPerSecond)
+        public CameraRotationChange(Axis axis, float unitPerSecond)
         {
             RunPhase = CommandConst.RUNPHASE_FIXED_UPDATE;
             RepeatSpeed = 0;
             RepeatDelay = 0;
-            _direction = Vector3.right;
-            if(axis == Axis.X) { _direction = Vector3.right; }
-            else if (axis == Axis.Y) { _direction = Vector3.up; }
-            else if (axis == Axis.Z) { _direction = Vector3.forward; }
+            _axis = axis;
             _unitsPerSecond = unitPerSecond;
             _windowCamera = GetWindowCamera();
         }
@@ -30,21 +27,16 @@ namespace LFE.KeyboardShortcuts.Commands
                 // make sure the keybinding and value change are going the
                 // same "direction" (for the case where the axis is involved)
                 if (!MathUtilities.SameSign(args.Data, _unitsPerSecond)) { return false; }
-
-                if(_direction == Vector3.forward) {
-                    // invert the direction for forward/back if using an axis
-                    _direction = Vector3.back;
-                }
             }
 
             if (_windowCamera != null)
             {
-                var multiplier = 1.0f;
-                if (InputWrapper.GetKey(KeyCode.LeftShift) || InputWrapper.GetKey(KeyCode.RightShift) || args.KeyBinding.KeyChord.HasAxis)
-                {
-                    multiplier *= 3.0f;
-                }
-                _windowCamera.transform.Translate(_direction * Time.deltaTime * _unitsPerSecond * multiplier * Mathf.Abs(args.Data));
+                var rotate = 360 * Time.deltaTime * _unitsPerSecond * Mathf.Abs(args.Data);
+                var target = _windowCamera.transform;
+
+                if(_axis == Axis.X) { target.Rotate(rotate, 0, 0); }
+                else if(_axis == Axis.Y) { target.Rotate(0, rotate, 0); }
+                else if(_axis == Axis.Z) { target.Rotate(0, 0, rotate); }
             }
             return true;
         }

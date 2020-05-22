@@ -1,5 +1,6 @@
 ﻿using System;
 using LFE.KeyboardShortcuts.Commands;
+using LFE.KeyboardShortcuts.Main;
 
 namespace LFE.KeyboardShortcuts.Models
 {

@@ -1,5 +1,5 @@
 ﻿/***********************************************************************************
-KeyboardShortcuts v0.14 by LFE#9677
+KeyboardShortcuts by LFE#9677
 
 Allows defining custom keyboard bindings to trigger actions
 
@@ -10,8 +10,6 @@ VaM built in shortcuts (like "T" or "E") will always fire even if you set
 FEATURE REQUESTS / TODO:
 
 - Ability to share shortcuts with others and let them import them
-- Action for toggling screenshot mode
-- Feature: Ability for shortcut on current selected controller (babul)
 
 ***********************************************************************************/
 using UnityEngine;
@@ -23,7 +21,7 @@ using LFE.KeyboardShortcuts.Extensions;
 using System.Collections.Generic;
 using LFE.KeyboardShortcuts.Commands;
 
-namespace LFE.KeyboardShortcuts
+namespace LFE.KeyboardShortcuts.Main
 {
     public class Plugin : MVRScript
     {
