@@ -12,6 +12,10 @@ Save the `.var` file in the `(VAM_ROOT)\AddonPackages`.
 
 If you have VaM running already, click on the *Main UI > File (Open/Save) > Rescan Add-on Packages* button so that this plugin shows up.
 
+## Demo
+
+![](images/demo.gif?raw=true)
+
 ## Quickstart
 
 ### Add the plugin to your scene
