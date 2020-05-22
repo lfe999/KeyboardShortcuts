@@ -18,6 +18,8 @@ namespace LFE.KeyboardShortcuts.Models
         public IEnumerable<Command> BuildCommands()
         {
             // GENERAL commands
+            yield return new CameraPositionChange(Axis.X, 0.5f) { Name = "Move > Right", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraPositionChange(Axis.X, -0.5f) { Name = "Move > Left", Group = CommandConst.CAT_GENERAL };
             yield return new AnimationSpeedChange(0.05f) { Name = "Animation Speed > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new AnimationSpeedChange(-0.05f) { Name = "Animation Speed > Decrease", Group = CommandConst.CAT_GENERAL };
             yield return new AtomSelectNext() { Name = "Atom > Select Next", Group = CommandConst.CAT_GENERAL };

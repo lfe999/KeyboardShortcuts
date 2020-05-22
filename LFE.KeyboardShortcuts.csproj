@@ -107,6 +107,7 @@
     <Compile Include="src\Commands\AtomSelectNext.cs" />
     <Compile Include="src\Commands\AtomSelectPrev.cs" />
     <Compile Include="src\Commands\AtomSelectTab.cs" />
+    <Compile Include="src\Commands\CameraPositionChange.cs" />
     <Compile Include="src\Commands\CommandExecuteEventArgs.cs" />
     <Compile Include="src\Commands\ScreenShotModeOn.cs" />
     <Compile Include="src\Commands\PerformanceMonitorToggle.cs" />
@@ -120,12 +121,14 @@
     <Compile Include="src\Commands\ErrorLogToggle.cs" />
     <Compile Include="src\Commands\FreezeAnimationSet.cs" />
     <Compile Include="src\Commands\FreezeAnimationToggle.cs" />
+    <Compile Include="src\Commands\HardReset.cs" />
     <Compile Include="src\Commands\MessageLogToggle.cs" />
     <Compile Include="src\Commands\MonitorFieldOfViewChange.cs" />
     <Compile Include="src\Commands\PluginActionCall.cs" />
     <Compile Include="src\Commands\PluginFloatChange.cs" />
     <Compile Include="src\Commands\PluginBoolSet.cs" />
     <Compile Include="src\Commands\PluginBoolToggle.cs" />
+    <Compile Include="src\Commands\RescanPackages.cs" />
     <Compile Include="src\Commands\MirrorReflectionsToggle.cs" />
     <Compile Include="src\Commands\SoftBodyPhysicsToggle.cs" />
     <Compile Include="src\Commands\TimeScaleChange.cs" />

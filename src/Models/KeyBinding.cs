@@ -7,20 +7,22 @@ namespace LFE.KeyboardShortcuts.Models
     {
         public KeyChord KeyChord { get; private set; }
         public Func<CommandExecuteEventArgs, bool> Action { get; private set; }
+        public Command Command {get; private set; }
         public string Name { get; private set; }
         public bool Enabled { get; set; }
 
-        private KeyBinding(string name, KeyChord chord, Func<CommandExecuteEventArgs, bool> action)
+        private KeyBinding(string name, KeyChord chord, Command command)
         {
             KeyChord = chord;
-            Action = action;
+            Action = (e) => command.Execute(e);
             Name = name;
             Enabled = true;
+            Command = command;
         }
 
         public static KeyBinding Build(Plugin plugin, string name, KeyChord chord, Command command)
         {
-            return new KeyBinding(name, chord, (e) => command.Execute(e));
+            return new KeyBinding(name, chord, command);
         }
 
         public override string ToString()
