@@ -153,6 +153,8 @@
     <Compile Include="src\Models\KeyChord.cs" />
     <Compile Include="src\Models\KeyRecorder.cs" />
     <Compile Include="src\Utils\TimingLogger.cs" />
+    <Compile Include="src\Commands\PlayEditModeSet.cs" />
+    <Compile Include="src\Commands\PlayEditModeToggle.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\KeyboardShortcuts.cslist" />

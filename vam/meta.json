@@ -37,6 +37,8 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\MsaaChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PerformanceMonitorToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PixelLightCountChange.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PlayEditModeSet.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PlayEditModeToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PluginActionCall.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PluginAdd.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\PluginBoolSet.cs",

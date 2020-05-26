@@ -31,6 +31,9 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new CameraRotationChange(Axis.Y, -0.25f) { Name = "Camera > Look > Right", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Z, 0.25f) { Name = "Camera > Look > Tilt Left", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Z, -0.25f) { Name = "Camera > Look > Tilt Right", Group = CommandConst.CAT_GENERAL };
+            yield return new PlayEditModeSet(SuperController.GameMode.Play) { Name = "Play/Edit > Set To Play", Group = CommandConst.CAT_GENERAL };
+            yield return new PlayEditModeSet(SuperController.GameMode.Edit) { Name = "Play/Edit > Set To Edit", Group = CommandConst.CAT_GENERAL };
+            yield return new PlayEditModeToggle() { Name = "Play/Edit > Toggle", Group = CommandConst.CAT_GENERAL };
             yield return new AnimationSpeedChange(0.05f) { Name = "Animation Speed > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new AnimationSpeedChange(-0.05f) { Name = "Animation Speed > Decrease", Group = CommandConst.CAT_GENERAL };
             yield return new AtomSelectNext() { Name = "Atom > Select Next", Group = CommandConst.CAT_GENERAL };

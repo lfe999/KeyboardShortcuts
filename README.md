@@ -62,6 +62,8 @@ Atom > Select Next | Select the next atom alphabetically even if it is hidden
 Atom > Select Prev | Select the previous atom alphabetically even if it is hidden
 Atom > Select Next Visible | Select the next visible atom alphabetically
 Atom > Select Prev Visible | Select the previous visible atom alphabetically
+Camera > Move > `Direction` | Move the main camera in the direction that you want
+Camera > Look > `Direction` | Rotater the main camera in the direction that you want
 Error Log > Toggle | 
 Message Log > Toggle | 
 Field of View > Increase | Increase the FOV by 10
@@ -74,7 +76,10 @@ MSAA Level > Increase | Choose the next highest MSAA level. Does nothing if alre
 MSAA Level > Decrease | Choose the next lowest MSAA level. Does nothing if already at the lowest.
 Performance Monitor > Toggle | 
 Pixel Light Count > Increase | 
-Pixel Light Count > Decrease | 
+Pixel Light Count > Decrease |
+Play/Edit > Set To Edit | Turn on Edit Mode
+Play/Edit > Set To Play | Turn on Play Mode
+Play/Edit > Toggle | Toggle Edit/Play Mode
 Rescan Add-on Packages |
 Hard Reset |
 Scene > New Scene |
