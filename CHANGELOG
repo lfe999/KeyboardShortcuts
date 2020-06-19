@@ -1,3 +1,9 @@
+Version 0.17 2020-06-19
+    New: Commands to control Animation patterns
+         Play, Pause, Reset, and so on
+    New: Command to run all triggers on a UIButton
+    New: Command to dump basic atom information to messages
+
 Version 0.16 2020-05-26
     New: Commands to set or toggle Play/Edit Mode
 
