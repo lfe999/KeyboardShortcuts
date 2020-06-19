@@ -94,6 +94,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\Commands\AnimationPatternCommand.cs" />
     <Compile Include="src\Commands\AnimationSpeedChange.cs" />
     <Compile Include="src\Commands\PluginAdd.cs" />
     <Compile Include="src\Commands\AtomCommandBase.cs" />

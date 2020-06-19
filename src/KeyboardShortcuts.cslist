@@ -1,3 +1,4 @@
+Commands/AnimationPatternCommand.cs
 Commands/AnimationSpeedChange.cs
 Commands/AtomAdd.cs
 Commands/AtomCommandBase.cs

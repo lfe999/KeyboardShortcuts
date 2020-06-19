@@ -180,8 +180,18 @@ namespace LFE.KeyboardShortcuts.Models
                 yield return new PluginAdd(atom, showFilePrompt: true, openPluginUi: true) { Name = $"Atom > {atom.uid} > Add Plugin", DisplayName = "Add Plugin", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
 
                 // actions for UIButton atoms
-                if(atom.type == "UIButton") {
-                    yield return new UIButtonTriggerCommand(atom) { Name = $"Atom > {atom.uid} > Run Triggers", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                switch(atom.type) {
+                    case "UIButton":
+                        yield return new UIButtonTriggerCommand(atom) { Name = $"Atom > {atom.uid} > Run Triggers", DisplayName = "Run Triggers", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                        break;
+                    case "AnimationPattern":
+                        yield return new AnimationPatternCommand(atom, AnimationPatternCommand.PLAY) { Name = $"Atom > {atom.uid} > Pattern Play", DisplayName = "Pattern Play", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                        yield return new AnimationPatternCommand(atom, AnimationPatternCommand.RESET_AND_PLAY) { Name = $"Atom > {atom.uid} > Pattern Reset and Play", DisplayName = "Pattern Reset and Play", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                        yield return new AnimationPatternCommand(atom, AnimationPatternCommand.PAUSE) { Name = $"Atom > {atom.uid} > Pattern Pause", DisplayName = "Pattern Pause", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                        yield return new AnimationPatternCommand(atom, AnimationPatternCommand.TOGGLE_PAUSE) { Name = $"Atom > {atom.uid} > Pattern Toggle Pause", DisplayName = "Pattern Toggle Pause", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                        yield return new AnimationPatternCommand(atom, AnimationPatternCommand.RESET ) { Name = $"Atom > {atom.uid} > Pattern Reset", DisplayName = "Pattern Reset", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+
+                        break;
                 }
 
                 foreach(var tab in atom.GetUITabNames())

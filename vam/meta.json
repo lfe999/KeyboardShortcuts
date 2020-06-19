@@ -10,6 +10,7 @@
    "programVersion" : "1.19.2.2", 
    "contentList" : [ 
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\KeyboardShortcuts.cslist",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AnimationPatternCommand.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AnimationSpeedChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomAdd.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomCommandBase.cs",
