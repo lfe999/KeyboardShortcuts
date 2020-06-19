@@ -53,6 +53,7 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\ScreenShotModeOn.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\SoftBodyPhysicsToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\TimeScaleChange.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\UIButtonTriggerCommand.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\WorldScaleChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Extensions\\AtomExtensions.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Extensions\\EnumerableExtensions.cs",

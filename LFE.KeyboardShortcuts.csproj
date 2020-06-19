@@ -133,6 +133,7 @@
     <Compile Include="src\Commands\MirrorReflectionsToggle.cs" />
     <Compile Include="src\Commands\SoftBodyPhysicsToggle.cs" />
     <Compile Include="src\Commands\TimeScaleChange.cs" />
+    <Compile Include="src\Commands\UIButtonTriggerCommand.cs" />
     <Compile Include="src\Commands\WorldScaleChange.cs" />
     <Compile Include="src\Extensions\EnumerableExtensions.cs" />
     <Compile Include="src\Extensions\InputWrapper.cs" />

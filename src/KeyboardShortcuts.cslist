@@ -1,4 +1,4 @@
-﻿Commands/AnimationSpeedChange.cs
+Commands/AnimationSpeedChange.cs
 Commands/AtomAdd.cs
 Commands/AtomCommandBase.cs
 Commands/AtomDelete.cs
@@ -41,6 +41,7 @@ Commands/SceneSave.cs
 Commands/ScreenShotModeOn.cs
 Commands/SoftBodyPhysicsToggle.cs
 Commands/TimeScaleChange.cs
+Commands/UIButtonTriggerCommand.cs
 Commands/WorldScaleChange.cs
 Extensions/AtomExtensions.cs
 Extensions/EnumerableExtensions.cs

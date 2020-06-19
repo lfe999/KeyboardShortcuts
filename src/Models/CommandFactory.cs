@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using LFE.KeyboardShortcuts.Commands;
 using UnityEngine.Animations;
@@ -178,6 +178,11 @@ namespace LFE.KeyboardShortcuts.Models
                 // actions for atoms only
                 yield return new AtomHiddenToggle(atom) { Name = $"Atom > {atom.uid} > Hide > Toggle", DisplayName = "Hide > Toggle", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
                 yield return new PluginAdd(atom, showFilePrompt: true, openPluginUi: true) { Name = $"Atom > {atom.uid} > Add Plugin", DisplayName = "Add Plugin", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+
+                // actions for UIButton atoms
+                if(atom.type == "UIButton") {
+                    yield return new UIButtonTriggerCommand(atom) { Name = $"Atom > {atom.uid} > Run Triggers", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                }
 
                 foreach(var tab in atom.GetUITabNames())
                 {
