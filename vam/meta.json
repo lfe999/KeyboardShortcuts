@@ -15,6 +15,7 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomAdd.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomCommandBase.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomDelete.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomDump.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomHiddenToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomPositionChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomPositionSetLerp.cs",

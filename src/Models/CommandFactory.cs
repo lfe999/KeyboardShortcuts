@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using LFE.KeyboardShortcuts.Commands;
 using UnityEngine.Animations;
@@ -78,6 +78,7 @@ namespace LFE.KeyboardShortcuts.Models
             // SELECTED ATOM commands
             yield return new AtomDelete() { Name = "Selected > Delete", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomHiddenToggle() { Name = "Selected > Hide > Toggle", Group = CommandConst.CAT_SELECTEDATOM };
+            yield return new AtomDump() { Name = "Selected > Print Object Structure", Group = CommandConst.CAT_SELECTEDATOM };
 
             yield return new AtomPositionSetLerp(Axis.X, 0, 1) { Name = $"Selected > Position > X > Interpolate 0 - 1", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomPositionSetLerp(Axis.Y, 0, 1) { Name = $"Selected > Position > Y > Interpolate 0 - 1", Group = CommandConst.CAT_SELECTEDATOM };
@@ -177,6 +178,7 @@ namespace LFE.KeyboardShortcuts.Models
 
                 // actions for atoms only
                 yield return new AtomHiddenToggle(atom) { Name = $"Atom > {atom.uid} > Hide > Toggle", DisplayName = "Hide > Toggle", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
+                yield return new AtomDump(atom) { Name = $"Atom > {atom.uid} > Print Object Structure", DisplayName = "Print Object Structure", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
                 yield return new PluginAdd(atom, showFilePrompt: true, openPluginUi: true) { Name = $"Atom > {atom.uid} > Add Plugin", DisplayName = "Add Plugin", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
 
                 // actions for UIButton atoms

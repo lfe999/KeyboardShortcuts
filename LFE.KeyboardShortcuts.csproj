@@ -100,6 +100,7 @@
     <Compile Include="src\Commands\AtomCommandBase.cs" />
     <Compile Include="src\Commands\AtomAdd.cs" />
     <Compile Include="src\Commands\AtomDelete.cs" />
+    <Compile Include="src\Commands\AtomDump.cs" />
     <Compile Include="src\Commands\AtomHiddenToggle.cs" />
     <Compile Include="src\Commands\AtomPositionChange.cs" />
     <Compile Include="src\Commands\AtomPositionSetLerp.cs" />

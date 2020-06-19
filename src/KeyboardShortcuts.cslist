@@ -1,8 +1,9 @@
-Commands/AnimationPatternCommand.cs
+﻿Commands/AnimationPatternCommand.cs
 Commands/AnimationSpeedChange.cs
 Commands/AtomAdd.cs
 Commands/AtomCommandBase.cs
 Commands/AtomDelete.cs
+Commands/AtomDump.cs
 Commands/AtomHiddenToggle.cs
 Commands/AtomPositionChange.cs
 Commands/AtomPositionSetLerp.cs
