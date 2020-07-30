@@ -17,6 +17,10 @@ Commands/CameraRotationChange.cs
 Commands/Command.cs
 Commands/CommandConst.cs
 Commands/CommandExecuteEventArgs.cs
+Commands/ControllerRotationChange.cs
+Commands/ControllerPositionChange.cs
+Commands/ControllerCommandBase.cs
+Commands/ControllerPositionSetLerp.cs
 Commands/ErrorLogToggle.cs
 Commands/FreezeAnimationSet.cs
 Commands/FreezeAnimationToggle.cs

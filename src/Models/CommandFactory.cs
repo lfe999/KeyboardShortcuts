@@ -74,6 +74,52 @@ namespace LFE.KeyboardShortcuts.Models
                 }
             }
 
+            // SELECTED FREE CONTROLLER command
+            yield return new ControllerPositionSetLerp(Axis.X, 0, 1) { Name = $"Selected FC > Position > X > Interpolate 0 - 1", Group = CommandConst.CAT_SELECTED_CONTROLLER };
+            yield return new ControllerPositionSetLerp(Axis.Y, 0, 1) { Name = $"Selected FC > Position > Y > Interpolate 0 - 1", Group = CommandConst.CAT_SELECTED_CONTROLLER };
+            yield return new ControllerPositionSetLerp(Axis.Z, 0, 1) { Name = $"Selected FC > Position > Z > Interpolate 0 - 1", Group = CommandConst.CAT_SELECTED_CONTROLLER };
+
+            yield return new ControllerPositionChange(Axis.X, 0.5f) { Name = "Selected FC > Position > X > Increase Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.X, -0.5f) { Name = "Selected FC > Position > X > Decrease Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.X, 2f) { Name = "Selected FC > Position > X > Increase Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.X, -2f) { Name = "Selected FC > Position > X > Decrease Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.X, 5.0f) { Name = "Selected FC > Position > X > Increase Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.X, -5.0f) { Name = "Selected FC > Position > X > Decrease Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+
+            yield return new ControllerPositionChange(Axis.Y, 0.5f) { Name = "Selected FC > Position > Y Increase Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Y, -0.5f) { Name = "Selected FC > Position > Y Decrease Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Y, 2f) { Name = "Selected FC > Position > Y Increase Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Y, -2f) { Name = "Selected FC > Position > Y Decrease Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Y, 5.0f) { Name = "Selected FC > Position > Y Increase Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Y, -5.0f) { Name = "Selected FC > Position > Y Decrease Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+
+            yield return new ControllerPositionChange(Axis.Z, 0.5f) { Name = "Selected FC > Position > Z Increase Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Z, -0.5f) { Name = "Selected FC > Position > Z Decrease Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Z, 2f) { Name = "Selected FC > Position > Z Increase Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Z, -2f) { Name = "Selected FC > Position > Z Decrease Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Z, 5.0f) { Name = "Selected FC > Position > Z Increase Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerPositionChange(Axis.Z, -5.0f) { Name = "Selected FC > Position > Z Decrease Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+
+            yield return new ControllerRotationChange(Axis.X, 0.25f) { Name = "Selected FC > Rotation > X Increase Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.X, -0.25f) { Name = "Selected FC > Rotation > X Decrease Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.X, 0.5f) { Name = "Selected FC > Rotation > X Increase Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.X, -0.5f) { Name = "Selected FC > Rotation > X Decrease Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.X, 2.0f) { Name = "Selected FC > Rotation > X Increase Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.X, -2.0f) { Name = "Selected FC > Rotation > X Decrease Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+
+            yield return new ControllerRotationChange(Axis.Y, 0.25f) { Name = "Selected FC > Rotation > Y Increase Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Y, -0.25f) { Name = "Selected FC > Rotation > Y Decrease Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Y, 0.5f) { Name = "Selected FC > Rotation > Y Increase Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Y, -0.5f) { Name = "Selected FC > Rotation > Y Decrease Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Y, 2.0f) { Name = "Selected FC > Rotation > Y Increase Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Y, -2.0f) { Name = "Selected FC > Rotation > Y Decrease Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+
+            yield return new ControllerRotationChange(Axis.Z, 0.25f) { Name = "Selected FC > Rotation > Z Increase Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Z, -0.25f) { Name = "Selected FC > Rotation > Z Decrease Small", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Z, 0.5f) { Name = "Selected FC > Rotation > Z Increase Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Z, -0.5f) { Name = "Selected FC > Rotation > Z Decrease Medium", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Z, 2.0f) { Name = "Selected FC > Rotation > Z Increase Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
+            yield return new ControllerRotationChange(Axis.Z, -2.0f) { Name = "Selected FC > Rotation > Z Decrease Large", Group = CommandConst.CAT_SELECTED_CONTROLLER  };
 
             // SELECTED ATOM commands
             yield return new AtomDelete() { Name = "Selected > Delete", Group = CommandConst.CAT_SELECTEDATOM };
@@ -85,41 +131,45 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new AtomPositionSetLerp(Axis.Z, 0, 1) { Name = $"Selected > Position > Z > Interpolate 0 - 1", Group = CommandConst.CAT_SELECTEDATOM };
 
             yield return new AtomPositionChange(Axis.X, 0.5f) { Name = "Selected > Position > X > Increase Small", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomPositionChange(Axis.X, 2f) { Name = "Selected > Position > X > Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomPositionChange(Axis.X, 5.0f) { Name = "Selected > Position > X > Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.X, -0.5f) { Name = "Selected > Position > X > Decrease Small", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomPositionChange(Axis.X, 2f) { Name = "Selected > Position > X > Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.X, -2f) { Name = "Selected > Position > X > Decrease Medium", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomPositionChange(Axis.X, 5.0f) { Name = "Selected > Position > X > Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.X, -5.0f) { Name = "Selected > Position > X > Decrease Large", Group = CommandConst.CAT_SELECTEDATOM  };
+
             yield return new AtomPositionChange(Axis.Y, 0.5f) { Name = "Selected > Position > Y Increase Small", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomPositionChange(Axis.Y, 2f) { Name = "Selected > Position > Y Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomPositionChange(Axis.Y, 5.0f) { Name = "Selected > Position > Y Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.Y, -0.5f) { Name = "Selected > Position > Y Decrease Small", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomPositionChange(Axis.Y, 2f) { Name = "Selected > Position > Y Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.Y, -2f) { Name = "Selected > Position > Y Decrease Medium", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomPositionChange(Axis.Y, 5.0f) { Name = "Selected > Position > Y Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.Y, -5.0f) { Name = "Selected > Position > Y Decrease Large", Group = CommandConst.CAT_SELECTEDATOM  };
+
             yield return new AtomPositionChange(Axis.Z, 0.5f) { Name = "Selected > Position > Z Increase Small", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomPositionChange(Axis.Z, 2f) { Name = "Selected > Position > Z Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomPositionChange(Axis.Z, 5.0f) { Name = "Selected > Position > Z Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.Z, -0.5f) { Name = "Selected > Position > Z Decrease Small", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomPositionChange(Axis.Z, 2f) { Name = "Selected > Position > Z Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.Z, -2f) { Name = "Selected > Position > Z Decrease Medium", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomPositionChange(Axis.Z, 5.0f) { Name = "Selected > Position > Z Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomPositionChange(Axis.Z, -5.0f) { Name = "Selected > Position > Z Decrease Large", Group = CommandConst.CAT_SELECTEDATOM  };
 
             yield return new AtomRotationChange(Axis.X, 0.25f) { Name = "Selected > Rotation > X Increase Small", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomRotationChange(Axis.X, 0.5f) { Name = "Selected > Rotation > X Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomRotationChange(Axis.X, 2.0f) { Name = "Selected > Rotation > X Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.X, -0.25f) { Name = "Selected > Rotation > X Decrease Small", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomRotationChange(Axis.X, 0.5f) { Name = "Selected > Rotation > X Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.X, -0.5f) { Name = "Selected > Rotation > X Decrease Medium", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomRotationChange(Axis.X, 2.0f) { Name = "Selected > Rotation > X Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.X, -2.0f) { Name = "Selected > Rotation > X Decrease Large", Group = CommandConst.CAT_SELECTEDATOM  };
+
             yield return new AtomRotationChange(Axis.Y, 0.25f) { Name = "Selected > Rotation > Y Increase Small", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomRotationChange(Axis.Y, 0.5f) { Name = "Selected > Rotation > Y Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomRotationChange(Axis.Y, 2.0f) { Name = "Selected > Rotation > Y Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.Y, -0.25f) { Name = "Selected > Rotation > Y Decrease Small", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomRotationChange(Axis.Y, 0.5f) { Name = "Selected > Rotation > Y Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.Y, -0.5f) { Name = "Selected > Rotation > Y Decrease Medium", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomRotationChange(Axis.Y, 2.0f) { Name = "Selected > Rotation > Y Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.Y, -2.0f) { Name = "Selected > Rotation > Y Decrease Large", Group = CommandConst.CAT_SELECTEDATOM  };
+
             yield return new AtomRotationChange(Axis.Z, 0.25f) { Name = "Selected > Rotation > Z Increase Small", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomRotationChange(Axis.Z, 0.5f) { Name = "Selected > Rotation > Z Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
-            yield return new AtomRotationChange(Axis.Z, 2.0f) { Name = "Selected > Rotation > Z Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.Z, -0.25f) { Name = "Selected > Rotation > Z Decrease Small", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomRotationChange(Axis.Z, 0.5f) { Name = "Selected > Rotation > Z Increase Medium", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.Z, -0.5f) { Name = "Selected > Rotation > Z Decrease Medium", Group = CommandConst.CAT_SELECTEDATOM  };
+            yield return new AtomRotationChange(Axis.Z, 2.0f) { Name = "Selected > Rotation > Z Increase Large", Group = CommandConst.CAT_SELECTEDATOM  };
             yield return new AtomRotationChange(Axis.Z, -2.0f) { Name = "Selected > Rotation > Z Decrease Large", Group = CommandConst.CAT_SELECTEDATOM  };
 
             yield return new AtomSelectTab("Animation Pattern") { Name = "Selected > ShowUI > Animation Pattern", Group = CommandConst.CAT_SELECTEDATOM };
@@ -212,41 +262,45 @@ namespace LFE.KeyboardShortcuts.Models
                     yield return new AtomPositionSetLerp(Axis.Z, 0, 1, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z > Interpolate 0 - 1", DisplayName = $"{controller.name} > Position > Z > Interpolate 0 - 1", Group = group, SubGroup = subGroup };
 
                     yield return new AtomPositionChange(Axis.X, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Increase Small", DisplayName = $"{controller.name} > Position > X > Increase Small", Group = group, SubGroup = subGroup };
-                    yield return new AtomPositionChange(Axis.X, 2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Increase Medium", DisplayName = $"{controller.name} > Position > X > Increase Medium", Group = group, SubGroup = subGroup };
-                    yield return new AtomPositionChange(Axis.X, 5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Increase Large", DisplayName = $"{controller.name} > Position > X > Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.X, -0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Decrease Small", DisplayName = $"{controller.name} > Position > X > Decrease Small", Group = group, SubGroup = subGroup };
+                    yield return new AtomPositionChange(Axis.X, 2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Increase Medium", DisplayName = $"{controller.name} > Position > X > Increase Medium", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.X, -2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Decrease Medium", DisplayName = $"{controller.name} > Position > X > Decrease Medium", Group = group, SubGroup = subGroup };
+                    yield return new AtomPositionChange(Axis.X, 5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Increase Large", DisplayName = $"{controller.name} > Position > X > Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.X, -5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > X > Decrease Large", DisplayName = $"{controller.name} > Position > X > Decrease Large", Group = group, SubGroup = subGroup };
+
                     yield return new AtomPositionChange(Axis.Y, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Increase Small", DisplayName = $"{controller.name} > Position > Y Increase Small", Group = group, SubGroup = subGroup };
-                    yield return new AtomPositionChange(Axis.Y, 2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Increase Medium", DisplayName = $"{controller.name} > Position > Y Increase Medium", Group = group, SubGroup = subGroup };
-                    yield return new AtomPositionChange(Axis.Y, 5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Increase Large", DisplayName = $"{controller.name} > Position > Y Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.Y, -0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Decrease Small", DisplayName = $"{controller.name} > Position > Y Decrease Small", Group = group, SubGroup = subGroup };
+                    yield return new AtomPositionChange(Axis.Y, 2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Increase Medium", DisplayName = $"{controller.name} > Position > Y Increase Medium", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.Y, -2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Decrease Medium", DisplayName = $"{controller.name} > Position > Y Decrease Medium", Group = group, SubGroup = subGroup };
+                    yield return new AtomPositionChange(Axis.Y, 5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Increase Large", DisplayName = $"{controller.name} > Position > Y Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.Y, -5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Y Decrease Large", DisplayName = $"{controller.name} > Position > Y Decrease Large", Group = group, SubGroup = subGroup };
+
                     yield return new AtomPositionChange(Axis.Z, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Increase Small", DisplayName = $"{controller.name} > Position > Z Increase Small", Group = group, SubGroup = subGroup };
-                    yield return new AtomPositionChange(Axis.Z, 2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Increase Medium", DisplayName = $"{controller.name} > Position > Z Increase Medium", Group = group, SubGroup = subGroup };
-                    yield return new AtomPositionChange(Axis.Z, 5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Increase Large", DisplayName = $"{controller.name} > Position > Z Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.Z, -0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Decrease Small", DisplayName = $"{controller.name} > Position > Z Decrease Small", Group = group, SubGroup = subGroup };
+                    yield return new AtomPositionChange(Axis.Z, 2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Increase Medium", DisplayName = $"{controller.name} > Position > Z Increase Medium", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.Z, -2f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Decrease Medium", DisplayName = $"{controller.name} > Position > Z Decrease Medium", Group = group, SubGroup = subGroup };
+                    yield return new AtomPositionChange(Axis.Z, 5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Increase Large", DisplayName = $"{controller.name} > Position > Z Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomPositionChange(Axis.Z, -5.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Position > Z Decrease Large", DisplayName = $"{controller.name} > Position > Z Decrease Large", Group = group, SubGroup = subGroup };
 
                     yield return new AtomRotationChange(Axis.X, 0.25f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Increase Small", DisplayName = $"{controller.name} > Rotation > X Increase Small", Group = group, SubGroup = subGroup };
-                    yield return new AtomRotationChange(Axis.X, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Increase Medium", DisplayName = $"{controller.name} > Rotation > X Increase Medium", Group = group, SubGroup = subGroup };
-                    yield return new AtomRotationChange(Axis.X, 2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Increase Large", DisplayName = $"{controller.name} > Rotation > X Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.X, -0.25f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Decrease Small", DisplayName = $"{controller.name} > Rotation > X Decrease Small", Group = group, SubGroup = subGroup };
+                    yield return new AtomRotationChange(Axis.X, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Increase Medium", DisplayName = $"{controller.name} > Rotation > X Increase Medium", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.X, -0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Decrease Medium", DisplayName = $"{controller.name} > Rotation > X Decrease Medium", Group = group, SubGroup = subGroup };
+                    yield return new AtomRotationChange(Axis.X, 2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Increase Large", DisplayName = $"{controller.name} > Rotation > X Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.X, -2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > X Decrease Large", DisplayName = $"{controller.name} > Rotation > X Decrease Large", Group = group, SubGroup = subGroup };
+
                     yield return new AtomRotationChange(Axis.Y, 0.25f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Increase Small", DisplayName = $"{controller.name} > Rotation > Y Increase Small", Group = group, SubGroup = subGroup };
-                    yield return new AtomRotationChange(Axis.Y, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Increase Medium", DisplayName = $"{controller.name} > Rotation > Y Increase Medium", Group = group, SubGroup = subGroup };
-                    yield return new AtomRotationChange(Axis.Y, 2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Increase Large", DisplayName = $"{controller.name} > Rotation > Y Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.Y, -0.25f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Decrease Small", DisplayName = $"{controller.name} > Rotation > Y Decrease Small", Group = group, SubGroup = subGroup };
+                    yield return new AtomRotationChange(Axis.Y, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Increase Medium", DisplayName = $"{controller.name} > Rotation > Y Increase Medium", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.Y, -0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Decrease Medium", DisplayName = $"{controller.name} > Rotation > Y Decrease Medium", Group = group, SubGroup = subGroup };
+                    yield return new AtomRotationChange(Axis.Y, 2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Increase Large", DisplayName = $"{controller.name} > Rotation > Y Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.Y, -2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Y Decrease Large", DisplayName = $"{controller.name} > Rotation > Y Decrease Large", Group = group, SubGroup = subGroup };
+
                     yield return new AtomRotationChange(Axis.Z, 0.25f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Increase Small", DisplayName = $"{controller.name} > Rotation > Z Increase Small", Group = group, SubGroup = subGroup };
-                    yield return new AtomRotationChange(Axis.Z, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Increase Medium", DisplayName = $"{controller.name} > Rotation > Z Increase Medium", Group = group, SubGroup = subGroup };
-                    yield return new AtomRotationChange(Axis.Z, 2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Increase Large", DisplayName = $"{controller.name} > Rotation > Z Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.Z, -0.25f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Decrease Small", DisplayName = $"{controller.name} > Rotation > Z Decrease Small", Group = group, SubGroup = subGroup };
+                    yield return new AtomRotationChange(Axis.Z, 0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Increase Medium", DisplayName = $"{controller.name} > Rotation > Z Increase Medium", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.Z, -0.5f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Decrease Medium", DisplayName = $"{controller.name} > Rotation > Z Decrease Medium", Group = group, SubGroup = subGroup };
+                    yield return new AtomRotationChange(Axis.Z, 2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Increase Large", DisplayName = $"{controller.name} > Rotation > Z Increase Large", Group = group, SubGroup = subGroup };
                     yield return new AtomRotationChange(Axis.Z, -2.0f, controller) { Name = $"Atom > {atom.uid} > {controller.name} > Rotation > Z Decrease Large", DisplayName = $"{controller.name} > Rotation > Z Decrease Large", Group = group, SubGroup = subGroup };
                 }
 
@@ -290,49 +344,6 @@ namespace LFE.KeyboardShortcuts.Models
 
                 }
             }
-
-            //// PLUGIN BY NAME (assuming only the first plugin by that type in the scene)
-            //var pluginsByShortName = SuperController.singleton.GetAllPlugins()
-            //    .GroupBy((p) => p.GetShortName())
-            //    .Select((g) => g.First())
-            //    .Where((p) => !p.GetShortName().Equals(_plugin.GetShortName()));
-            //foreach(var plugin in pluginsByShortName)
-            //{
-            //    var shortName = plugin.GetShortName();
-            //    var group = $"{shortName}";
-
-            //    yield return new PluginShowUI(plugin) { Name = $"{shortName} > Show UI", DisplayName = "Show UI", Group = group };
-
-            //    // booleans
-            //    foreach (var param in plugin.GetBoolParamNames().Where((param) => !param.Equals("enabled")))
-            //    {
-            //        yield return new PluginBoolSet(plugin, param, true) { Name = $"{shortName} > {param} > On", DisplayName = $"{param} > On", Group = group };
-            //        yield return new PluginBoolSet(plugin, param, false) { Name = $"{shortName} > {param} > Off", DisplayName = $"{param} > Off", Group = group };
-            //        yield return new PluginBoolToggle(plugin, param) { Name = $"{shortName} > {param} > Toggle", DisplayName = $"{param} > Toggle", Group = group };
-            //    }
-            //    // actions
-            //    foreach (var param in plugin.GetCustomActionNames())
-            //    {
-            //        yield return new PluginActionCall(plugin, param) { Name = $"{shortName} > {param} > Call", DisplayName = $"{param}", Group = group };
-            //    }
-
-            //    // floats
-            //    foreach (var param in plugin.GetFloatParamNames())
-            //    {
-            //        yield return new PluginFloatChange(plugin, param, 0.01f) { Name = $"{shortName} > {param} > +0.01", DisplayName = $"{param} > +0.01", Group = group };
-            //        yield return new PluginFloatChange(plugin, param, -0.01f) { Name = $"{shortName} > {param} > -0.01", DisplayName = $"{param} > -0.01", Group = group };
-            //        yield return new PluginFloatChange(plugin, param, 0.1f) { Name = $"{shortName} > {param} > +0.10", DisplayName = $"{param} > +0.10", Group = group };
-            //        yield return new PluginFloatChange(plugin, param, -0.1f) { Name = $"{shortName} > {param} > -0.10", DisplayName = $"{param} > -0.10", Group = group };
-            //        yield return new PluginFloatChange(plugin, param, 1.0f) { Name = $"{shortName} > {param} > +1.00", DisplayName = $"{param} > +1.00", Group = group };
-            //        yield return new PluginFloatChange(plugin, param, -1.0f) { Name = $"{shortName} > {param} > -1.00", DisplayName = $"{param} > -1.00", Group = group };
-            //    }
-            //    // select boxes (jsonstorablestringchoosers)
-            //    foreach (var param in plugin.GetStringChooserParamNames())
-            //    {
-            //        yield return new PluginStringChooserChange(plugin, param, 1) { Name = $"{shortName} > {param} > Next", DisplayName = $"{param} > Next", Group = group };
-            //        yield return new PluginStringChooserChange(plugin, param, -1) { Name = $"{shortName} > {param} > Prev", DisplayName = $"{param} > Prev", Group = group };
-            //    }
-            //}
         }
 
         private readonly Dictionary<string, string> _defaultForAction = new Dictionary<string, string>

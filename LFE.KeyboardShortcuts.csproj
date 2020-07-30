@@ -112,6 +112,10 @@
     <Compile Include="src\Commands\CameraPositionChange.cs" />
     <Compile Include="src\Commands\CameraRotationChange.cs" />
     <Compile Include="src\Commands\CommandExecuteEventArgs.cs" />
+    <Compile Include="src\Commands\ControllerRotationChange.cs" />
+    <Compile Include="src\Commands\ControllerPositionChange.cs" />
+    <Compile Include="src\Commands\ControllerCommandBase.cs" />
+    <Compile Include="src\Commands\ControllerPositionSetLerp.cs" />
     <Compile Include="src\Commands\ScreenShotModeOn.cs" />
     <Compile Include="src\Commands\PerformanceMonitorToggle.cs" />
     <Compile Include="src\Commands\PixelLightCountChange.cs" />

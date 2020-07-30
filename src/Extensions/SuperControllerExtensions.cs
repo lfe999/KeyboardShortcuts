@@ -55,6 +55,11 @@ namespace LFE.KeyboardShortcuts.Extensions
             return sc.GetAtoms().Where((a) => a.mainController != null);
         }
 
+        public static IEnumerable<FreeControllerV3> GetSelectableControllers(this SuperController sc)
+        {
+            return sc.GetSelectableAtoms().SelectMany(a => a.freeControllers, (a, c) => c);
+        }
+
         public static IEnumerable<string> GetAtomTypesByCategory(this SuperController sc, string category)
         {
             if(!sc.GetAtomCategories().Any((c) => c.Equals(category)))
@@ -66,7 +71,7 @@ namespace LFE.KeyboardShortcuts.Extensions
             try
             {
                 sc.atomCategoryPopup.currentValue = category;
-                foreach (var type in sc.atomPrefabPopup.popupValues) 
+                foreach (var type in sc.atomPrefabPopup.popupValues)
                 {
                     yield return type;
                 }

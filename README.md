@@ -97,9 +97,25 @@ World Scale > Increase | Increase world scale by 0.00025 - holding `SHIFT` makes
 World Scale > Decrease | Decrease world scale by 0.00025 - holding `SHIFT` makes this 0.001
 Add > `Atom Type` > `Atom Name` | Add the atom of the given type to the scene 
 
+### Selected Controller Actions
+
+These are commands that will be run against the selected controller.  They do nothing if no controller is selected.
+
+!!!!! Be careful of overlap between setting these and setting selected atom actions.
+
+Position > `[XYZ]` > Interpolate 0 - 1 | Set the `AXIS` of the atom to something between 0 and 1.  Probably only useful when assigning a joypad axis.
+Position > `[XYZ]` > Increase / Decrease Small | Increase or decrease the given `AXIS` position by a maximum of 0.5 units per second
+Position > `[XYZ]` > Increase / Decrease Medium | Increase or decrease the given `AXIS` position by a maximum of 2.0 units per second
+Position > `[XYZ]` > Increase / Decrease Large | Increase or decrease the given `AXIS` position by a maximum of 5.0 units per second
+Rotation > `[XYZ]` > Increase / Decrease Small | Increase or decrease the given `AXIS` rotation by a maximum of 0.25 rotations per second
+Rotation > `[XYZ]` > Increase / Decrease Medium | Increase or decrease the given `AXIS` rotation by a maximum of 0.5 rotations per second
+Rotation > `[XYZ]` > Increase / Decrease Large | Increase or decrease the given `AXIS` rotation by a maximum of 2.0 rotations per second
+
 ### Selected Atom Actions
 
 These are commands that will be run against a selected atom.  They do nothing if no atom is selected.
+
+!!!!! Be careful of overlap between setting these and setting selected controller actions.
 
 | Command | Notes |
 | ------- | ----------- |

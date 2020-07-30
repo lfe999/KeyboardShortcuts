@@ -6,6 +6,7 @@
 
         public const string CAT_GENERAL = "[Global Actions]";
         public const string CAT_SELECTEDATOM = "[Selected Atom Actions]";
+        public const string CAT_SELECTED_CONTROLLER = "[Selected Controller]";
         public const string SUBCAT_DEFAULT = "";
         public const string RUNPHASE_UPDATE = "Update";
         public const string RUNPHASE_FIXED_UPDATE = "FixedUpdate";
