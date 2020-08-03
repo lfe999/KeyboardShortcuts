@@ -10,6 +10,7 @@ namespace LFE.KeyboardShortcuts.Commands
         private float _value;
         public MonitorFieldOfViewChange(float value)
         {
+            RunPhase = CommandConst.RUNPHASE_FIXED_UPDATE;
             _value = value;
         }
 

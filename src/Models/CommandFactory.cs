@@ -41,6 +41,8 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new AtomSelectPrev() { Name = "Atom > Select Prev", Group = CommandConst.CAT_GENERAL };
             yield return new AtomSelectPrev((x) => !x.hidden) { Name = "Atom > Select Prev Visible", Group = CommandConst.CAT_GENERAL };
             yield return new ErrorLogToggle() { Name = "Error Log > Toggle", Group = CommandConst.CAT_GENERAL };
+            yield return new MonitorFieldOfViewChange(1.0f) { Name = "Field Of View > Increase Small", Group = CommandConst.CAT_GENERAL };
+            yield return new MonitorFieldOfViewChange(-1.0f) { Name = "Field Of View > Decrease Small", Group = CommandConst.CAT_GENERAL };
             yield return new MonitorFieldOfViewChange(10.0f) { Name = "Field Of View > Increase", Group = CommandConst.CAT_GENERAL };
             yield return new MonitorFieldOfViewChange(-10.0f) { Name = "Field Of View > Decrease", Group = CommandConst.CAT_GENERAL };
             yield return new FreezeAnimationToggle() { Name = "Freeze Animation > Toggle", Group = CommandConst.CAT_GENERAL };
