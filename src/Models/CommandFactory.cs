@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using LFE.KeyboardShortcuts.Commands;
+using UnityEngine;
 using UnityEngine.Animations;
 
 using LFE.KeyboardShortcuts.Extensions;
@@ -25,12 +27,24 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new CameraPositionChange(Axis.Z, -0.75f) { Name = "Camera > Move > Backward", Group = CommandConst.CAT_GENERAL };
             yield return new CameraPositionChange(Axis.Y, 0.50f) { Name = "Camera > Move > Up", Group = CommandConst.CAT_GENERAL };
             yield return new CameraPositionChange(Axis.Y, -0.50f) { Name = "Camera > Move > Down", Group = CommandConst.CAT_GENERAL };
+
             yield return new CameraRotationChange(Axis.X, 0.25f) { Name = "Camera > Look > Up", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.X, -0.25f) { Name = "Camera > Look > Down", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Y, 0.25f) { Name = "Camera > Look > Left", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Y, -0.25f) { Name = "Camera > Look > Right", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Z, 0.25f) { Name = "Camera > Look > Tilt Left", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Z, -0.25f) { Name = "Camera > Look > Tilt Right", Group = CommandConst.CAT_GENERAL };
+
+            yield return new CameraRotationAroundChange(Axis.X, 0.25f) { Name = "Camera > Rotate Around > X Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationAroundChange(Axis.X, -0.25f) { Name = "Camera > Rotate Around > X Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationAroundChange(Axis.Y, 0.25f) { Name = "Camera > Rotate Around > Y Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationAroundChange(Axis.Y, -0.25f) { Name = "Camera > Rotate Around > Y Decrease", Group = CommandConst.CAT_GENERAL };
+
+            yield return new CameraRotationAroundChange(Axis.X, 0.10f) { Name = "Camera > Rotate Around Slower > X Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationAroundChange(Axis.X, -0.10f) { Name = "Camera > Rotate Around Slower > X Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationAroundChange(Axis.Y, 0.10f) { Name = "Camera > Rotate Around Slower > Y Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new CameraRotationAroundChange(Axis.Y, -0.10f) { Name = "Camera > Rotate Around Slower > Y Decrease", Group = CommandConst.CAT_GENERAL };
+
             yield return new PlayEditModeSet(SuperController.GameMode.Play) { Name = "Play/Edit > Set To Play", Group = CommandConst.CAT_GENERAL };
             yield return new PlayEditModeSet(SuperController.GameMode.Edit) { Name = "Play/Edit > Set To Edit", Group = CommandConst.CAT_GENERAL };
             yield return new PlayEditModeToggle() { Name = "Play/Edit > Toggle", Group = CommandConst.CAT_GENERAL };

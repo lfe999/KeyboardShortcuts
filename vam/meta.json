@@ -25,6 +25,7 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomSelectPrev.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\AtomSelectTab.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\CameraPositionChange.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\CameraRotationAroundChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\CameraRotationChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\Command.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\CommandConst.cs",
