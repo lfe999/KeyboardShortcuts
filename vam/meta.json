@@ -34,6 +34,7 @@
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\ControllerPositionChange.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\ControllerCommandBase.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\ControllerPositionSetLerp.cs",
+      "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\MouseWheelScroll.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\ErrorLogToggle.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\FreezeAnimationSet.cs",
       "Custom\\Scripts\\LFE\\KeyboardShortcuts\\src\\Commands\\FreezeAnimationToggle.cs",

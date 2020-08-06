@@ -28,6 +28,9 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new CameraPositionChange(Axis.Y, 0.50f) { Name = "Camera > Move > Up", Group = CommandConst.CAT_GENERAL };
             yield return new CameraPositionChange(Axis.Y, -0.50f) { Name = "Camera > Move > Down", Group = CommandConst.CAT_GENERAL };
 
+            yield return new MouseWheelScroll(0.75f) { Name = "Mouse > Wheel Scroll > Towards", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseWheelScroll(-0.75f) { Name = "Mouse > Wheel Scroll > Away", Group = CommandConst.CAT_GENERAL };
+
             yield return new CameraRotationChange(Axis.X, 0.25f) { Name = "Camera > Look > Up", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.X, -0.25f) { Name = "Camera > Look > Down", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Y, 0.25f) { Name = "Camera > Look > Left", Group = CommandConst.CAT_GENERAL };

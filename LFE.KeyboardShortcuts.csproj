@@ -120,6 +120,7 @@
     <Compile Include="src\Commands\ScreenShotModeOn.cs" />
     <Compile Include="src\Commands\PerformanceMonitorToggle.cs" />
     <Compile Include="src\Commands\PixelLightCountChange.cs" />
+    <Compile Include="src\Commands\MouseWheelScroll.cs" />
     <Compile Include="src\Commands\MsaaChange.cs" />
     <Compile Include="src\Commands\PluginShowUI.cs" />
     <Compile Include="src\Commands\PluginStringChooserChange.cs" />

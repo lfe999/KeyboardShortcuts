@@ -22,6 +22,7 @@ Commands/ControllerRotationChange.cs
 Commands/ControllerPositionChange.cs
 Commands/ControllerCommandBase.cs
 Commands/ControllerPositionSetLerp.cs
+Commands/MouseWheelScroll.cs
 Commands/ErrorLogToggle.cs
 Commands/FreezeAnimationSet.cs
 Commands/FreezeAnimationToggle.cs
