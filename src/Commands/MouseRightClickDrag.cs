@@ -5,12 +5,12 @@ using UnityEngine.Animations;
 
 namespace LFE.KeyboardShortcuts.Commands
 {
-    public class CameraRotationAroundChange : Command
+    public class MouseRightClickDrag : Command
     {
         private Axis _axis;
         private float _unitsPerSecond;
         private Func<Vector3?> _target;
-        public CameraRotationAroundChange(Axis axis, float unitPerSecond, Func<Vector3?> target = null)
+        public MouseRightClickDrag(Axis axis, float unitPerSecond, Func<Vector3?> target = null)
         {
             Func<Vector3?> defaultTarget = () => {
                 // mimic right mouse click and drag

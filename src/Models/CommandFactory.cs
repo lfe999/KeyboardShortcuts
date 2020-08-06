@@ -28,9 +28,6 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new CameraPositionChange(Axis.Y, 0.50f) { Name = "Camera > Move > Up", Group = CommandConst.CAT_GENERAL };
             yield return new CameraPositionChange(Axis.Y, -0.50f) { Name = "Camera > Move > Down", Group = CommandConst.CAT_GENERAL };
 
-            yield return new MouseWheelScroll(0.75f) { Name = "Mouse > Wheel Scroll > Towards", Group = CommandConst.CAT_GENERAL };
-            yield return new MouseWheelScroll(-0.75f) { Name = "Mouse > Wheel Scroll > Away", Group = CommandConst.CAT_GENERAL };
-
             yield return new CameraRotationChange(Axis.X, 0.25f) { Name = "Camera > Look > Up", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.X, -0.25f) { Name = "Camera > Look > Down", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Y, 0.25f) { Name = "Camera > Look > Left", Group = CommandConst.CAT_GENERAL };
@@ -38,15 +35,20 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new CameraRotationChange(Axis.Z, 0.25f) { Name = "Camera > Look > Tilt Left", Group = CommandConst.CAT_GENERAL };
             yield return new CameraRotationChange(Axis.Z, -0.25f) { Name = "Camera > Look > Tilt Right", Group = CommandConst.CAT_GENERAL };
 
-            yield return new CameraRotationAroundChange(Axis.X, 0.25f) { Name = "Camera > Rotate Around > X Increase", Group = CommandConst.CAT_GENERAL };
-            yield return new CameraRotationAroundChange(Axis.X, -0.25f) { Name = "Camera > Rotate Around > X Decrease", Group = CommandConst.CAT_GENERAL };
-            yield return new CameraRotationAroundChange(Axis.Y, 0.25f) { Name = "Camera > Rotate Around > Y Increase", Group = CommandConst.CAT_GENERAL };
-            yield return new CameraRotationAroundChange(Axis.Y, -0.25f) { Name = "Camera > Rotate Around > Y Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseWheelScroll(0.75f) { Name = "Mouse > Wheel Scroll > Towards", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseWheelScroll(-0.75f) { Name = "Mouse > Wheel Scroll > Away", Group = CommandConst.CAT_GENERAL };
 
-            yield return new CameraRotationAroundChange(Axis.X, 0.10f) { Name = "Camera > Rotate Around Slower > X Increase", Group = CommandConst.CAT_GENERAL };
-            yield return new CameraRotationAroundChange(Axis.X, -0.10f) { Name = "Camera > Rotate Around Slower > X Decrease", Group = CommandConst.CAT_GENERAL };
-            yield return new CameraRotationAroundChange(Axis.Y, 0.10f) { Name = "Camera > Rotate Around Slower > Y Increase", Group = CommandConst.CAT_GENERAL };
-            yield return new CameraRotationAroundChange(Axis.Y, -0.10f) { Name = "Camera > Rotate Around Slower > Y Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseRightClickDrag(Axis.X, 0.25f) { Name = "Mouse > Right Click Rotate Around > X Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseRightClickDrag(Axis.X, -0.25f) { Name = "Mouse > Right Click Rotate Around > X Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseRightClickDrag(Axis.Y, 0.25f) { Name = "Mouse > Right Click Rotate Around > Y Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseRightClickDrag(Axis.Y, -0.25f) { Name = "Mouse > Right Click Rotate Around > Y Decrease", Group = CommandConst.CAT_GENERAL };
+
+            yield return new MouseRightClickDrag(Axis.X, 0.10f) { Name = "Mouse > Right Click Rotate Around Slower > X Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseRightClickDrag(Axis.X, -0.10f) { Name = "Mouse > Right Click Rotate Around Slower > X Decrease", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseRightClickDrag(Axis.Y, 0.10f) { Name = "Mouse > Right Click Rotate Around Slower > Y Increase", Group = CommandConst.CAT_GENERAL };
+            yield return new MouseRightClickDrag(Axis.Y, -0.10f) { Name = "Mouse > Right Click Rotate Around Slower > Y Decrease", Group = CommandConst.CAT_GENERAL };
+
+
 
             yield return new PlayEditModeSet(SuperController.GameMode.Play) { Name = "Play/Edit > Set To Play", Group = CommandConst.CAT_GENERAL };
             yield return new PlayEditModeSet(SuperController.GameMode.Edit) { Name = "Play/Edit > Set To Edit", Group = CommandConst.CAT_GENERAL };

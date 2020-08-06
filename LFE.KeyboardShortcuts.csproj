@@ -110,7 +110,7 @@
     <Compile Include="src\Commands\AtomSelectPrev.cs" />
     <Compile Include="src\Commands\AtomSelectTab.cs" />
     <Compile Include="src\Commands\CameraPositionChange.cs" />
-    <Compile Include="src\Commands\CameraRotationAroundChange.cs" />
+    <Compile Include="src\Commands\MouseRightClickDrag.cs" />
     <Compile Include="src\Commands\CameraRotationChange.cs" />
     <Compile Include="src\Commands\CommandExecuteEventArgs.cs" />
     <Compile Include="src\Commands\ControllerRotationChange.cs" />

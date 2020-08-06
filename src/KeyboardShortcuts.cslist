@@ -13,7 +13,7 @@ Commands/AtomSelectNext.cs
 Commands/AtomSelectPrev.cs
 Commands/AtomSelectTab.cs
 Commands/CameraPositionChange.cs
-Commands/CameraRotationAroundChange.cs
+Commands/MouseRightClickDrag.cs
 Commands/CameraRotationChange.cs
 Commands/Command.cs
 Commands/CommandConst.cs
