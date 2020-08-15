@@ -13,7 +13,7 @@ namespace LFE.KeyboardShortcuts.Commands
 
         public override bool Execute(CommandExecuteEventArgs args)
         {
-            SuperController.singleton.StartCoroutine(SuperController.singleton.AddAtomByType(_type));
+            SuperController.singleton.StartCoroutine(SuperController.singleton.AddAtomByType(_type, useuid: null, userInvoked: false));
             return true;
         }
     }
