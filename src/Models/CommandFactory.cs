@@ -194,6 +194,7 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new AtomRotationChange(Axis.Z, -2.0f) { Name = "Selected > Rotation > Z Decrease Large", Group = CommandConst.CAT_SELECTEDATOM  };
 
             yield return new AtomSelectTab("Animation Pattern") { Name = "Selected > ShowUI > Animation Pattern", Group = CommandConst.CAT_SELECTEDATOM };
+            yield return new AtomSelectTab("Animation Triggers") { Name = "Selected > ShowUI > Animation Triggers", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Animation Trigger") { Name = "Selected > ShowUI > Animation Trigger", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Animation") { Name = "Selected > ShowUI > Animation", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Appearance Presets") { Name = "Selected > ShowUI > Appearance Presets", Group = CommandConst.CAT_SELECTEDATOM };
@@ -205,6 +206,8 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new AtomSelectTab("Collision Trigger") { Name = "Selected > ShowUI > Collision Trigger", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Collision Triggers") { Name = "Selected > ShowUI > Collision Triggers", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Control") { Name = "Selected > ShowUI > Control", Group = CommandConst.CAT_SELECTEDATOM };
+            yield return new AtomSelectTab("Control & Physics 2") { Name = "Selected > ShowUI > Control & Physics 2", Group = CommandConst.CAT_SELECTEDATOM };
+            yield return new AtomSelectTab("Control & Physics 1") { Name = "Selected > ShowUI > Control & Physics 1", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("F Breast Physics 1") { Name = "Selected > ShowUI > F Breast Physics 1", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("F Breast Physics 2") { Name = "Selected > ShowUI > F Breast Physics 2", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("F Breast Presets") { Name = "Selected > ShowUI > F Breast Presets", Group = CommandConst.CAT_SELECTEDATOM };
@@ -231,6 +234,7 @@ namespace LFE.KeyboardShortcuts.Models
             yield return new AtomSelectTab("Physics Control") { Name = "Selected > ShowUI > Physics Control", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Physics Object") { Name = "Selected > ShowUI > Physics Object", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Plugins") { Name = "Selected > ShowUI > Plugins", Group = CommandConst.CAT_SELECTEDATOM };
+            yield return new AtomSelectTab("Plugins Presets") { Name = "Selected > ShowUI > Plugins Presets", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Pose Presets") { Name = "Selected > ShowUI > Pose Presets", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Preset") { Name = "Selected > ShowUI > Preset", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomSelectTab("Sclera Materials") { Name = "Selected > ShowUI > Sclera Materials", Group = CommandConst.CAT_SELECTEDATOM };

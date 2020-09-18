@@ -60,7 +60,7 @@ namespace LFE.KeyboardShortcuts.Extensions
             switch(atom.type)
             {
                 case "AnimationPattern":
-                    yield return "Animation Trigger";
+                    yield return "Animation Triggers";
                     yield return "Plugins";
 
                     yield return "Collision Trigger";
@@ -102,6 +102,7 @@ namespace LFE.KeyboardShortcuts.Extensions
                     yield return "Hand Control";
                     yield return "Head Audio";
                     yield return "Plugins";
+                    yield return "Plugin Presets";
                     yield return "Auto Behaviours";
 
                     yield return "Collision Triggers";
@@ -118,7 +119,9 @@ namespace LFE.KeyboardShortcuts.Extensions
 
                     yield return "Appearance Presets";
                     yield return "General Presets";
-                    yield return "Control";
+                    yield return "Control & Physics 2"; // 1.20 and up
+                    yield return "Control & Physics 1"; // 1.20 and up
+                    yield return "Control"; // 1.19 and before
                     break;
                 case "InvisibleLight":
                     yield return "Light";
