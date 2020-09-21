@@ -5,6 +5,7 @@ Commands/AtomCommandBase.cs
 Commands/AtomDelete.cs
 Commands/AtomDump.cs
 Commands/AtomHiddenToggle.cs
+Commands/AtomOnToggle.cs
 Commands/AtomPositionChange.cs
 Commands/AtomPositionSetLerp.cs
 Commands/AtomRotationChange.cs
