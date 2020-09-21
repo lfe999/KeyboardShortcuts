@@ -144,6 +144,7 @@ namespace LFE.KeyboardShortcuts.Models
 
             // SELECTED ATOM commands
             yield return new AtomDelete() { Name = "Selected > Delete", Group = CommandConst.CAT_SELECTEDATOM };
+            yield return new AtomOnToggle() { Name = "Selected > On > Toggle", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomHiddenToggle() { Name = "Selected > Hide > Toggle", Group = CommandConst.CAT_SELECTEDATOM };
             yield return new AtomDump() { Name = "Selected > Print Object Structure", Group = CommandConst.CAT_SELECTEDATOM };
 
@@ -252,6 +253,7 @@ namespace LFE.KeyboardShortcuts.Models
                 var group = $"{atom.uid}";
 
                 // actions for atoms only
+                yield return new AtomOnToggle(atom) { Name = $"Atom > {atom.uid} > On > Toggle", DisplayName = "On > Toggle", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
                 yield return new AtomHiddenToggle(atom) { Name = $"Atom > {atom.uid} > Hide > Toggle", DisplayName = "Hide > Toggle", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
                 yield return new AtomDump(atom) { Name = $"Atom > {atom.uid} > Print Object Structure", DisplayName = "Print Object Structure", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
                 yield return new PluginAdd(atom, showFilePrompt: true, openPluginUi: true) { Name = $"Atom > {atom.uid} > Add Plugin", DisplayName = "Add Plugin", Group = group, SubGroup = $"controller:{atom.mainController.name}" };
